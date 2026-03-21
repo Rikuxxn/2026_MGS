@@ -29,7 +29,7 @@ public:
 	CMotion();
 	~CMotion();
 
-	static std::unique_ptr<CMotion> Load(const char* pLoadFileName, std::vector<std::unique_ptr<CModel>>& vpModel, int* pOutModel);
+	static std::unique_ptr<CMotion> Load(const char* pLoadFileName, std::vector<std::unique_ptr<CModel>>& vpModel);
 
 	void		Uninit				(void);
 	void		Update				(std::vector<std::unique_ptr<CModel>>& vpModel, const int nNumModel);

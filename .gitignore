@@ -40,6 +40,6 @@
 # debug information files
 *.dwo
 
-/.vs
-/Debug
-/Release
+.vs/
+**/Debug/
+**/Release/
