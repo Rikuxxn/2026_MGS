@@ -36,9 +36,17 @@ public:
 	/// テクスチャのIDの設定処理
 	/// </summary>
 	/// <param name="テクスチャのパス"></param>
-	void SetTextureID	(const char* pTexturePath);
+	void			SetTextureID	(const char* pTexturePath);
+	inline void		SetPosition		(const D3DXVECTOR3& pos)	{ m_pos = pos; }
+	inline void		SetSize			(const D3DXVECTOR2& size)	{ m_size = size; }
+	inline void		SetColor		(const D3DXCOLOR& col)		{ m_col = col; }
+
+	inline const D3DXVECTOR3&	GetPosition	(void) const { return m_pos; }
+	inline const D3DXVECTOR2&	GetSize		(void) const { return m_size; }
+	inline const D3DXCOLOR&		GetColor	(void) const { return m_col; }
+
 private:
-	void SetVtx			(void);
+	void SetVtx(void);
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffer;	// 頂点へのポインタ
 	D3DXMATRIX				m_mtxWorld;		// ワールドマトリックス

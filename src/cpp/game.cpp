@@ -24,6 +24,7 @@
 #include "score.h"
 #include "timer.h"
 #include "minute_second_timer.h"
+#include "effect.h"
 
 //===================================================
 // コンストラクタ
@@ -160,6 +161,27 @@ void CGame::Update(void)
 			"motion.txt"
 		);
 	}
+
+	CEffect::Info effectInfo;
+
+	effectInfo.unFlag =
+		CEffect::FLAG_GRAVITY |
+		CEffect::FLAG_ALPHA_DECREASE |
+		CEffect::FLAG_RADIUS_DECREASE |
+		CEffect::FLAG_INERTIA;
+
+
+	effectInfo.move = { 50.0f,1.0f,1.0f };
+	effectInfo.nLife = 60;
+	effectInfo.fGravity = 0.2f;
+	effectInfo.fInertia = 0.9f;
+
+	CEffect::Create(
+		effectInfo,
+		{ 0.0f,0.0f,0.0f },
+		{ 10.0f,10.0f },
+		Const::WHITE,
+		"effect000.jpg");
 }
 
 //===================================================

@@ -176,6 +176,7 @@
     <ClCompile Include="src\cpp\object2d.cpp" />
     <ClCompile Include="src\cpp\object3d.cpp" />
     <ClCompile Include="src\cpp\object_billboard.cpp" />
+    <ClCompile Include="src\cpp\particle.cpp" />
     <ClCompile Include="src\cpp\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -219,6 +220,7 @@
     <ClInclude Include="src\include\model_manager.h" />
     <ClInclude Include="src\include\object2d.h" />
     <ClInclude Include="src\include\object_billboard.h" />
+    <ClInclude Include="src\include\particle.h" />
     <ClInclude Include="src\include\pch.h" />
     <ClInclude Include="src\include\player.h" />
     <ClInclude Include="src\include\ranking.h" />
