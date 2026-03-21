@@ -24,7 +24,8 @@
 #include "score.h"
 #include "timer.h"
 #include "minute_second_timer.h"
-#include "effect.h"
+#include "particle.h"
+
 
 //===================================================
 // コンストラクタ
@@ -182,6 +183,25 @@ void CGame::Update(void)
 		{ 10.0f,10.0f },
 		Const::WHITE,
 		"effect000.jpg");
+
+	CParticle::Info particleInfo;
+
+	// この地獄みてえな引数打てば操作できます
+	particleInfo.pos = {0.0f,0.0f,-200.0f};
+	particleInfo.col = Const::WHITE;
+	particleInfo.fAngleXMax = 90;
+	particleInfo.fAngleXMin = -90;
+	particleInfo.fAngleYMax = 60;
+	particleInfo.fAngleYMin = -60;
+	particleInfo.moveMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	particleInfo.moveMin = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+	particleInfo.nNum = 5;
+	particleInfo.nTime = 5;
+	particleInfo.size = { 5.0f,5.0f };
+	particleInfo.texturePath = "effect000.jpg";
+	particleInfo.effectInfo.nLife = 20;
+	
+	CParticle::Create(particleInfo);
 }
 
 //===================================================
