@@ -8,6 +8,9 @@
         },
         {
             "file_path": "data/TEXTURE/effect000.jpg"
+        },
+        {
+            "file_path": "data/TEXTURE/test000.png"
         }
     ]
 }

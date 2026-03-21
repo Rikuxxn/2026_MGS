@@ -24,6 +24,8 @@ CCharacter::CCharacter() :
 	m_rot(Const::VEC3_NULL),
 	m_move(Const::VEC3_NULL),
 	m_mtxWorld(Const::MTX_IDENTITY),
+	m_fInertia(0.0f),
+	m_fGravity(0.0f),
 	m_nNumModel(0)
 {
 }
@@ -101,8 +103,19 @@ void CCharacter::Uninit(void)
 //===================================================
 void CCharacter::Update(void)
 {
+	// 移動量の減衰
+	m_move.x += (0.0f - m_move.x) * m_fInertia;
+	m_move.z += (0.0f - m_move.z) * m_fInertia;
+
+	// 重力を加算
+	m_move.y -= m_fGravity;
+
+	// 移動量の更新
+	m_pos += m_move;
+
 	if (m_pMotion != nullptr)
 	{
+		// モーションの更新処理
 		m_pMotion->Update(m_vpModel, m_vpModel.size());
 	}
 }
@@ -144,4 +157,13 @@ void CCharacter::Draw(void)
 		// 描画処理
 		model->Draw();
 	}
+}
+
+//===================================================
+// パラメータの設定
+//===================================================
+void CCharacter::SetParameter(const float fInertia, const float fGravity)
+{
+	m_fInertia = fInertia;
+	m_fGravity = fGravity;
 }

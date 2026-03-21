@@ -43,6 +43,17 @@ public:
 	void	Uninit	(void);
 	void	Update	(void);
 	void	Draw	(void);
+
+	inline void SetMove		(const D3DXVECTOR3& move)	{ m_move = move; }
+	inline void SetPosition	(const D3DXVECTOR3& pos)	{ m_pos = pos; }
+	inline void SetRotation	(const D3DXVECTOR3& rot)	{ m_rot = rot; }
+
+	inline const D3DXVECTOR3& GetMove		(void) const { return m_move; }
+	inline const D3DXVECTOR3& GetPosition	(void) const { return m_pos; }
+	inline const D3DXVECTOR3& GetRotation	(void) const { return m_rot; }
+
+	// パラメータの設定処理
+	void SetParameter(const float fInertia, const float fGravity);
 private:
 	std::vector<std::unique_ptr<CModel>> m_vpModel;		// モデルのクラスへのポインタ
 	std::unique_ptr<CMotion>			 m_pMotion;		// モーションクラスへのポインタ
@@ -50,6 +61,8 @@ private:
 	D3DXVECTOR3							 m_rot;			// 向き
 	D3DXVECTOR3							 m_move;		// 移動量
 	D3DXMATRIX							 m_mtxWorld;	// ワールドマトリックス
+	float								 m_fInertia;	// 慣性
+	float								 m_fGravity;	// 重力量
 	int									 m_nNumModel;	// モデルの総数
 };
 #endif

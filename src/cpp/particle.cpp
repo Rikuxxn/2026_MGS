@@ -99,6 +99,8 @@ void CParticle::Update(void)
 		// 寿命の設定
 		int nLife = math::Random(m_info.effectInfo.nLife / 2, m_info.effectInfo.nLife);
 
+		m_info.effectInfo.nLife = nLife;
+
 		// エフェクトの生成処理
 		CEffect::Create(
 			m_info.effectInfo,

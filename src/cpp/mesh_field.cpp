@@ -12,12 +12,15 @@
 #include "texture_manager.h"
 #include "manager.h"
 #include "renderer.h"
+#include "mesh_field_collision.h"
+#include "utility_math.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
 CMeshField::CMeshField() : 
 	CObject(PRIORITY_MESH),
+	m_pCollision(nullptr),
 	m_pVtxBuffer(nullptr),
 	m_pIdxBuffer(nullptr),
 	m_mtxWorld(Const::MTX_IDENTITY),
@@ -50,6 +53,9 @@ CMeshField::~CMeshField()
 		m_pIdxBuffer->Release();
 		m_pIdxBuffer = nullptr;
 	}
+
+	// 破棄
+	m_pCollision.reset();
 }
 
 //===================================================
@@ -201,6 +207,9 @@ HRESULT CMeshField::Init(void)
 	// インデックスバッファのアンロック
 	m_pIdxBuffer->Unlock();
 
+	// メッシュフィールドの当たり判定の生成
+	m_pCollision = std::make_unique<CMeshFieldCollision>();
+
 	return S_OK;
 }
 
@@ -268,6 +277,36 @@ void CMeshField::Draw(void)
 
 	//ポリゴンの描画
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, m_nNumVertex, 0, m_nNumPolygon);
+}
+
+//===================================================
+// 当たり判定の処理
+//===================================================
+bool CMeshField::Collision(const D3DXVECTOR3& targetPos, CollisionResult::MeshField& outResult)
+{
+	// 判定結果
+	CollisionResult::MeshField result;
+
+	// 判定結果
+	bool bResult = false;
+
+	if (m_pCollision != nullptr)
+	{
+		// 判定処理
+		bResult = m_pCollision->Collision(
+			targetPos,
+			m_pos,
+			m_segment,
+			m_size,
+			m_pVtxBuffer,
+			m_pIdxBuffer,
+			result);
+
+		// 高さの取得
+		outResult = result;
+	}
+
+	return bResult;
 }
 
 //===================================================

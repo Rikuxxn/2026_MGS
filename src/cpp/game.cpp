@@ -25,13 +25,15 @@
 #include "timer.h"
 #include "minute_second_timer.h"
 #include "particle.h"
-
+#include "collision_system.h"
+#include "mesh_field_collision_system.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
 CGame::CGame() :
-	CScene(CScene::MODE_GAME)
+	CScene(CScene::MODE_GAME),
+	m_vpCollisionSystem()
 {
 }
 
@@ -40,6 +42,14 @@ CGame::CGame() :
 //===================================================
 CGame::~CGame()
 {
+	// 要素分調べる
+	for (auto& collisionSystem : m_vpCollisionSystem)
+	{
+		// 破棄
+		collisionSystem = nullptr;
+	}
+
+	m_vpCollisionSystem.clear();
 }
 
 //===================================================
@@ -78,12 +88,18 @@ HRESULT CGame::Init(void)
 		Const::WHITE,
 		"test.png");
 
-	CMeshField::Create(
+	CPlayer* pPlayer = CPlayer::Create(
 		{ 0.0f,0.0f,0.0f },
-		{ 300.0f,300.0f },
+		{ 0.0f,0.0f,0.0f },
+		"motion.txt"
+	);
+
+	CMeshField* pMeshField = CMeshField::Create(
+		{ 0.0f,0.0f,0.0f },
+		{ 1000.0f,1000.0f },
 		Const::WHITE,
-		{ 1,1 },
-		"");
+		{ 10,10 },
+		"test000.png");
 
 	CMeshCylinder::Create(
 		{ 0.0f,0.0f,0.0f },
@@ -110,18 +126,6 @@ HRESULT CGame::Init(void)
 		32,
 		info);
 
-	CPlayer::Create(
-		{0.0f,0.0f,0.0f},
-		{0.0f,0.0f,0.0f},
-		"motion.txt"
-	);
-
-	CPlayer::Create(
-		{ 0.0f,0.0f,-100.0f },
-		{ 0.0f,0.0f,0.0f },
-		"motion.txt"
-	);
-
 	CScore::Create(
 		{ 640.0f,100.0f,0.0f },
 		{ 120.0f,20.0f },
@@ -139,6 +143,13 @@ HRESULT CGame::Init(void)
 		{ 120.0f,20.0f },
 		120,
 		"number001.png");
+
+	// メッシュフィールドの判定処理
+	auto pMeshFieldCollisionSystem = std::make_unique<CMeshFieldCollisionSystem>(pPlayer, pMeshField);
+
+	// 当たり判定の追加
+	m_vpCollisionSystem.push_back(std::move(pMeshFieldCollisionSystem));
+
 	return S_OK;
 }
 
@@ -154,6 +165,13 @@ void CGame::Uninit(void)
 //===================================================
 void CGame::Update(void)
 {
+	// 要素分調べる
+	for (auto& collisionSystem : m_vpCollisionSystem)
+	{
+		// 更新処理
+		collisionSystem->Update();
+	}
+
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))
 	{
 		CPlayer::Create(

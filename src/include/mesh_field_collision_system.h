@@ -1,6 +1,6 @@
 //===================================================
 //
-// ゲームシーン [game.h]
+// メッシュフィールドと各オブジェクトの当たり判定 [mesh_field_collision_system.h]
 // Author:YUTO YOSHIDA
 //
 //===================================================
@@ -8,33 +8,32 @@
 //***************************************************
 // 多重インクルード防止
 //***************************************************
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _MESH_FIELD_COLLISION_SYSTEM_H_
+#define _MESH_FIELD_COLLISION_SYSTEM_H_
 
 //***************************************************
 // インクルードファイル
 //***************************************************
-#include "scene.h"
+#include "collision_system.h"
 
 //***************************************************
 // 前方宣言
 //***************************************************
-class CCollisionSystem;	// 当たり判定の処理のクラス
+class CPlayer;		// プレイヤークラス
+class CMeshField;	// メッシュフィールドのクラス
 
 //***************************************************
-// ゲームシーンのクラスの定義
+// メッシュフィールドと各オブジェクトの当たり判定
 //***************************************************
-class CGame : public CScene
+class CMeshFieldCollisionSystem : public CCollisionSystem
 {
 public:
-	CGame();
-	~CGame();
+	CMeshFieldCollisionSystem(CPlayer* pPlayer, CMeshField* pMeshField);
+	~CMeshFieldCollisionSystem();
 
-	HRESULT Init	(void) override;
-	void	Uninit	(void) override;
-	void	Update	(void) override;
-	void	Draw	(void) override;
+	void Update(void) override;
 private:
-	std::vector<std::unique_ptr<CCollisionSystem>> m_vpCollisionSystem;	// 当たり判定の処理
+	CPlayer*	m_pPlayer;		// プレイヤーのクラス
+	CMeshField* m_pMeshField;	// メッシュフィールドのクラス
 };
 #endif
