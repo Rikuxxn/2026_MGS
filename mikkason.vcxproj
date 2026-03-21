@@ -156,6 +156,7 @@
     <ClCompile Include="src\cpp\camera.cpp" />
     <ClCompile Include="src\cpp\character.cpp" />
     <ClCompile Include="src\cpp\debug_proc.cpp" />
+    <ClCompile Include="src\cpp\effect.cpp" />
     <ClCompile Include="src\cpp\fade.cpp" />
     <ClCompile Include="src\cpp\game.cpp" />
     <ClCompile Include="src\cpp\mesh_circle.cpp" />
@@ -196,6 +197,7 @@
   <ItemGroup>
     <ClInclude Include="src\include\camera.h" />
     <ClInclude Include="src\include\character.h" />
+    <ClInclude Include="src\include\effect.h" />
     <ClInclude Include="src\include\mesh_circle.h" />
     <ClInclude Include="src\include\mesh_cylinder.h" />
     <ClInclude Include="src\include\mesh_field.h" />
