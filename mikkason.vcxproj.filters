@@ -52,6 +52,24 @@
     <Filter Include="ヘッダー ファイル\number">
       <UniqueIdentifier>{b8d2e3cd-34a5-4355-a544-0ba7b11eeb90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\object2D">
+      <UniqueIdentifier>{6cdcb1cd-a72e-4da6-b027-9db09a0a2839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\object3D">
+      <UniqueIdentifier>{7e331e70-21c3-4654-a71b-4794b9ffea04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\billboard">
+      <UniqueIdentifier>{a3766ea2-38a2-4608-84c9-ec5f1e6b74fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\billboard">
+      <UniqueIdentifier>{fcff674e-bbe0-4ecc-9c48-d495eb5cb0e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\object2D">
+      <UniqueIdentifier>{90ee4ea9-32c9-428e-803e-552dc68e4a1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\object3D">
+      <UniqueIdentifier>{c135964d-d711-4168-b1e6-7e3d63653241}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp\camera.cpp">
@@ -108,15 +126,6 @@
     <ClCompile Include="src\cpp\tutorial.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\object2d.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\object3d.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\object_billboard.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\cpp\mesh_circle.cpp">
       <Filter>ソース ファイル\mesh</Filter>
     </ClCompile>
@@ -127,9 +136,6 @@
       <Filter>ソース ファイル\mesh</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\utility_math.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\character.cpp">
@@ -155,6 +161,18 @@
     </ClCompile>
     <ClCompile Include="src\cpp\minute_second_timer.cpp">
       <Filter>ソース ファイル\number</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\object_billboard.cpp">
+      <Filter>ソース ファイル\billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\object2d.cpp">
+      <Filter>ソース ファイル\object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\object3d.cpp">
+      <Filter>ソース ファイル\object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\player.cpp">
+      <Filter>ソース ファイル\character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,15 +233,6 @@
     <ClInclude Include="src\include\json.hpp">
       <Filter>lib</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\object2d.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\object3d.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\object_billboard.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\mesh_circle.h">
       <Filter>ヘッダー ファイル\mesh</Filter>
     </ClInclude>
@@ -234,9 +243,6 @@
       <Filter>ヘッダー ファイル\mesh</Filter>
     </ClInclude>
     <ClInclude Include="src\include\utility_math.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\include\character.h">
@@ -262,6 +268,18 @@
     </ClInclude>
     <ClInclude Include="src\include\minute_second_timer.h">
       <Filter>ヘッダー ファイル\number</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\object_billboard.h">
+      <Filter>ヘッダー ファイル\billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\object2d.h">
+      <Filter>ヘッダー ファイル\object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\object3d.h">
+      <Filter>ヘッダー ファイル\object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\player.h">
+      <Filter>ヘッダー ファイル\character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

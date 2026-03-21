@@ -76,13 +76,15 @@ std::unique_ptr<CCharacter> CCharacter::Create(const D3DXVECTOR3& pos, const D3D
 HRESULT CCharacter::Init(const char* pMotionFilePath)
 {
 	// ÉÇÅ[ÉVÉáÉìÇÃì«Ç›çûÇ›
-	m_pMotion = CMotion::Load(pMotionFilePath, m_vpModel, &m_nNumModel);
+	m_pMotion = CMotion::Load(pMotionFilePath, m_vpModel);
 
 	// ì«Ç›çûÇﬂÇ»Ç©Ç¡ÇΩÇÁ
 	if (m_pMotion == nullptr)
 	{
 		return E_FAIL;
 	}
+
+	m_nNumModel = m_vpModel.size();
 
 	return S_OK;
 }

@@ -55,7 +55,7 @@ CMotion::~CMotion()
 //===================================================
 // モーションのロード処理
 //===================================================
-std::unique_ptr<CMotion> CMotion::Load(const char* pLoadFileName, std::vector<std::unique_ptr<CModel>>& vpModel, int* pOutModel)
+std::unique_ptr<CMotion> CMotion::Load(const char* pLoadFileName, std::vector<std::unique_ptr<CModel>>& vpModel)
 {
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
