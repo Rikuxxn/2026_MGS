@@ -1,0 +1,259 @@
+//==================================================
+//
+// メイン [main.cpp]
+// Author:YUTO YOSHIDA
+//
+//==================================================
+
+//**************************************************
+// インクルードファイル
+//**************************************************
+#include "main.h"
+#include "stdlib.h"
+#include "crtdbg.h"
+#include "manager.h"
+#include "timeapi.h"
+
+//**************************************************
+// プロトタイプ宣言
+//**************************************************
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+//==================================================
+// メイン関数
+//==================================================
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+{
+#ifdef _DEBUG
+
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF); //メモリーリーク検知用フラグ
+	//_CrtSetBreakAlloc(170833);
+#endif // _DEBUG
+
+	DWORD dwCurrentTime;					// 現在時刻
+	DWORD dwExecLastTime = timeGetTime();	// 最後に処理した時刻
+	
+	// 分解能を設定
+	timeBeginPeriod(1);
+
+	dwCurrentTime = 0;	// 初期化する
+	dwExecLastTime = timeGetTime();	// 現在時刻保存
+
+	RECT rect = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+
+	WNDCLASSEX wcex =
+	{
+		sizeof(WNDCLASSEX),				// WNDCLASSEXのメモリサイズ
+		CS_CLASSDC,						// ウインドウのスタイル
+		WindowProc,						// ウインドウプロシージャ
+		0,								// 0にする(通常は使用しない)
+		0,								// 0にする(通常は使用しない)
+		hInstance,						// インスタンスハンドル
+		LoadIcon(NULL,IDI_APPLICATION),	// タスクバーのアイコン
+		LoadCursor(NULL,IDC_ARROW),		// マウスカーソル
+		(HBRUSH)(COLOR_WINDOW + 1),		// クライアント領域の色
+		NULL,							// メニューバー
+		CLASS_NAME,						// ウインドウクラスの名前
+		LoadIcon(NULL,IDI_APPLICATION)  // ファイルのアイコン
+	};
+
+	HWND hWnd; // ウインドウのハンドル
+
+	MSG msg;
+
+	// ウインドウクラスの登録
+	RegisterClassEx(&wcex);
+
+	// クライアント領域を指定サイズに調整
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+
+	// ウインドウを生成
+	hWnd = CreateWindowEx(0,		// 拡張ウィンドウスタイル
+		CLASS_NAME,					// ウインドウクラスの名前
+		WINDOW_NAME,				// ウインドウの名前
+		WS_OVERLAPPEDWINDOW,		// ウインドウのスタイル
+		CW_USEDEFAULT,				// ウインドウ左上X座標
+		CW_USEDEFAULT,				// ウインドウ左上Y座標
+		(rect.right - rect.left),	// ウインドウ左上x座標幅
+		(rect.bottom - rect.top),	// ウインドウ左上Y座標高さ
+		NULL,						// 親ウインドウのハンドル
+		NULL,						// メニューハンドルまたはウインドウID
+		hInstance,					// インスタンスハンドル
+		NULL);						// ウインドウ作成データ
+
+	// ウインドウの表示
+	ShowWindow(hWnd, nCmdShow); // ウインドウの表示状態を設定
+	UpdateWindow(hWnd);         // クライアント領域を更新
+
+	DWORD dwFrameCount;  // フレームカウント
+	DWORD dwFPSLastTime; // 最後にFPSを計測した時間
+
+	dwFrameCount = 0;
+	dwFPSLastTime = timeGetTime();
+
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+		
+	// 初期化処理
+	if (FAILED(pManager->Init(hInstance,hWnd, TRUE)))
+	{
+		return -1;
+	}
+
+	// メッセージループ
+	while (1)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0)
+		{ // windowsの処理
+			if (msg.message == WM_QUIT)
+			{ // WM_QUITメッセージを受け取ったらループを抜ける
+				break;
+			}
+			else
+			{
+				TranslateMessage(&msg); // 仮想キーメッセージを文字メッセージへ変換
+				DispatchMessage(&msg);  // ウインドウプロシージャへメッセージを送出
+			}
+		}
+		else
+		{
+			// DirectXの処理
+			// メッセージの設定
+			dwCurrentTime = timeGetTime(); // 現在時刻
+
+			if ((dwCurrentTime - dwFPSLastTime) >= 500)
+			{ // 0.5秒経過
+				////FPSを計測
+
+				// FPSを計算する
+				int nFps = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);
+				
+				if (pManager != nullptr)
+				{
+					// fpsの取得
+					pManager->SetFps(nFps);
+				}
+
+				dwFPSLastTime = dwCurrentTime; // FPSを計測した時刻を保存
+				dwFrameCount = 0; // フレームカウントをクリア
+
+			}
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
+			{ // 60分の1秒経過
+				dwExecLastTime = dwCurrentTime; // 処理開始の時刻(現在時刻)を保存
+
+				dwFrameCount++; //フレームカウントを加算
+
+				if (pManager != nullptr)
+				{
+					// 更新処理
+					pManager->Update();
+
+					// 描画処理
+					pManager->Draw();
+				}
+			}	
+		}	
+	}
+
+	// レンダラーの破棄
+	if (pManager != nullptr)
+	{
+		// レンダラーの終了処理
+		pManager->Uninit();
+	}
+
+	// ウインドウクラスの登録を解除
+	UnregisterClass(CLASS_NAME, wcex.hInstance);
+
+	return (int)msg.wParam;
+}
+
+//==================================================
+// ウインドウプロシージャ
+//==================================================
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	const RECT rect = { 0,0, SCREEN_WIDTH,SCREEN_HEIGHT }; // ウインドウの領域
+
+	static CMain main;
+
+	switch (uMsg)
+	{
+	case WM_DESTROY: // ウインドウの破棄メッセージ
+		// WM_QUITへメッセージを送る
+		PostQuitMessage(0);
+		break;
+
+	case WM_KEYDOWN: // キー押下のメッセージ
+		switch (wParam)
+		{
+		case VK_ESCAPE:				// [ESC]キーが押された
+		{
+			int nID = MessageBox(hWnd, "終了しますか?", "終了メッセージ", MB_YESNO);
+
+			if (nID == IDYES)
+			{
+				DestroyWindow(hWnd);// ウインドウ破棄メッセージ
+
+			}
+			else
+			{
+				return 0;			// 返す
+			}
+		}
+			break;
+		case VK_F11:
+			// フルスクリーン
+			main.ToggleFullscreen(hWnd);
+			break;
+		}
+	}
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);    // 既定の処理を返す
+}
+
+//==================================================
+// コンストラクタ
+//==================================================
+CMain::CMain()
+{
+	m_bFullScreen = false;
+	ZeroMemory(&m_windowRect, sizeof(m_windowRect));
+}
+
+//==================================================
+// デストラクタ
+//==================================================
+CMain::~CMain()
+{
+}
+
+//==================================================
+// フルスクリーンにする
+//==================================================
+void CMain::ToggleFullscreen(HWND hWnd)
+{
+	// 現在のウィンドウスタイルを取得
+	DWORD dwStyle = GetWindowLong(hWnd, GWL_STYLE);
+
+	if (m_bFullScreen)
+	{
+		// ウィンドウモードに切り替え
+		SetWindowLong(hWnd, GWL_STYLE, dwStyle | WS_OVERLAPPEDWINDOW);
+		SetWindowPos(hWnd, HWND_TOP, m_windowRect.left, m_windowRect.top,
+			m_windowRect.right - m_windowRect.left, m_windowRect.bottom - m_windowRect.top,
+			SWP_FRAMECHANGED | SWP_NOACTIVATE);
+		ShowWindow(hWnd, SW_NORMAL);
+	}
+	else
+	{
+		// フルスクリーンモードに切り替え
+		GetWindowRect(hWnd, &m_windowRect);
+		SetWindowLong(hWnd, GWL_STYLE, dwStyle & ~WS_OVERLAPPEDWINDOW);
+		SetWindowPos(hWnd, HWND_TOP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
+			SWP_FRAMECHANGED | SWP_NOACTIVATE);
+		ShowWindow(hWnd, SW_MAXIMIZE);
+	}
+
+	m_bFullScreen = !m_bFullScreen;
+}

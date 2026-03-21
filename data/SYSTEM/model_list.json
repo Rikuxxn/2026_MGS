@@ -1,0 +1,34 @@
+{
+    "MODEL_INFO": [
+        {
+            "file_path": "data/MODEL/AKRmodel/00_body.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/01_head.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/02_armR.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/03_handR.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/04_armL.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/05_handL.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/06_legR.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/07_footR.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/08_legL.x"
+        },
+        {
+            "file_path": "data/MODEL/AKRmodel/09_footL.x"
+        }
+    ]
+}
