@@ -68,6 +68,9 @@ public:
 	CInputJoypad();
 	~CInputJoypad();
 
+	static constexpr float	DEAD_ZONE		= 10922.0f;	// デッドゾーン
+	static constexpr float	LSTICK_VALUE	= 32767.0f;	// 左スティックの値
+
 	// ボタンの種類
 	typedef enum
 	{
@@ -104,8 +107,6 @@ public:
 	bool GetTriggerTrigger(const int nTrigger);
 	bool GetTriggerPress(const int nTrigger);
 private:
-
-	static constexpr int DEAD_ZONE = 10000; // デッドゾーン
 
 	XINPUT_STATE m_joyKeyState;				// ジョイパッドのプレス情報
 	XINPUT_STATE m_OldKeyState;				// ジョイパッドのプレス情報(判定)
