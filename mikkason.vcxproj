@@ -153,8 +153,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpp\Block.cpp" />
+    <ClCompile Include="src\cpp\BlockList.cpp" />
+    <ClCompile Include="src\cpp\BlockManager.cpp" />
     <ClCompile Include="src\cpp\camera.cpp" />
     <ClCompile Include="src\cpp\character.cpp" />
+    <ClCompile Include="src\cpp\Collider.cpp" />
+    <ClCompile Include="src\cpp\DebugProc3D.cpp" />
     <ClCompile Include="src\cpp\debug_proc.cpp" />
     <ClCompile Include="src\cpp\effect.cpp" />
     <ClCompile Include="src\cpp\fade.cpp" />
@@ -178,6 +183,7 @@
     <ClCompile Include="src\cpp\model_manager.cpp" />
     <ClCompile Include="src\cpp\object2d.cpp" />
     <ClCompile Include="src\cpp\object3d.cpp" />
+    <ClCompile Include="src\cpp\ObjectX.cpp" />
     <ClCompile Include="src\cpp\object_billboard.cpp" />
     <ClCompile Include="src\cpp\particle.cpp" />
     <ClCompile Include="src\cpp\pch.cpp">
@@ -186,10 +192,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\cpp\PhysicsWorld.cpp" />
     <ClCompile Include="src\cpp\player.cpp" />
     <ClCompile Include="src\cpp\ranking.cpp" />
     <ClCompile Include="src\cpp\renderer.cpp" />
     <ClCompile Include="src\cpp\result.cpp" />
+    <ClCompile Include="src\cpp\RigidBody.cpp" />
     <ClCompile Include="src\cpp\scene.cpp" />
     <ClCompile Include="src\cpp\score.cpp" />
     <ClCompile Include="src\cpp\texture_manager.cpp" />
@@ -199,12 +207,19 @@
     <ClCompile Include="src\cpp\utility_math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\Block.h" />
+    <ClInclude Include="src\include\BlockList.h" />
+    <ClInclude Include="src\include\BlockManager.h" />
     <ClInclude Include="src\include\camera.h" />
     <ClInclude Include="src\include\character.h" />
+    <ClInclude Include="src\include\Collider.h" />
     <ClInclude Include="src\include\collision_result.h" />
     <ClInclude Include="src\include\collision_system.h" />
+    <ClInclude Include="src\include\DebugProc3D.h" />
     <ClInclude Include="src\include\effect.h" />
+    <ClInclude Include="src\include\GameObject.h" />
     <ClInclude Include="src\include\input_system.h" />
+    <ClInclude Include="src\include\MathConst.h" />
     <ClInclude Include="src\include\mesh_circle.h" />
     <ClInclude Include="src\include\mesh_cylinder.h" />
     <ClInclude Include="src\include\mesh_field.h" />
@@ -227,13 +242,16 @@
     <ClInclude Include="src\include\manager.h" />
     <ClInclude Include="src\include\model_manager.h" />
     <ClInclude Include="src\include\object2d.h" />
+    <ClInclude Include="src\include\ObjectX.h" />
     <ClInclude Include="src\include\object_billboard.h" />
     <ClInclude Include="src\include\particle.h" />
     <ClInclude Include="src\include\pch.h" />
+    <ClInclude Include="src\include\PhysicsWorld.h" />
     <ClInclude Include="src\include\player.h" />
     <ClInclude Include="src\include\ranking.h" />
     <ClInclude Include="src\include\renderer.h" />
     <ClInclude Include="src\include\result.h" />
+    <ClInclude Include="src\include\RigidBody.h" />
     <ClInclude Include="src\include\scene.h" />
     <ClInclude Include="src\include\score.h" />
     <ClInclude Include="src\include\texture_manager.h" />

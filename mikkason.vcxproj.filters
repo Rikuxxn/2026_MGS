@@ -88,6 +88,33 @@
     <Filter Include="ソース ファイル\system">
       <UniqueIdentifier>{204c819d-fa70-494c-801a-325a18dc2f69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Block">
+      <UniqueIdentifier>{944d3b41-f187-4edb-9d28-585e6fc03903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Block">
+      <UniqueIdentifier>{6f493264-13e0-4fe8-be8c-b5aba12e4744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Physics">
+      <UniqueIdentifier>{0d18864a-4ef1-4f9e-bada-a0bd7c3ff075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Physics">
+      <UniqueIdentifier>{73ed2b6f-4f7b-4f13-a72e-81eb3573c626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject">
+      <UniqueIdentifier>{d1f617cf-1e2d-43db-8e43-949dd702f784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Debug3D">
+      <UniqueIdentifier>{6fb76e01-ec77-461e-aece-86b7234eb180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Debug3D">
+      <UniqueIdentifier>{16511c2d-9857-494c-be00-9e12ddc66ce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ObjectX">
+      <UniqueIdentifier>{c097ca43-60b9-4bb7-8a2f-02d165392ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ObjectX">
+      <UniqueIdentifier>{069991be-d58b-4d98-b679-d5b004e1221a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp\camera.cpp">
@@ -206,6 +233,30 @@
     </ClCompile>
     <ClCompile Include="src\cpp\utility_math.cpp">
       <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\Block.cpp">
+      <Filter>ソース ファイル\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\BlockList.cpp">
+      <Filter>ソース ファイル\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\BlockManager.cpp">
+      <Filter>ソース ファイル\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\Collider.cpp">
+      <Filter>ソース ファイル\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\PhysicsWorld.cpp">
+      <Filter>ソース ファイル\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\RigidBody.cpp">
+      <Filter>ソース ファイル\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\DebugProc3D.cpp">
+      <Filter>ソース ファイル\Debug3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ObjectX.cpp">
+      <Filter>ソース ファイル\ObjectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +385,36 @@
     </ClInclude>
     <ClInclude Include="src\include\utility_math.h">
       <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\Block.h">
+      <Filter>ヘッダー ファイル\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\BlockList.h">
+      <Filter>ヘッダー ファイル\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\BlockManager.h">
+      <Filter>ヘッダー ファイル\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\Collider.h">
+      <Filter>ヘッダー ファイル\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\PhysicsWorld.h">
+      <Filter>ヘッダー ファイル\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\RigidBody.h">
+      <Filter>ヘッダー ファイル\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\MathConst.h">
+      <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\GameObject.h">
+      <Filter>ヘッダー ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\DebugProc3D.h">
+      <Filter>ヘッダー ファイル\Debug3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\ObjectX.h">
+      <Filter>ヘッダー ファイル\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
