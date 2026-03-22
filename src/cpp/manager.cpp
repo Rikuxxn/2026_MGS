@@ -21,6 +21,8 @@
 #include "object.h"
 #include "game.h"
 #include "motion_loader.h"
+#include "PhysicsWorld.h"
+#include "BlockManager.h"
 
 //***************************************************
 // 定数宣言
@@ -30,6 +32,7 @@ namespace ManagerConst
 	const D3DXVECTOR3 LIGHT_DIR_000 = { 1.000f, -0.637f, -0.495f };	// ライトの方向0
 	const D3DXVECTOR3 LIGHT_DIR_001 = { -0.403f, -0.47f, -0.401f };	// ライトの方向1
 	const D3DXVECTOR3 LIGHT_DIR_002 = { 0.515f, -0.616f, 1.0f };	// ライトの方向2
+	const float GRAVITY = -320.0f;									// 重力
 }
 
 //***************************************************
@@ -160,6 +163,16 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 
 	// レンダラー初期化処理 
 	if (FAILED(m_pRenderer->Init(hWnd, bWind))) return E_FAIL;
+
+	// 物理ワールドの生成
+	m_pPhysicsWorld = std::make_unique <PhysicsWorld>();
+
+	// 重力の設定
+	m_pPhysicsWorld->SetGravity(D3DXVECTOR3(0.0f, ManagerConst::GRAVITY, 0.0f));
+
+	// ブロックマネージャーの生成
+	m_pBlockManager = std::make_unique<CBlockManager>();
+	m_pBlockManager->Init();
 
 	// カメラの生成
 	m_pCamera = std::make_unique<CCamera>();
@@ -352,6 +365,18 @@ void CManager::Update(void)
 	if (m_pFade != nullptr)
 	{
 		m_pFade->Update();
+	}
+
+	// 物理世界の更新
+	if (m_pPhysicsWorld)
+	{
+		float dt = 1.0f / 60.0f;
+
+		// 物理シミュレーション
+		m_pPhysicsWorld->StepSimulation(dt);
+
+		// 衝突イベント処理
+		m_pPhysicsWorld->ProcessCollisionEvents();
 	}
 
 #ifdef _DEBUG

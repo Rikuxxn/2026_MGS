@@ -29,6 +29,8 @@ class CFade;				// フェード
 class CLight;				// ライト
 class CCamera;				// カメラの取得
 class CMotionLoader;		// モーションのロードクラス
+class PhysicsWorld;			// 物理世界クラス
+class CBlockManager;		// ブロックマネージャークラス
 
 //***************************************************
 // マネージャークラスの定義
@@ -58,6 +60,8 @@ public:
 	inline CLight*			GetLight			(void)				{ return m_pLight.get(); }
 	inline CCamera*			GetCamera			(void)				{ return m_pCamera.get(); }
 	inline CMotionLoader*	GetMotionLoader		(void)				{ return m_pMotionLoader.get(); }
+	inline PhysicsWorld*	GetPhysicsWorld		(void)				{ return m_pPhysicsWorld.get(); }
+	inline CBlockManager*	GetBlockManager		(void)				{ return m_pBlockManager.get(); }
 	inline void				SetFps				(const int nFps)	{ m_nFps = nFps; }
 private:
 	CManager();
@@ -74,6 +78,8 @@ private:
 	std::unique_ptr<CLight>					m_pLight;				// ライトクラスへのポインタ
 	std::unique_ptr<CCamera>				m_pCamera;				// カメラクラスへのポインタ
 	std::unique_ptr<CMotionLoader>			m_pMotionLoader;		// モーションのロードクラスへのポインタ
+	std::unique_ptr<PhysicsWorld>			m_pPhysicsWorld;		// 物理世界へのポインタ
+	std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
 
 	int m_nFps;														// フレームレート
 };
