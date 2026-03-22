@@ -11,6 +11,9 @@
         },
         {
             "file_path": "data/TEXTURE/test000.png"
+        },
+        {
+            "file_path": "data/TEXTURE/sphere.jpg"
         }
     ]
 }
