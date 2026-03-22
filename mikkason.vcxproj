@@ -194,6 +194,7 @@
     </ClCompile>
     <ClCompile Include="src\cpp\PhysicsWorld.cpp" />
     <ClCompile Include="src\cpp\player.cpp" />
+    <ClCompile Include="src\cpp\PlayerState.cpp" />
     <ClCompile Include="src\cpp\ranking.cpp" />
     <ClCompile Include="src\cpp\renderer.cpp" />
     <ClCompile Include="src\cpp\result.cpp" />
@@ -248,12 +249,14 @@
     <ClInclude Include="src\include\pch.h" />
     <ClInclude Include="src\include\PhysicsWorld.h" />
     <ClInclude Include="src\include\player.h" />
+    <ClInclude Include="src\include\PlayerState.h" />
     <ClInclude Include="src\include\ranking.h" />
     <ClInclude Include="src\include\renderer.h" />
     <ClInclude Include="src\include\result.h" />
     <ClInclude Include="src\include\RigidBody.h" />
     <ClInclude Include="src\include\scene.h" />
     <ClInclude Include="src\include\score.h" />
+    <ClInclude Include="src\include\State.h" />
     <ClInclude Include="src\include\texture_manager.h" />
     <ClInclude Include="src\include\timer.h" />
     <ClInclude Include="src\include\title.h" />

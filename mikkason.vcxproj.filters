@@ -115,6 +115,15 @@
     <Filter Include="ヘッダー ファイル\ObjectX">
       <UniqueIdentifier>{069991be-d58b-4d98-b679-d5b004e1221a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\PlayerState">
+      <UniqueIdentifier>{77b4e5d6-4c6c-4654-917c-14c1ecac1adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PlayerState">
+      <UniqueIdentifier>{f7670eb3-4f63-437b-b0ae-bc4ce4b20ec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\State">
+      <UniqueIdentifier>{07d8b883-58f5-4735-97ed-3941b8bef4a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp\camera.cpp">
@@ -257,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="src\cpp\ObjectX.cpp">
       <Filter>ソース ファイル\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\PlayerState.cpp">
+      <Filter>ソース ファイル\PlayerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +427,12 @@
     </ClInclude>
     <ClInclude Include="src\include\ObjectX.h">
       <Filter>ヘッダー ファイル\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\PlayerState.h">
+      <Filter>ヘッダー ファイル\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\State.h">
+      <Filter>ヘッダー ファイル\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
