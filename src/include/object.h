@@ -27,8 +27,8 @@ public:
 	{
 		PRIORITY_NONE = 0,		// 無し
 		PRIORITY_CHARACTER,		// キャラクター
-		PRIORITY_MESH,			// メッシュ
 		PRIORITY_3DPOLYGON,		// 3Dポリゴン
+		PRIORITY_MESH,			// メッシュ
 		PRIORITY_MODEL,			// モデル
 		PRIORITY_BILLBOARD,		// ビルボード
 		PRIORITY_UI_BACK,		// UI(奥)

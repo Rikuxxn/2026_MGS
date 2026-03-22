@@ -12,12 +12,14 @@
 #include "manager.h"
 #include "renderer.h"
 #include "texture_manager.h"
+#include "texture_animation.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
 CObject3D::CObject3D(const PRIORITY priority) : 
 	CObject(priority),
+	m_pTextureAnimation(nullptr),
 	m_pVtxBuffer(nullptr),
 	m_mtxWorld(Const::MTX_IDENTITY),
 	m_col(Const::WHITE),
@@ -38,6 +40,12 @@ CObject3D::~CObject3D()
 	{
 		m_pVtxBuffer->Release();
 		m_pVtxBuffer = nullptr;
+	}
+
+	// アニメーションの破棄
+	if (m_pTextureAnimation != nullptr)
+	{
+		m_pTextureAnimation = nullptr;
 	}
 }
 
@@ -94,8 +102,44 @@ HRESULT CObject3D::Init(void)
 		return E_FAIL;
 	}
 
-	// 頂点の設定
-	SetVtx();
+	// 頂点情報のポインタ
+	VERTEX_3D* pVtx = nullptr;
+
+	// 頂点バッファのロック
+	if (FAILED(m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0)))
+	{
+		return E_FAIL;
+	}
+
+	// 大きさの取得
+	D3DXVECTOR3 size = m_size;
+
+	// 頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-size.x, size.y, size.z);
+	pVtx[1].pos = D3DXVECTOR3(size.x, size.y, size.z);
+	pVtx[2].pos = D3DXVECTOR3(-size.x, -size.y, -size.z);
+	pVtx[3].pos = D3DXVECTOR3(size.x, -size.y, -size.z);
+
+	// 法線ベクトルの設定
+	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+	// 頂点カラーの設定
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	// テクスチャ座標の設定
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	// 頂点バッファのアンロック
+	m_pVtxBuffer->Unlock();
 
 	return S_OK;
 }
@@ -114,8 +158,39 @@ void CObject3D::Uninit(void)
 //===================================================
 void CObject3D::Update(void)
 {
-	// 頂点バッファの設定
-	SetVtx();
+	// 頂点情報のポインタ
+	VERTEX_3D* pVtx = nullptr;
+
+	// 頂点バッファのロック
+	if (FAILED(m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0)))
+	{
+		return;
+	}
+
+	// 大きさの取得
+	D3DXVECTOR3 size = m_size;
+
+	// 頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-size.x, size.y, size.z);
+	pVtx[1].pos = D3DXVECTOR3(size.x, size.y, size.z);
+	pVtx[2].pos = D3DXVECTOR3(-size.x, -size.y, -size.z);
+	pVtx[3].pos = D3DXVECTOR3(size.x, -size.y, -size.z);
+
+	// 頂点カラーの設定
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	// 頂点バッファのアンロック
+	m_pVtxBuffer->Unlock();
+
+	// アニメーションするなら
+	if (m_pTextureAnimation != nullptr)
+	{
+		// テクスチャアニメーションの更新処理
+		m_pTextureAnimation->Update(m_pVtxBuffer, this);
+	}
 }
 
 //===================================================
@@ -187,43 +262,14 @@ void CObject3D::SetTextureID(const char* pTexturePath)
 }
 
 //===================================================
-// 頂点の設定処理
+// アニメーションの適応処理
 //===================================================
-void CObject3D::SetVtx(void)
+void CObject3D::AttachAnimation(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop)
 {
-	// 頂点情報のポインタ
-	VERTEX_3D* pVtx = nullptr;
-
-	// 頂点バッファのロック
-	m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0);
-
-	// 大きさの取得
-	D3DXVECTOR3 size = m_size;
-
-	// 頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3(-size.x, size.y, size.z);
-	pVtx[1].pos = D3DXVECTOR3(size.x, size.y, size.z);
-	pVtx[2].pos = D3DXVECTOR3(-size.x, -size.y, -size.z);
-	pVtx[3].pos = D3DXVECTOR3(size.x, -size.y, -size.z);
-
-	// 法線ベクトルの設定
-	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-
-	// 頂点カラーの設定
-	pVtx[0].col = m_col;
-	pVtx[1].col = m_col;
-	pVtx[2].col = m_col;
-	pVtx[3].col = m_col;
-
-	// テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-
-	// 頂点バッファのアンロック
-	m_pVtxBuffer->Unlock();
+	if (m_pTextureAnimation == nullptr)
+	{
+		// 生成処理
+		m_pTextureAnimation = CTextureAnimation::Create(static_cast<CTextureAnimation::TYPE>(nType), segment, nFrame, bLoop);
+		m_pTextureAnimation->Init(m_pVtxBuffer);
+	}
 }

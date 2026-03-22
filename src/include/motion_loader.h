@@ -67,10 +67,11 @@ public:
 	CMotionLoader();
 	~CMotionLoader();
 
-	int Register(const char* pFilePath, std::vector<std::unique_ptr<CModel>>& pModel);
-	HRESULT Load(const char* pFilePath, std::vector<std::unique_ptr<CModel>>& pModel, const int nCurrentID);
+	int Register			(const char* pFilePath, std::vector<std::unique_ptr<CModel>>& pModel);
+	HRESULT Load			(const char* pFilePath, std::vector<std::unique_ptr<CModel>>& pModel, const int nCurrentID);
 
 	inline const std::vector<Info>& GetInfo(const int nID) const { return m_vData[nID].info; }
+
 private:
 	void LoadModel			(std::vector<std::unique_ptr<CModel>>& pModel, std::string& line, const int nCurrentID);
 	bool LoadCharacterSet	(std::vector<std::unique_ptr<CModel>>& pModel, std::string& line, const int nCurrentID);

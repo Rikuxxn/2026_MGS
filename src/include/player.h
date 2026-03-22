@@ -46,6 +46,7 @@ public:
 	void	Draw		(void) override;
 
 	const D3DXVECTOR3& GetPosition(void) const;
+
 	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 private:
 	void	KeyboardMove(void);

@@ -258,6 +258,9 @@
     <ClCompile Include="src\cpp\ObjectX.cpp">
       <Filter>ソース ファイル\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\texture_animation.cpp">
+      <Filter>ソース ファイル\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\camera.h">
@@ -415,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="src\include\ObjectX.h">
       <Filter>ヘッダー ファイル\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\texture_animation.h">
+      <Filter>ヘッダー ファイル\animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
