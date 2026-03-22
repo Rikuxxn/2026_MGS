@@ -23,6 +23,7 @@
 #include "dinput.h"
 #include "Xinput.h"
 #include "xaudio2.h"
+#include "functional"
 
 //***************************************************
 // ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
