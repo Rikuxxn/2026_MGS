@@ -1,6 +1,6 @@
 //===================================================
 //
-// ランキングシーン [ranking.cpp]
+// ランキングのスコア [ranking_score.cpp]
 // Author:YUTO YOSHIDA
 //
 //===================================================
@@ -8,83 +8,75 @@
 //***************************************************
 // インクルードファイル
 //***************************************************
-#include "ranking.h"
 #include "ranking_score.h"
-
-//***************************************************
-// 定数宣言
-//***************************************************
-namespace RankingConst
-{
-	constexpr int MAX_RANK = 5;	// 順位数
-	constexpr const char *FILE_PATH = "data/SYSTEM/ranking.bin";	// 読み込むファイルパス
-}
+#include "score.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
-CRanking::CRanking() :
-	CScene(CScene::MODE_RANKING)
+CRankingScore::CRankingScore() : 
+	m_pScore(nullptr)
 {
 }
 
 //===================================================
 // デストラクタ
 //===================================================
-CRanking::~CRanking()
+CRankingScore::~CRankingScore()
 {
+	m_pScore = nullptr;
+}
+
+//===================================================
+// 生成処理
+//===================================================
+CRankingScore* CRankingScore::Create(const D3DXVECTOR3& pos, const D3DXVECTOR2& size, const char* pTexturePath, const int nScore)
+{
+	// 自分自身の生成
+	CRankingScore* pInstance = new CRankingScore;
+
+	// スコアの生成
+	pInstance->m_pScore = CScore::Create(pos, size, nScore, pTexturePath);
+
+	// 自分自身の生成
+	if (FAILED(pInstance->Init()))
+	{
+		// 終了処理
+		pInstance->Uninit();
+		pInstance = nullptr;
+		return nullptr;
+	}
+	return pInstance;
 }
 
 //===================================================
 // 初期化処理
 //===================================================
-HRESULT CRanking::Init(void)
+HRESULT CRankingScore::Init(void)
 {
-#if 0
-	std::array<int, RankingConst::MAX_RANK> anRanking;
-
-	// ファイルを開く
-	std::fstream file(RankingConst::FILE_PATH, std::ios::binary | std::ios::in);
-
-	// ファイルが開けないなら
-	if (!file.is_open())
-	{
-		MessageBox(NULL, "ファイルが開けません", RankingConst::FILE_PATH, MB_OK);
-		return E_FAIL;
-	}
-
-	// 値を読み込む
-	file.read(reinterpret_cast<char*>(&anRanking), sizeof(anRanking));
-	file.close();
-	file.clear();
-	CRankingScore::Create(
-		Const::CENTER_POS_2D,
-		{300.0f,30.0f},
-		"number001.png",
-		1);
-#endif // 0
-
 	return S_OK;
 }
 
 //===================================================
 // 終了処理
 //===================================================
-void CRanking::Uninit(void)
+void CRankingScore::Uninit(void)
 {
+	// 自分自身の破棄
+	CObject::Release();
 }
 
 //===================================================
 // 更新処理
 //===================================================
-void CRanking::Update(void)
+void CRankingScore::Update(void)
 {
 }
 
 //===================================================
 // 描画処理
 //===================================================
-void CRanking::Draw(void)
+void CRankingScore::Draw(void)
 {
 
 }

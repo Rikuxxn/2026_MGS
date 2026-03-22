@@ -1,6 +1,6 @@
 //===================================================
 //
-// スコアのクラス [score.h]
+// ランキングのスコア [ranking_score.h]
 // Author:YUTO YOSHIDA
 //
 //===================================================
@@ -8,8 +8,8 @@
 //***************************************************
 // 多重インクルード防止
 //***************************************************
-#ifndef _SCORE_H_
-#define _SCORE_H_
+#ifndef _RANKING_SCORE_H_
+#define _RANKING_SCORE_H_
 
 //***************************************************
 // インクルードファイル
@@ -19,34 +19,33 @@
 //***************************************************
 // 前方宣言
 //***************************************************
-class CNumber;	// 数字クラス
+class CScore;	// スコアクラス
 
 //***************************************************
-// スコアのクラスの定義
+// ランキングのスコアのクラス
 //***************************************************
-class CScore : public CObject
+class CRankingScore : public CObject
 {
 public:
-	static constexpr int MAX_DIGIT	= 9;			// 最大の桁数
-	static constexpr int MAX_SCORE = 999999999;		// 最大の値
-	static constexpr int MIN_SCORE = 0;				// 最小の値
+	CRankingScore();
+	~CRankingScore();
 
-	CScore();
-	~CScore();
-
-	static CScore* Create(const D3DXVECTOR3& pos, const D3DXVECTOR2& size, const int nScore, const char* pTexturePath);
+	/// <summary>
+	/// ランキングのスコアの生成
+	/// </summary>
+	/// <param name="位置"></param>
+	/// <param name="大きさ"></param>
+	/// <param name="色"></param>
+	/// <param name="テクスチャのパス"></param>
+	/// <param name="スコア"></param>
+	/// <returns>自分自身のポインタ</returns>
+	static CRankingScore* Create(const D3DXVECTOR3& pos, const D3DXVECTOR2& size, const char* pTexturePath, const int nScore);
 
 	HRESULT Init	(void) override;
 	void	Uninit	(void) override;
 	void	Update	(void) override;
 	void	Draw	(void) override;
-
-	inline void	AddScore(const int nScore) { m_nScore += nScore; }
 private:
-	std::array<std::unique_ptr<CNumber>, MAX_DIGIT> m_apNumber;	// ナンバークラスへのポインタ
-	D3DXVECTOR3 m_pos;											// 位置
-	D3DXVECTOR2 m_size;											// 大きさ
-	std::string m_texturePath;									// ファイルパス
-	int m_nScore;												// 現在のスコア
+	CScore* m_pScore;	// スコアクラスへのポインタ
 };
 #endif

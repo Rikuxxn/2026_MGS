@@ -269,9 +269,12 @@
     </ClCompile>
     <ClCompile Include="src\cpp\PlayerState.cpp">
       <Filter>ソース ファイル\PlayerState</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\cpp\texture_animation.cpp">
       <Filter>ソース ファイル\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ranking_score.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,9 +439,12 @@
     </ClInclude>
     <ClInclude Include="src\include\State.h">
       <Filter>ヘッダー ファイル\State</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\include\texture_animation.h">
       <Filter>ヘッダー ファイル\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\ranking_score.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

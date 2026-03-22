@@ -12,6 +12,7 @@
 #include "object2d.h"
 #include "object3d.h"
 #include "object_billboard.h"
+#include "ranking.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -195,15 +196,13 @@ void CGame::Update(void)
 		// XVˆ—
 		collisionSystem->Update();
 	}
-
+#ifdef _DEBUG
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))
 	{
-		CPlayer::Create(
-			{ 0.0f,0.0f,-100.0f },
-			{ 0.0f,0.0f,0.0f },
-			"motion.txt"
-		);
+		CManager::GetInstance()->BeginFade(std::make_unique<CRanking>());
 	}
+#endif // _DEBUG
+
 
 	CEffect::Info effectInfo;
 
