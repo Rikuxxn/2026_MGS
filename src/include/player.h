@@ -55,22 +55,11 @@ public:
 	void	Update		(void) override;
 	void	Draw		(void) override;
 
-<<<<<<< HEAD
 	// Physics処理
 	void ReleasePhysics	(void);										// Physics削除処理
 	void CreatePhysics	(float radius, float height, float mass);	// Phtsics生成処理
 	void UpdateCollider	(D3DXVECTOR3 offset);						// コライダーの位置更新処理
 	void SetPhysicsMove	(D3DXVECTOR3 move);							// 物理用移動量の設定処理
-=======
-	const D3DXVECTOR3& GetPosition(void) const;
-
-	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
-private:
-	void	KeyboardMove(void);
-	void	JoyPadMove	(void);
-private:
-	CollisionResult::MeshField m_collisionMeshFieldResult; // メッシュフィールドの判定の結果
->>>>>>> 6c982a355b5cb93e3e18d3d2d0fc6140cb6317d8
 
 	// 減速処理
 	void ApplyDeceleration(void);
@@ -93,13 +82,13 @@ private:
 
 public:
 	static constexpr float SPEED				= 100.0f;	// 移動スピード
-	static constexpr float DECELERATION_RATE	= 0.8f;		// 減速率
+	static constexpr float DECELERATION_RATE	= 0.85f;	// 減速率
 	static constexpr float ACCEL_RATE			= 0.15f;	// イージング率
 private:
-	static constexpr float	MASS			= 1.0f;		// 質量
-	static constexpr float	MAX_GRAVITY		= -0.26f;	// 重力加速度
-	static constexpr float	CAPSULE_RADIUS	= 16.5f;	// カプセルコライダーの半径
-	static constexpr float	CAPSULE_HEIGHT	= 40.0f;	// カプセルコライダーの高さ
+	static constexpr float	MASS				= 1.0f;		// 質量
+	static constexpr float	MAX_GRAVITY			= -0.26f;	// 重力加速度
+	static constexpr float	CAPSULE_RADIUS		= 16.5f;	// カプセルコライダーの半径
+	static constexpr float	CAPSULE_HEIGHT		= 40.0f;	// カプセルコライダーの高さ
 private:
 	CollisionResult::MeshField m_collisionMeshFieldResult;	// メッシュフィールドの判定の結果
 
