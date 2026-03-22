@@ -17,6 +17,11 @@
 #include "object.h"
 
 //***************************************************
+// 前方宣言
+//***************************************************
+class CTextureAnimation;	// テクスチャアニメーションクラス
+
+//***************************************************
 // 3Dオブジェクトの基底クラスの定義
 //***************************************************
 class CObject3D : public CObject
@@ -45,10 +50,19 @@ public:
 	/// テクスチャのIDの設定
 	/// </summary>
 	/// <param name="テクスチャのパス"></param>
-	void SetTextureID	(const char* pTexturePath);
+	void SetTextureID		(const char* pTexturePath);
+
+	/// <summary>
+	/// アニメーションを適応する関数
+	/// </summary>
+	/// <param name="種類(アニメーションクラスの列挙型を使用)"></param>
+	/// <param name="分割数"></param>
+	/// <param name="速さ"></param>
+	/// <param name="ループするかどうか(falseにすると最大まで行ったら消えます)"></param>
+	void AttachAnimation	(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop);
 private:
-	void SetVtx			(void);
-private:
+	std::unique_ptr<CTextureAnimation> m_pTextureAnimation;	// テクスチャアニメーションクラスへのポインタ
+
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffer;	// 頂点バッファへのポインター
 	D3DXMATRIX				m_mtxWorld;		// ワールドマトリックス
 	D3DXCOLOR				m_col;			// 色

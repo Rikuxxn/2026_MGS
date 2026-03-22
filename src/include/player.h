@@ -55,11 +55,22 @@ public:
 	void	Update		(void) override;
 	void	Draw		(void) override;
 
+<<<<<<< HEAD
 	// Physics処理
 	void ReleasePhysics	(void);										// Physics削除処理
 	void CreatePhysics	(float radius, float height, float mass);	// Phtsics生成処理
 	void UpdateCollider	(D3DXVECTOR3 offset);						// コライダーの位置更新処理
 	void SetPhysicsMove	(D3DXVECTOR3 move);							// 物理用移動量の設定処理
+=======
+	const D3DXVECTOR3& GetPosition(void) const;
+
+	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
+private:
+	void	KeyboardMove(void);
+	void	JoyPadMove	(void);
+private:
+	CollisionResult::MeshField m_collisionMeshFieldResult; // メッシュフィールドの判定の結果
+>>>>>>> 6c982a355b5cb93e3e18d3d2d0fc6140cb6317d8
 
 	// 減速処理
 	void ApplyDeceleration(void);

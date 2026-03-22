@@ -201,6 +201,7 @@
     <ClCompile Include="src\cpp\RigidBody.cpp" />
     <ClCompile Include="src\cpp\scene.cpp" />
     <ClCompile Include="src\cpp\score.cpp" />
+    <ClCompile Include="src\cpp\texture_animation.cpp" />
     <ClCompile Include="src\cpp\texture_manager.cpp" />
     <ClCompile Include="src\cpp\timer.cpp" />
     <ClCompile Include="src\cpp\title.cpp" />
@@ -256,7 +257,11 @@
     <ClInclude Include="src\include\RigidBody.h" />
     <ClInclude Include="src\include\scene.h" />
     <ClInclude Include="src\include\score.h" />
+<<<<<<< HEAD
     <ClInclude Include="src\include\State.h" />
+=======
+    <ClInclude Include="src\include\texture_animation.h" />
+>>>>>>> 6c982a355b5cb93e3e18d3d2d0fc6140cb6317d8
     <ClInclude Include="src\include\texture_manager.h" />
     <ClInclude Include="src\include\timer.h" />
     <ClInclude Include="src\include\title.h" />

@@ -28,6 +28,7 @@
 #include "collision_system.h"
 #include "mesh_field_collision_system.h"
 #include "BlockManager.h"
+#include "texture_animation.h"
 
 //===================================================
 // コンストラクタ
@@ -82,12 +83,28 @@ HRESULT CGame::Init(void)
 		"test.png",
 		0.5f);
 
+	CObject2D::Create(
+		{ 800.0f,50.0f,0.0f},
+		{ 80.0f,50.0f },
+		Const::WHITE,
+		"number001.png")
+		->AttachAnimation(
+			CTextureAnimation::TYPE_2D,
+			{10,1},
+			5,
+			true);
+
 	CObject3D::Create(
-		{ 0.0f,0.0f,0.0f },
+		{ 0.0f,100.0f,-200.0f },
 		{ 50.0f,50.0f,0.0f },
 		Const::VEC3_NULL,
 		Const::WHITE,
-		"test.png");
+		"number001.png")
+		->AttachAnimation(
+			CTextureAnimation::TYPE_3D,
+			{ 10,1 },
+			60,
+			false);
 
 	CObjectBillboard::Create(
 		{ 0.0f,100.0f,0.0f },

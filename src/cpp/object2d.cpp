@@ -12,6 +12,7 @@
 #include "texture_manager.h"
 #include "manager.h"
 #include "renderer.h"
+#include "texture_animation.h"
 
 //===================================================
 // コンストラクタ
@@ -38,6 +39,12 @@ CObject2D::~CObject2D()
 	{
 		m_pVtxBuffer->Release();
 		m_pVtxBuffer = nullptr;
+	}
+
+	// アニメーションの破棄
+	if (m_pTextureAnimation != nullptr)
+	{
+		m_pTextureAnimation = nullptr;
 	}
 }
 
@@ -95,8 +102,55 @@ HRESULT CObject2D::Init(void)
 		return E_FAIL;
 	}
 
-	// 頂点の設定
-	SetVtx();
+	// 頂点情報のポインタ
+	VERTEX_2D* pVtx = nullptr;
+
+	// 頂点バッファのロック
+	if (FAILED(m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0)))
+	{
+		return E_FAIL;
+	}
+
+	m_fLength = sqrtf((m_size.x * m_size.x) + (m_size.y * m_size.y));
+	m_fAngle = atan2f(m_size.x, m_size.y);
+
+	// 頂点座標の設定
+	pVtx[0].pos.x = m_pos.x + sinf(m_fRot - (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[0].pos.y = m_pos.y + cosf(m_fRot - (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[0].pos.z = 0.0f;
+
+	pVtx[1].pos.x = m_pos.x + sinf(m_fRot + (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[1].pos.y = m_pos.y + cosf(m_fRot + (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[1].pos.z = 0.0f;
+
+	pVtx[2].pos.x = m_pos.x + sinf(m_fRot - m_fAngle) * m_fLength;
+	pVtx[2].pos.y = m_pos.y + cosf(m_fRot - m_fAngle) * m_fLength;
+	pVtx[2].pos.z = 0.0f;
+
+	pVtx[3].pos.x = m_pos.x + sinf(m_fRot + m_fAngle) * m_fLength;
+	pVtx[3].pos.y = m_pos.y + cosf(m_fRot + m_fAngle) * m_fLength;
+	pVtx[3].pos.z = 0.0f;
+
+	// rhwの設定
+	pVtx[0].rhw = 1.0f;
+	pVtx[1].rhw = 1.0f;
+	pVtx[2].rhw = 1.0f;
+	pVtx[3].rhw = 1.0f;
+
+	// 色の設定
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	// テクスチャ座標の設定
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	// 頂点バッファのアンロック
+	m_pVtxBuffer->Unlock();
 
 	return S_OK;
 }
@@ -115,8 +169,50 @@ void CObject2D::Uninit(void)
 //===================================================
 void CObject2D::Update(void)
 {
-	// 頂点の設定
-	SetVtx();
+	// 頂点情報のポインタ
+	VERTEX_2D* pVtx = nullptr;
+
+	// 頂点バッファのロック
+	if (FAILED(m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0)))
+	{
+		return;
+	}
+
+	m_fLength = sqrtf((m_size.x * m_size.x) + (m_size.y * m_size.y));
+	m_fAngle = atan2f(m_size.x, m_size.y);
+
+	// 頂点座標の設定
+	pVtx[0].pos.x = m_pos.x + sinf(m_fRot - (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[0].pos.y = m_pos.y + cosf(m_fRot - (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[0].pos.z = 0.0f;
+
+	pVtx[1].pos.x = m_pos.x + sinf(m_fRot + (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[1].pos.y = m_pos.y + cosf(m_fRot + (D3DX_PI - m_fAngle)) * m_fLength;
+	pVtx[1].pos.z = 0.0f;
+
+	pVtx[2].pos.x = m_pos.x + sinf(m_fRot - m_fAngle) * m_fLength;
+	pVtx[2].pos.y = m_pos.y + cosf(m_fRot - m_fAngle) * m_fLength;
+	pVtx[2].pos.z = 0.0f;
+
+	pVtx[3].pos.x = m_pos.x + sinf(m_fRot + m_fAngle) * m_fLength;
+	pVtx[3].pos.y = m_pos.y + cosf(m_fRot + m_fAngle) * m_fLength;
+	pVtx[3].pos.z = 0.0f;
+
+	// 色の設定
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	// 頂点バッファのアンロック
+	m_pVtxBuffer->Unlock();
+
+	// アニメーションするなら
+	if (m_pTextureAnimation != nullptr)
+	{
+		// テクスチャアニメーションの更新処理
+		m_pTextureAnimation->Update(m_pVtxBuffer, this);
+	}
 }
 
 //===================================================
@@ -171,9 +267,9 @@ void CObject2D::SetTextureID(const char* pTexturePath)
 }
 
 //===================================================
-// 頂点の設定
+// UV座標の設定処理
 //===================================================
-void CObject2D::SetVtx(void)
+void CObject2D::SetUV(const D3DXVECTOR2& uv0, const D3DXVECTOR2& uv1, const D3DXVECTOR2& uv2, const D3DXVECTOR2& uv3)
 {
 	// 頂点情報のポインタ
 	VERTEX_2D* pVtx = nullptr;
@@ -183,45 +279,26 @@ void CObject2D::SetVtx(void)
 	{
 		return;
 	}
-
-	m_fLength = sqrtf((m_size.x * m_size.x) + (m_size.y * m_size.y));
-	m_fAngle = atan2f(m_size.x, m_size.y);
-
-	// 頂点座標の設定
-	pVtx[0].pos.x = m_pos.x + sinf(m_fRot - (D3DX_PI - m_fAngle)) * m_fLength;
-	pVtx[0].pos.y = m_pos.y + cosf(m_fRot - (D3DX_PI - m_fAngle)) * m_fLength;
-	pVtx[0].pos.z = 0.0f;
-
-	pVtx[1].pos.x = m_pos.x + sinf(m_fRot + (D3DX_PI - m_fAngle)) * m_fLength;
-	pVtx[1].pos.y = m_pos.y + cosf(m_fRot + (D3DX_PI - m_fAngle)) * m_fLength;
-	pVtx[1].pos.z = 0.0f;
-
-	pVtx[2].pos.x = m_pos.x + sinf(m_fRot - m_fAngle) * m_fLength;
-	pVtx[2].pos.y = m_pos.y + cosf(m_fRot - m_fAngle) * m_fLength;
-	pVtx[2].pos.z = 0.0f;
-
-	pVtx[3].pos.x = m_pos.x + sinf(m_fRot + m_fAngle) * m_fLength;
-	pVtx[3].pos.y = m_pos.y + cosf(m_fRot + m_fAngle) * m_fLength;
-	pVtx[3].pos.z = 0.0f;
-
-	// rhwの設定
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
-
-	// 色の設定
-	pVtx[0].col = m_col;
-	pVtx[1].col = m_col;
-	pVtx[2].col = m_col;
-	pVtx[3].col = m_col;
-
+	
 	// テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+	pVtx[0].tex = uv0;
+	pVtx[1].tex = uv1;
+	pVtx[2].tex = uv2;
+	pVtx[3].tex = uv3;
 
 	// 頂点バッファのアンロック
 	m_pVtxBuffer->Unlock();
+}
+
+//===================================================
+// アニメーションの適応処理
+//===================================================
+void CObject2D::AttachAnimation(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop)
+{
+	if (m_pTextureAnimation == nullptr)
+	{
+		// 生成処理
+		m_pTextureAnimation = CTextureAnimation::Create(static_cast<CTextureAnimation::TYPE>(nType), segment, nFrame, bLoop);
+		m_pTextureAnimation->Init(m_pVtxBuffer);
+	}
 }

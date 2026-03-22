@@ -267,8 +267,13 @@
     <ClCompile Include="src\cpp\ObjectX.cpp">
       <Filter>ソース ファイル\ObjectX</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="src\cpp\PlayerState.cpp">
       <Filter>ソース ファイル\PlayerState</Filter>
+=======
+    <ClCompile Include="src\cpp\texture_animation.cpp">
+      <Filter>ソース ファイル\animation</Filter>
+>>>>>>> 6c982a355b5cb93e3e18d3d2d0fc6140cb6317d8
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,11 +433,16 @@
     <ClInclude Include="src\include\ObjectX.h">
       <Filter>ヘッダー ファイル\ObjectX</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="src\include\PlayerState.h">
       <Filter>ヘッダー ファイル\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="src\include\State.h">
       <Filter>ヘッダー ファイル\State</Filter>
+=======
+    <ClInclude Include="src\include\texture_animation.h">
+      <Filter>ヘッダー ファイル\animation</Filter>
+>>>>>>> 6c982a355b5cb93e3e18d3d2d0fc6140cb6317d8
     </ClInclude>
   </ItemGroup>
 </Project>

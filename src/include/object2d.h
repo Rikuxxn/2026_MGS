@@ -17,6 +17,11 @@
 #include "object.h"
 
 //***************************************************
+// 前方宣言
+//***************************************************
+class CTextureAnimation;	// テクスチャアニメーションクラス
+
+//***************************************************
 // 2Dオブジェクトの基底クラスの定義
 //***************************************************
 class CObject2D : public CObject
@@ -46,9 +51,22 @@ public:
 	/// </summary>
 	/// <param name="テクスチャのパス"></param>
 	void SetTextureID		(const char* pTexturePath);
+
+	// UV座標の設定処理
+	void SetUV				(const D3DXVECTOR2& uv0, const D3DXVECTOR2& uv1, const D3DXVECTOR2& uv2, const D3DXVECTOR2& uv3);
+
+	/// <summary>
+	/// アニメーションを適応する関数
+	/// </summary>
+	/// <param name="種類(アニメーションクラスの列挙型を使用)"></param>
+	/// <param name="分割数"></param>
+	/// <param name="速さ"></param>
+	/// <param name="ループするかどうか(falseにすると最大まで行ったら消えます)"></param>
+	void AttachAnimation	(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop);
+
 private:
-	void SetVtx				(void);
-private:
+	std::unique_ptr<CTextureAnimation> m_pTextureAnimation;	// テクスチャアニメーションクラスへのポインタ
+
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffer;	// 頂点バッファへのポインター
 	D3DXCOLOR				m_col;			// 色
 	D3DXVECTOR3				m_pos;			// 位置
