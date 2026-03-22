@@ -15,6 +15,7 @@
 // インクルードファイル
 //***************************************************
 #define _CRT_SECURE_NO_WARNINGS		 // scanfの警告対処マクロ
+#define NOMINMAX
 #include <windows.h>
 #include "d3dx9.h"
 #include "d3d9.h"
