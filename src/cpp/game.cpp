@@ -27,6 +27,7 @@
 #include "particle.h"
 #include "collision_system.h"
 #include "mesh_field_collision_system.h"
+#include "BlockManager.h"
 
 //===================================================
 // コンストラクタ
@@ -62,6 +63,12 @@ HRESULT CGame::Init(void)
 
 	// カメラの取得
 	CCamera* pCamera = pManager->GetCamera();
+
+	// ブロックマネージャーの取得
+	CBlockManager* pBlockManager = pManager->GetBlockManager();
+
+	// ステージの読み込み
+	pBlockManager->LoadFromJson("data/STAGE/test.json");
 
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
