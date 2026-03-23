@@ -72,7 +72,7 @@ public:
 
     // ワールド変換の取得
     virtual void                SetPosition(const D3DXVECTOR3& pos) { m_Position = pos; }
-    virtual const D3DXVECTOR3& GetPosition(void) const { return m_Position; }
+    virtual const D3DXVECTOR3&  GetPosition(void) const { return m_Position; }
 
     // ローカル慣性モーメントを計算
     virtual void calculateLocalInertia(float /*mass*/, D3DXVECTOR3& inertia) const
@@ -196,9 +196,9 @@ public:
     // 慣性モーメント
     void calculateLocalInertia(float mass, D3DXVECTOR3& inertia) const override;
 
-    float                   GetRadius(void) const { return m_ScaledRadius; }
-    const D3DXMATRIX& GetRotation(void) const { return m_Rotation; }
-    const D3DXQUATERNION& GetRotationQuat(void) const { return m_RotationQuat; }
+    float                   GetRadius       (void) const { return m_ScaledRadius; }
+    const D3DXMATRIX&       GetRotation     (void) const { return m_Rotation; }
+    const D3DXQUATERNION&   GetRotationQuat (void) const { return m_RotationQuat; }
 
 private:
     D3DXMATRIX      m_Rotation;         // 回転行列

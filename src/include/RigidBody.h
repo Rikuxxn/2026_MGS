@@ -49,32 +49,32 @@ public:
     // 接地しているか
     bool IsOnGround(void) const { return m_onGround; }
 
-    void SetIsDynamic(bool flag) { m_isDynamic = flag; }
-    void SetLinearFactor(const D3DXVECTOR3& factor) { m_LinearFactor = factor; }
-    void SetAngularFactor(const D3DXVECTOR3& factor) { m_AngularFactor = factor; }
-    void SetAngularVelocity(const D3DXVECTOR3& vel) { m_AngularVelocity = vel; }
-    void SetFriction(float f) { m_Friction = f; }
-    void SetRollingFriction(float f) { m_RollingFriction = f; }
-    void SetVelocity(D3DXVECTOR3 vel) { m_Velocity = vel; }
-    void SetRestitution(float r) { m_Restitution = r; }
-    void SetOnGround(bool flag) { m_onGround = flag; }
-    void SetOrientation(const D3DXQUATERNION& q);
-    void SetTransform(const D3DXVECTOR3& pos, const D3DXQUATERNION& rot, const D3DXVECTOR3& scale);
+    void SetIsDynamic       (bool flag)                 { m_isDynamic = flag; }
+    void SetLinearFactor    (const D3DXVECTOR3& factor) { m_LinearFactor = factor; }
+    void SetAngularFactor   (const D3DXVECTOR3& factor) { m_AngularFactor = factor; }
+    void SetAngularVelocity (const D3DXVECTOR3& vel)    { m_AngularVelocity = vel; }
+    void SetFriction        (float f)                   { m_Friction = f; }
+    void SetRollingFriction (float f)                   { m_RollingFriction = f; }
+    void SetVelocity        (D3DXVECTOR3 vel)           { m_Velocity = vel; }
+    void SetRestitution     (float r)                   { m_Restitution = r; }
+    void SetOnGround        (bool flag)                 { m_onGround = flag; }
+    void SetOrientation     (const D3DXQUATERNION& q);
+    void SetTransform       (const D3DXVECTOR3& pos, const D3DXQUATERNION& rot, const D3DXVECTOR3& scale);
 
-    std::shared_ptr<Collider> GetCollider(void) const { return m_Collider; }
-    const D3DXVECTOR3& GetPosition(void) const { return m_Position; }
-    const D3DXVECTOR3& GetRotation(void) const { return m_Rotation; }
-    const D3DXVECTOR3& GetVelocity(void) const { return m_Velocity; }
-    const D3DXVECTOR3& GetScale(void) const { return m_Scale; }
-    const float GetFriction(void) const { return m_Friction; }
-    const D3DXVECTOR3& GetAngularFactor(void) const { return m_AngularFactor; }
-    const D3DXVECTOR3& GetAngularVelocity(void) const { return m_AngularVelocity; }
-    const float GetRollingFriction(void) const { return m_RollingFriction; }
-    const D3DXVECTOR3& GetInertia(void) const { return m_Inertia; }
-    const D3DXVECTOR3& GetInertiaInv(void) const { return m_InertiaInv; }
-    const float GetMass(void) { return m_Mass; }
-    float GetRestitution(void) const { return m_Restitution; }
-    const D3DXQUATERNION& GetOrientation(void) const { return m_Orientation; }
+    std::shared_ptr<Collider>   GetCollider         (void) const { return m_Collider; }
+    const D3DXVECTOR3&          GetPosition         (void) const { return m_Position; }
+    const D3DXVECTOR3&          GetRotation         (void) const { return m_Rotation; }
+    const D3DXVECTOR3&          GetVelocity         (void) const { return m_Velocity; }
+    const D3DXVECTOR3&          GetScale            (void) const { return m_Scale; }
+    const D3DXVECTOR3&          GetAngularFactor    (void) const { return m_AngularFactor; }
+    const D3DXVECTOR3&          GetAngularVelocity  (void) const { return m_AngularVelocity; }
+    const D3DXVECTOR3&          GetInertia          (void) const { return m_Inertia; }
+    const D3DXVECTOR3&          GetInertiaInv       (void) const { return m_InertiaInv; }
+    const D3DXQUATERNION&       GetOrientation      (void) const { return m_Orientation; }
+    const float                 GetFriction         (void) const { return m_Friction; }
+    const float                 GetRollingFriction  (void) const { return m_RollingFriction; }
+    const float                 GetMass             (void) const { return m_Mass; }
+    const float                 GetRestitution      (void) const { return m_Restitution; }
 
 private:
     std::shared_ptr<Collider>   m_Collider;            // コライダーのポインタ
