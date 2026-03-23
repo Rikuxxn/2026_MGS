@@ -17,6 +17,11 @@
 #include "object.h"
 
 //***************************************************
+// 前方宣言
+//***************************************************
+class CTextureAnimation;	// テクスチャアニメーションのクラス
+
+//***************************************************
 // ビルボードのクラスの定義
 //***************************************************
 class CObjectBillboard : public CObject
@@ -25,6 +30,14 @@ public:
 	explicit CObjectBillboard(const PRIORITY priority = PRIORITY_BILLBOARD);
 	virtual ~CObjectBillboard();
 
+	/// <summary>
+	/// 生成処理
+	/// </summary>
+	/// <param name="位置"></param>
+	/// <param name="大きさ"></param>
+	/// <param name="色"></param>
+	/// <param name="テクスチャのパス"></param>
+	/// <returns>自分自身のポインタ</returns>
 	static CObjectBillboard* Create(const D3DXVECTOR3& pos, const D3DXVECTOR2& size,const D3DXCOLOR& col, const char* pTexturePath);
 
 	virtual HRESULT Init	(void) override;
@@ -45,9 +58,20 @@ public:
 	inline const D3DXVECTOR2&	GetSize		(void) const { return m_size; }
 	inline const D3DXCOLOR&		GetColor	(void) const { return m_col; }
 
+	/// <summary>
+	/// アニメーションを適応する関数
+	/// </summary>
+	/// <param name="種類(アニメーションクラスの列挙型を使用)"></param>
+	/// <param name="分割数"></param>
+	/// <param name="速さ"></param>
+	/// <param name="ループするかどうか(falseにすると最大まで行ったら消えます)"></param>
+	void AttachAnimation(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop);
+
 private:
 	void SetVtx(void);
 private:
+	std::unique_ptr<CTextureAnimation> m_pTextureAnimation;	// テクスチャアニメーションのクラスへのポインタ
+
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffer;	// 頂点へのポインタ
 	D3DXMATRIX				m_mtxWorld;		// ワールドマトリックス
 	D3DXCOLOR				m_col;			// 色

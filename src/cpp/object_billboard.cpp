@@ -12,12 +12,14 @@
 #include "texture_manager.h"
 #include "manager.h"
 #include "renderer.h"
+#include "texture_animation.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
 CObjectBillboard::CObjectBillboard(const PRIORITY priority) : 
 	CObject(priority),
+	m_pTextureAnimation(nullptr),
 	m_pVtxBuffer(nullptr),
 	m_mtxWorld(Const::MTX_IDENTITY),
 	m_col(Const::WHITE),
@@ -37,6 +39,12 @@ CObjectBillboard::~CObjectBillboard()
 	{
 		m_pVtxBuffer->Release();
 		m_pVtxBuffer = nullptr;
+	}
+
+	// アニメーションの破棄
+	if (m_pTextureAnimation != nullptr)
+	{
+		m_pTextureAnimation = nullptr;
 	}
 }
 
@@ -91,8 +99,44 @@ HRESULT CObjectBillboard::Init(void)
 		return E_FAIL;
 	}
 
-	// 頂点の設定
-	SetVtx();
+	// 頂点情報のポインタ
+	VERTEX_3D* pVtx = nullptr;
+
+	// 頂点バッファのロック
+	if (FAILED(m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0)))
+	{
+		return E_FAIL;
+	}
+
+	// 大きさの取得
+	D3DXVECTOR2 size = m_size;
+
+	// 頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-size.x, size.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(size.x, size.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-size.x, -size.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(size.x, -size.y, 0.0f);
+
+	// 法線ベクトルの設定
+	pVtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	pVtx[1].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	pVtx[2].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	pVtx[3].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	// 頂点カラーの設定
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	// テクスチャ座標の設定
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	// 頂点バッファのアンロック
+	m_pVtxBuffer->Unlock();
 
 	return S_OK;
 }
@@ -111,8 +155,39 @@ void CObjectBillboard::Uninit(void)
 //===================================================
 void CObjectBillboard::Update(void)
 {
-	// 頂点の設定
-	SetVtx();
+	// 頂点情報のポインタ
+	VERTEX_3D* pVtx = nullptr;
+
+	// 頂点バッファのロック
+	if (FAILED(m_pVtxBuffer->Lock(0, 0, (void**)&pVtx, 0)))
+	{
+		return;
+	}
+
+	// 大きさの取得
+	D3DXVECTOR2 size = m_size;
+
+	// 頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-size.x, size.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(size.x, size.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-size.x, -size.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(size.x, -size.y, 0.0f);
+
+	// 頂点カラーの設定
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	// 頂点バッファのアンロック
+	m_pVtxBuffer->Unlock();
+
+	// アニメーションするなら
+	if (m_pTextureAnimation != nullptr)
+	{
+		// アニメーションの更新処理
+		m_pTextureAnimation->Update(m_pVtxBuffer, this);
+	}
 }
 
 //===================================================
@@ -200,6 +275,19 @@ void CObjectBillboard::SetTextureID(const char* pTexturePath)
 
 	// テクスチャのIDの設定
 	m_nTextureID = pTextureManager->Register(pTexturePath);
+}
+
+//===================================================
+// テクスチャアニメーションを適応する関数
+//===================================================
+void CObjectBillboard::AttachAnimation(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop)
+{
+	if (m_pTextureAnimation == nullptr)
+	{
+		// 生成処理
+		m_pTextureAnimation = CTextureAnimation::Create(static_cast<CTextureAnimation::TYPE>(nType), segment, nFrame, bLoop);
+		m_pTextureAnimation->Init(m_pVtxBuffer);
+	}
 }
 
 //===================================================
