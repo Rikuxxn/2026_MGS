@@ -31,6 +31,7 @@ class CCamera;				// カメラの取得
 class CMotionLoader;		// モーションのロードクラス
 class PhysicsWorld;			// 物理世界クラス
 class CBlockManager;		// ブロックマネージャークラス
+class CShaderManager;		// シェーダーマネージャーのクラス
 
 //***************************************************
 // マネージャークラスの定義
@@ -62,6 +63,7 @@ public:
 	inline CMotionLoader*	GetMotionLoader		(void)				{ return m_pMotionLoader.get(); }
 	inline PhysicsWorld*	GetPhysicsWorld		(void)				{ return m_pPhysicsWorld.get(); }
 	inline CBlockManager*	GetBlockManager		(void)				{ return m_pBlockManager.get(); }
+	inline CShaderManager*	GetShaderManager	(void)				{ return m_pShaderManager.get(); }
 	inline void				SetFps				(const int nFps)	{ m_nFps = nFps; }
 private:
 	CManager();
@@ -80,6 +82,7 @@ private:
 	std::unique_ptr<CMotionLoader>			m_pMotionLoader;		// モーションのロードクラスへのポインタ
 	std::unique_ptr<PhysicsWorld>			m_pPhysicsWorld;		// 物理世界へのポインタ
 	std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
+	std::unique_ptr<CShaderManager>			m_pShaderManager;		// シェーダーマネージャーへのポインタ
 
 	int m_nFps;														// フレームレート
 };

@@ -23,6 +23,7 @@
 #include "motion_loader.h"
 #include "PhysicsWorld.h"
 #include "BlockManager.h"
+#include "shader_manager.h"
 
 //***************************************************
 // 定数宣言
@@ -100,7 +101,7 @@ CManager::CManager() :
 	//m_pSound(nullptr),
 	//m_pMotionManager(nullptr),
 	//m_pTextureMRTManager(nullptr),
-	//m_pShaderManager(nullptr),
+	m_pShaderManager(nullptr),
 	m_nFps(0)
 {
 }
@@ -205,8 +206,13 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 	//// モーションのマネージャーの生成
 	//m_pMotionManager = std::make_unique<CMotionManager>();
 
-	//m_pShaderManager = std::make_unique<CShaderManager>();
-	//m_pShaderManager->Init();
+	m_pShaderManager = std::make_unique<CShaderManager>();
+
+	// 初期化に失敗したら
+	if (FAILED(m_pShaderManager->Init()))
+	{
+		assert(false && "シェーダー生成失敗!!!");
+	}
 
 	// 初期モードの設定
 	ChangeMode(std::make_unique<CGame>());
@@ -222,6 +228,12 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 //===================================================
 void CManager::Uninit(void)
 {
+	// シェーダーのマネージャーの破棄
+	if (m_pShaderManager != nullptr)
+	{
+		m_pShaderManager.reset();
+	}
+
 	// シーンの破棄
 	if (m_pScene != nullptr)
 	{

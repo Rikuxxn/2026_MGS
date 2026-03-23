@@ -202,6 +202,8 @@
     <ClCompile Include="src\cpp\RigidBody.cpp" />
     <ClCompile Include="src\cpp\scene.cpp" />
     <ClCompile Include="src\cpp\score.cpp" />
+    <ClCompile Include="src\cpp\shader.cpp" />
+    <ClCompile Include="src\cpp\shader_manager.cpp" />
     <ClCompile Include="src\cpp\SkyCube.cpp" />
     <ClCompile Include="src\cpp\texture_animation.cpp" />
     <ClCompile Include="src\cpp\texture_manager.cpp" />
@@ -260,6 +262,8 @@
     <ClInclude Include="src\include\RigidBody.h" />
     <ClInclude Include="src\include\scene.h" />
     <ClInclude Include="src\include\score.h" />
+    <ClInclude Include="src\include\shader.h" />
+    <ClInclude Include="src\include\shader_manager.h" />
     <ClInclude Include="src\include\SkyCube.h" />
     <ClInclude Include="src\include\State.h" />
     <ClInclude Include="src\include\texture_animation.h" />
