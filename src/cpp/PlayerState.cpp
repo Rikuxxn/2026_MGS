@@ -27,8 +27,18 @@ void CPlayerStandState::OnUpdate(CPlayer* pPlayer)
 	// 入力を取得
 	CPlayer::InputData input = pPlayer->GatherInput();
 
+	// 移動フラグ更新
+	pPlayer->UpdateMovementFlags(input.moveDir);
+
+	// ジャンプ入力があればジャンプステートに移行
+	if (input.isJump && pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
+	{
+		m_pMachine->ChangeState<CPlayerJumpState>();
+		return;
+	}
+
 	// 前方移動入力があれば通常移動ステートに移行
-	if (input.moveDir.x != 0.0f || input.moveDir.z != 0.0f)
+	if (pPlayer->GetIsMoving())
 	{
 		m_pMachine->ChangeState<CPlayerMoveState>();
 	}
@@ -41,16 +51,7 @@ void CPlayerStandState::OnUpdate(CPlayer* pPlayer)
 
 	// 移動量を設定
 	pPlayer->SetPhysicsMove(move);
-
-	//if (auto rb = pPlayer->GetRigidBody())
-	//{
-	//	D3DXVECTOR3 vel = rb->GetVelocity();
-	//	vel.x = move.x; // X方向速度
-	//	vel.z = move.z; // Z方向速度
-	//	rb->SetVelocity(vel);  // RigidBody にセット
-	//}
 }
-
 
 //=============================================================================
 // 移動状態の開始処理
@@ -67,7 +68,7 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 入力取得
 	CPlayer::InputData input = pPlayer->GatherInput();
 
-	// フラグ更新
+	// 移動フラグ更新
 	pPlayer->UpdateMovementFlags(input.moveDir);
 
 	// 目標速度計算
@@ -83,7 +84,7 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 		targetMove = Const::VEC3_NULL;
 	}
 
-	// 現在速度との補間（イージング）
+	// 現在速度との補間
 	D3DXVECTOR3 currentMove = pPlayer->GetMove();
 
 	currentMove.x += (targetMove.x - currentMove.x) * CPlayer::ACCEL_RATE;
@@ -92,16 +93,96 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 補間後の速度をプレイヤーにセット
 	pPlayer->SetPhysicsMove(currentMove);
 
-	//if (auto rb = pPlayer->GetRigidBody())
-	//{
-	//	D3DXVECTOR3 vel = rb->GetVelocity();
-	//	vel.x = currentMove.x; // X方向速度
-	//	vel.z = currentMove.z; // Z方向速度
-	//	rb->SetVelocity(vel);  // RigidBody にセット
-	//}
+	// ジャンプ入力があればジャンプステートに切替
+	if (input.isJump && pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
+	{
+		// ジャンプ状態
+		m_pMachine->ChangeState<CPlayerJumpState>();
+		return;
+	}
 
 	// 移動していなければ待機ステートに戻す
 	if (!pPlayer->GetIsMoving())
+	{
+		// 待機状態
+		m_pMachine->ChangeState<CPlayerStandState>();
+	}
+}
+
+//=============================================================================
+// ジャンプ状態の開始処理
+//=============================================================================
+void CPlayerJumpState::OnStart(CPlayer* pPlayer)
+{
+	// ジャンプ中にする
+	pPlayer->SetIsJumping(true);
+
+	//// 上方向の速度を直接ジャンプ力にする
+	//velocity.setY(CPlayer::MAX_JUMP_POWER);
+	//pPlayer->GetRigidBody()->setLinearVelocity(velocity);
+
+	// 通常移動量の取得
+	D3DXVECTOR3 normalMove = pPlayer->GetMove();
+
+	// 移動量の設定
+	pPlayer->SetPhysicsMove(normalMove);
+
+	// リジッドボディの取得
+	auto pRigidBody = pPlayer->GetRigidBody();
+
+	if (pRigidBody)
+	{
+		D3DXVECTOR3 vel = pRigidBody->GetVelocity();
+		vel.x = normalMove.x; // X方向速度
+		vel.y = CPlayer::MAX_JUMP_POWER;
+		vel.z = normalMove.z; // Z方向速度
+		pRigidBody->SetVelocity(vel);  // RigidBody にセット
+	}
+
+	m_counter = 0;
+}
+//=============================================================================
+// ジャンプ状態の更新処理
+//=============================================================================
+void CPlayerJumpState::OnUpdate(CPlayer* pPlayer)
+{
+	// 入力取得
+	CPlayer::InputData input = pPlayer->GatherInput();
+
+	// 移動フラグ更新
+	pPlayer->UpdateMovementFlags(input.moveDir);
+
+	// 目標速度計算
+	D3DXVECTOR3 targetMove = input.moveDir;
+
+	if (targetMove.x != 0.0f || targetMove.z != 0.0f)
+	{
+		D3DXVec3Normalize(&targetMove, &targetMove);
+		targetMove *= CPlayer::SPEED;
+	}
+	else
+	{
+		targetMove = Const::VEC3_NULL;
+	}
+
+	// 現在速度との補間
+	D3DXVECTOR3 currentMove = pPlayer->GetMove();
+
+	currentMove.x += (targetMove.x - currentMove.x) * CPlayer::ACCEL_RATE;
+	currentMove.z += (targetMove.z - currentMove.z) * CPlayer::ACCEL_RATE;
+
+	// 補間後の速度をプレイヤーにセット
+	pPlayer->SetPhysicsMove(currentMove);
+
+	m_counter++;
+
+	if (m_counter >= JUMP_RESET_TIME)
+	{// 少し遅延してfalseにする
+		pPlayer->SetIsJumping(false);
+	}
+
+	// 着地したら
+	if (pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
 	{
 		// 待機状態
 		m_pMachine->ChangeState<CPlayerStandState>();
