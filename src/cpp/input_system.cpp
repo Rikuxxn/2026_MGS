@@ -67,3 +67,20 @@ bool InputSystem::PlayerMoveRight(void)
 
 	return pKeyboard->GetPress(DIK_D);
 }
+
+//===================================================
+// プレイヤーのジャンプ
+//===================================================
+bool InputSystem::PlayerJump(void)
+{
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// キーボードの取得
+	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
+
+	// ジョイパッドの取得
+	CInputJoypad* pJoypad = pManager->GetInputJoypad();
+
+	return (pKeyboard->GetPress(DIK_SPACE) || pJoypad->GetTrigger(pJoypad->JOYKEY_A));
+}
