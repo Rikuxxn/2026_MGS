@@ -124,6 +124,12 @@
     <Filter Include="ヘッダー ファイル\State">
       <UniqueIdentifier>{07d8b883-58f5-4735-97ed-3941b8bef4a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\SkyCube">
+      <UniqueIdentifier>{7a269017-164d-423e-a3e5-9cf3d3b1fa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SkyCube">
+      <UniqueIdentifier>{3f92f179-ad18-473e-9987-a12998ab39bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp\camera.cpp">
@@ -275,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="src\cpp\ranking_score.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\SkyCube.cpp">
+      <Filter>ソース ファイル\SkyCube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,5 +455,12 @@
     <ClInclude Include="src\include\ranking_score.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\SkyCube.h">
+      <Filter>ヘッダー ファイル\SkyCube</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubePS.hlsl" />
+    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubeVS.hlsl" />
   </ItemGroup>
 </Project>

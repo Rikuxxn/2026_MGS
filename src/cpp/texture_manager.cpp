@@ -117,6 +117,86 @@ int CTextureManager::Register(const char* pFilename)
 	return nIdx;
 }
 
+//=============================================================================
+// キューブマップ用テクスチャの指定処理
+//=============================================================================
+int CTextureManager::RegisterCube(
+	const char* px,
+	const char* nx,
+	const char* py,
+	const char* ny,
+	const char* pz,
+	const char* nz)
+{
+	// レンダラーの取得
+	CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
+
+	// デバイスの取得
+	LPDIRECT3DDEVICE9 device = pRenderer->GetDevice();
+
+	// キューブマップテクスチャ
+	LPDIRECT3DCUBETEXTURE9 cube = nullptr;
+
+	// まず +X 画像からサイズ取得
+	D3DXIMAGE_INFO info;
+	if (FAILED(D3DXGetImageInfoFromFile(px, &info)))
+	{
+		return INVALID_ID;
+	}
+
+	// CubeTexture生成
+	if (FAILED(D3DXCreateCubeTexture(
+		device,
+		info.Width,
+		1,
+		0,
+		info.Format,
+		D3DPOOL_MANAGED,
+		&cube)))
+	{
+		return INVALID_ID;
+	}
+
+	const char* files[CUBEMAP_TEX_NUM] = { px, nx, py, ny, pz, nz };
+
+	for (int nCnt = 0; nCnt < CUBEMAP_TEX_NUM; nCnt++)
+	{
+		LPDIRECT3DSURFACE9 face;
+		cube->GetCubeMapSurface((D3DCUBEMAP_FACES)nCnt, 0, &face);
+
+		if (FAILED(D3DXLoadSurfaceFromFile(
+			face,
+			nullptr,
+			nullptr,
+			files[nCnt],
+			nullptr,
+			D3DX_DEFAULT,
+			0,
+			nullptr)))
+		{
+			// 破棄
+			face->Release();
+			cube->Release();
+
+			return INVALID_ID;
+		}
+
+		// 破棄
+		face->Release();
+	}
+
+	// 登録
+	CubeTextureInfo texInfo = {};
+	texInfo.pCubeTexture = cube;
+
+	// 名前は適当
+	texInfo.name = px;
+
+	m_apCubeTextureInfo.push_back(texInfo);
+
+	return (int)m_apCubeTextureInfo.size() - 1;
+}
+
 //===========================================
 // テクスチャの取得処理
 //===========================================
@@ -132,6 +212,23 @@ LPDIRECT3DTEXTURE9 CTextureManager::GetAdress(const int nIdx)
 	}
 
 	return m_apTextureInfo[nIdx].pTexture;
+}
+
+//=============================================================================
+// キューブマップ用テクスチャのアドレス取得
+//=============================================================================
+LPDIRECT3DCUBETEXTURE9 CTextureManager::GetCubeAddress(int nIdx)
+{
+	// テクスチャの数
+	int nNumTexture = static_cast<int>(m_apCubeTextureInfo.size());
+
+	// 範囲外はnullptr
+	if (nIdx < 0 || nIdx >= nNumTexture)
+	{
+		return nullptr;
+	}
+
+	return m_apCubeTextureInfo[nIdx].pCubeTexture;
 }
 
 //===========================================

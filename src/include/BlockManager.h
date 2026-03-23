@@ -61,7 +61,6 @@ public:
 
 private:
     static const char* GetFilePathFromType(CBlock::TYPE type);
-
 private:
 
     //*****************************************************************************

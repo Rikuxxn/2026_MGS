@@ -202,6 +202,7 @@
     <ClCompile Include="src\cpp\RigidBody.cpp" />
     <ClCompile Include="src\cpp\scene.cpp" />
     <ClCompile Include="src\cpp\score.cpp" />
+    <ClCompile Include="src\cpp\SkyCube.cpp" />
     <ClCompile Include="src\cpp\texture_animation.cpp" />
     <ClCompile Include="src\cpp\texture_manager.cpp" />
     <ClCompile Include="src\cpp\timer.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="src\include\RigidBody.h" />
     <ClInclude Include="src\include\scene.h" />
     <ClInclude Include="src\include\score.h" />
+    <ClInclude Include="src\include\SkyCube.h" />
     <ClInclude Include="src\include\State.h" />
     <ClInclude Include="src\include\texture_animation.h" />
     <ClInclude Include="src\include\texture_manager.h" />
@@ -266,6 +268,24 @@
     <ClInclude Include="src\include\title.h" />
     <ClInclude Include="src\include\tutorial.h" />
     <ClInclude Include="src\include\utility_math.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubePS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PSMain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PSMain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubeVS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VSMain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VSMain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -20,5 +20,6 @@ namespace InputSystem
 	bool PlayerMoveLeft(void);
 	bool PlayerMoveBack(void);
 	bool PlayerMoveRight(void);
+	bool PlayerJump(void);
 }
 #endif
