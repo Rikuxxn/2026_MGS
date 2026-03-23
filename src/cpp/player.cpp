@@ -18,6 +18,7 @@
 #include "PlayerState.h"
 #include "PhysicsWorld.h"
 #include "DebugProc3D.h"
+#include "Collider.h"
 
 // コライダーパラメータ
 namespace ColliderParam
@@ -126,6 +127,14 @@ void CPlayer::Update(void)
 		m_pCharacter->Update();
 	}
 
+	auto pPhysicsWorld = CManager::GetInstance()->GetPhysicsWorld();
+
+	if (!m_isJumping && pPhysicsWorld)
+	{
+		// 接地判定
+		m_bOnGround = OnGround(pPhysicsWorld, 5.0f);
+	}
+
 	// ステートマシン更新
 	m_stateMachine.Update();
 
@@ -192,6 +201,14 @@ void CPlayer::Draw(void)
 //		m_pDebug3D->DrawCapsuleCollider(cap, ColliderParam::COLOR);
 //	}
 //#endif
+}
+
+//===================================================
+// コライダーの取得処理
+//===================================================
+Collider* CPlayer::GetCollisionShape(void) const
+{
+	return m_pShape.get();
 }
 
 //===================================================
@@ -351,6 +368,67 @@ void CPlayer::SetPhysicsMove(D3DXVECTOR3 move)
 		vel.z = move.z; // Z方向速度
 		m_pRigidBody->SetVelocity(vel);  // RigidBody にセット
 	}
+}
+
+//=============================================================================
+// 接地判定処理
+//=============================================================================
+bool CPlayer::OnGround(PhysicsWorld* world, float rayLength)
+{
+	D3DXVECTOR3 start = GetPosition();
+	start.y += 0.1f; // 少し上から（めり込み対策）
+
+	PhysicsWorld::Ray ray;
+	ray.origin = start;
+	ray.direction = D3DXVECTOR3(0, -1, 0);
+
+	float closestDist = rayLength;
+	D3DXVECTOR3 hitNormal;
+
+	for (auto& body : world->GetBodies())
+	{
+		// リジッドボディがnullptrだったら
+		if (!body)
+		{
+			continue;
+		}
+
+		if (body.get() == m_pRigidBody.get())
+		{
+			continue; // 自分除外
+		}
+
+		// コライダーの取得
+		auto collider = body->GetCollider();
+
+		// コライダーがnullptrだったら
+		if (!collider)
+		{
+			continue;
+		}
+
+		D3DXVECTOR3 normal;
+
+		PhysicsWorld::RaycastHit hit;
+
+		// レイキャスト
+		if (collider->Raycast(ray, rayLength, hit))
+		{
+			if (hit.distance < closestDist)
+			{
+				closestDist = hit.distance;
+				hitNormal = hit.normal;
+			}
+		}
+	}
+
+	// ヒットしてない
+	if (closestDist >= rayLength)
+	{
+		return false;
+	}
+
+	return hitNormal.y > 0.5f;
 }
 
 //=============================================================================
