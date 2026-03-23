@@ -30,6 +30,25 @@ class PhysicsWorld
 public:
     PhysicsWorld() : m_Gravity(0, DEFAULT_GRAVITY, 0) {}  // デフォルト重力
 
+    // レイ構造体
+    struct Ray
+    {
+        D3DXVECTOR3 origin;     // 原点
+        D3DXVECTOR3 direction;  // 方向
+    };
+
+    // レイのヒット結果の構造体
+    struct RaycastHit
+    {
+        bool        hit = false;
+        float       distance = FLT_MAX;
+        D3DXVECTOR3 point;
+        D3DXVECTOR3 normal;
+    };
+
+    // レイキャスト処理
+    bool Raycast(const Ray& ray, float maxDistance, RaycastHit& outHit);
+
     void AddRigidBody(std::shared_ptr<RigidBody> body) { m_Bodies.push_back(body); }
     void StepSimulation(float dt);
     void SetGravity(const D3DXVECTOR3& g) { m_Gravity = g; }
@@ -40,6 +59,7 @@ public:
     void ProcessCollisionEvents(void);
 
     const D3DXVECTOR3& GetGravity(void) const { return m_Gravity; }
+    const std::vector<std::shared_ptr<RigidBody>>& GetBodies(void) const { return m_Bodies; }
 
 private:
 
