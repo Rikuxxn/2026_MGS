@@ -43,6 +43,8 @@ CPlayer::CPlayer() :
 	m_pDebug3D		= nullptr;				// 3Dデバッグ表示へのポインタ
 	m_colliderPos	= Const::VEC3_NULL;		// コライダーの位置
 	m_isMoving		= false;				// 移動しているか
+	m_bOnGround		= false;				// 接地フラグ
+	m_isJumping		= false;				// ジャンプ中フラグ
 }
 
 //===================================================
@@ -314,6 +316,7 @@ void CPlayer::UpdateCollider(D3DXVECTOR3 offset)
 	// モデル描画やゲーム上の座標は足元基準に変換
 	pos = rigidPos - offset;
 
+	// プレイヤー位置を更新
 	m_pCharacter->SetPosition(pos);
 }
 
@@ -339,9 +342,6 @@ void CPlayer::ApplyDeceleration(void)
 //=============================================================================
 void CPlayer::SetPhysicsMove(D3DXVECTOR3 move)
 {
-	// 通常移動量の取得
-	D3DXVECTOR3 normalMove = GetMove();
-
 	m_pCharacter->SetMove(move);
 
 	if (m_pRigidBody)
@@ -360,6 +360,7 @@ CPlayer::InputData CPlayer::GatherInput(void)
 {
 	InputData input{};
 	input.moveDir = Const::VEC3_NULL;
+	input.isJump = false;
 
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
@@ -368,6 +369,14 @@ CPlayer::InputData CPlayer::GatherInput(void)
 	XINPUT_STATE* pStick = pJoypad->GetJoyStickAngle();			// スティックの取得
 	CCamera* pCamera = pManager->GetCamera();					// カメラの取得
 	D3DXVECTOR3 CamRot = pCamera->GetRotation();				// カメラ角度の取得
+
+	//---------------------------
+	// ジャンプ入力
+	//---------------------------
+	if (InputSystem::PlayerJump())
+	{
+		input.isJump = true;
+	}
 
 	//---------------------------
 	// ゲームパッド入力

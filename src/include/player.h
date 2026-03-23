@@ -38,7 +38,8 @@ public:
 	// 入力データ構造体
 	struct InputData
 	{
-		D3DXVECTOR3 moveDir;      // 前後移動ベクトル
+		D3DXVECTOR3 moveDir = Const::VEC3_NULL;     // 前後移動ベクトル
+		bool		isJump	= false;				// ジャンプ入力
 	};
 
 	/// <summary>
@@ -60,9 +61,8 @@ public:
 	void CreatePhysics	(float radius, float height, float mass);	// Phtsics生成処理
 	void UpdateCollider	(D3DXVECTOR3 offset);						// コライダーの位置更新処理
 	void SetPhysicsMove	(D3DXVECTOR3 move);							// 物理用移動量の設定処理
+	void ApplyDeceleration(void);									// 減速処理
 
-	// 減速処理
-	void ApplyDeceleration(void);
 
 	RigidBody*	GetRigidBody		(void) const { return m_pRigidBody.get(); }	// 剛体の取得
 	Collider*	GetCollisionShape	(void) const { return m_pShape.get(); }		// コリジョンの取得
@@ -70,9 +70,12 @@ public:
 	D3DXVECTOR3 GetMove(void) const;
 	D3DXVECTOR3 GetColliderPos		(void) const { return m_colliderPos; }
 	bool GetIsMoving(void) const { return m_isMoving; }
+	bool GetOnGround(void) { return m_bOnGround; }
+	bool GetIsJumping(void) { return m_isJumping; }
+	InputData GatherInput(void);
 
 	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
-	InputData GatherInput(void);
+	void SetIsJumping(bool flag) { m_isJumping = flag; }
 
 	// ステート用にフラグ更新
 	void UpdateMovementFlags(const D3DXVECTOR3& moveDir)
@@ -82,6 +85,7 @@ public:
 
 public:
 	static constexpr float SPEED				= 100.0f;	// 移動スピード
+	static constexpr float MAX_JUMP_POWER		= 33.0f;	// ジャンプ初速
 	static constexpr float DECELERATION_RATE	= 0.85f;	// 減速率
 	static constexpr float ACCEL_RATE			= 0.15f;	// イージング率
 private:
@@ -100,6 +104,8 @@ private:
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	float						m_fSpeed;					// 足の速さ
 	bool						m_isMoving;					// 移動しているか
+	bool						m_bOnGround;				// 接地フラグ
+	bool						m_isJumping;				// ジャンプ中フラグ
 
 	StateMachine<CPlayer>		m_stateMachine;				// ステートを管理するクラスのインスタンス
 };
