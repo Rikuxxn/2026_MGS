@@ -30,22 +30,40 @@ public:
 	~CTextureManager();
 
 	int Register(const char* pFilename);
+	int RegisterCube(
+		const char* px,
+		const char* nx,
+		const char* py,
+		const char* ny,
+		const char* pz,
+		const char* nz);
 	LPDIRECT3DTEXTURE9 GetAdress(const int nIdx);
+	LPDIRECT3DCUBETEXTURE9 GetCubeAddress(int nIdx);
 	HRESULT Load(void);
 	void UnLoad(void);
 
 private:
 	void SaveList(void);
 
+	static constexpr int CUBEMAP_TEX_NUM = 6;			// キューブマップテクスチャの枚数
+
 	// テクスチャの情報の定義
 	struct TextureInfo
 	{
-		LPDIRECT3DTEXTURE9 pTexture;	// テクスチャへのポインタ
-		std::string filepath;			// ファイルパス
+		LPDIRECT3DTEXTURE9			pTexture;			// テクスチャへのポインタ
+		std::string					filepath;			// ファイルパス
 	}; 
 
-	std::vector<TextureInfo> m_apTextureInfo;	 // テクスチャの情報
-	static int m_nNumAll;						 // テクスチャの番号
+	// キューブテクスチャの情報の定義
+	struct CubeTextureInfo
+	{
+		LPDIRECT3DCUBETEXTURE9		pCubeTexture;		// キューブテクスチャへのポインタ
+		std::string					name;				// 6枚セット識別用
+	};
+
+	std::vector<TextureInfo>		m_apTextureInfo;	// テクスチャの情報
+	std::vector<CubeTextureInfo>	m_apCubeTextureInfo;// キューブテクスチャの情報
+	static int						m_nNumAll;			// テクスチャの番号
 };
 
 #endif
