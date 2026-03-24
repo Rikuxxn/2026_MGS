@@ -130,11 +130,20 @@
     <Filter Include="ヘッダー ファイル\SkyCube">
       <UniqueIdentifier>{3f92f179-ad18-473e-9987-a12998ab39bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\base\camera">
+      <UniqueIdentifier>{24b6d3fb-d431-4c22-bcf3-9f6adf6b2956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\base\camera">
+      <UniqueIdentifier>{f27a895d-34dd-4038-a2aa-926c0d9cffa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\shader">
+      <UniqueIdentifier>{b39807e5-b64e-4731-b497-40dc3e7e1231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\shader">
+      <UniqueIdentifier>{e8db16f9-20a6-45cc-9ae8-7b071feab0de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\camera.cpp">
-      <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
     <ClCompile Include="src\cpp\texture_manager.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
@@ -279,32 +288,35 @@
     <ClCompile Include="src\cpp\texture_animation.cpp">
       <Filter>ソース ファイル\animation</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\ranking_score.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\cpp\SkyCube.cpp">
       <Filter>ソース ファイル\SkyCube</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\shader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\shader_manager.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\shadowmap_objectX.cpp">
       <Filter>ソース ファイル\ObjectX</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\texture_mrt_manager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\cpp\camera.cpp">
+      <Filter>ソース ファイル\base\camera</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\follow_camera.cpp">
+      <Filter>ソース ファイル\base\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\shader_manager.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\shader.cpp">
+      <Filter>ソース ファイル\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ranking_score.cpp">
+      <Filter>ソース ファイル\number</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\texture_mrt_manager.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\plankton.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\include\camera.h">
-      <Filter>ヘッダー ファイル\base</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\debug_proc.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
@@ -467,31 +479,37 @@
     <ClInclude Include="src\include\texture_animation.h">
       <Filter>ヘッダー ファイル\animation</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\ranking_score.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\SkyCube.h">
       <Filter>ヘッダー ファイル\SkyCube</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\shader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\shader_manager.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\include\shadowmap_objectX.h">
       <Filter>ヘッダー ファイル\ObjectX</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\texture_mrt_manager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\color_constants.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\camera.h">
+      <Filter>ヘッダー ファイル\base\camera</Filter>
+    </ClInclude>
     <ClInclude Include="src\include\camera_system.h">
-      <Filter>ヘッダー ファイル\base</Filter>
+      <Filter>ヘッダー ファイル\base\camera</Filter>
     </ClInclude>
     <ClInclude Include="src\include\follow_camera.h">
+      <Filter>ヘッダー ファイル\base\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\ranking_score.h">
+      <Filter>ヘッダー ファイル\number</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\shader.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\shader_manager.h">
+      <Filter>ヘッダー ファイル\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\texture_mrt_manager.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\plankton.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

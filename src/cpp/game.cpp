@@ -15,6 +15,7 @@
 #include "ranking.h"
 #include "SkyCube.h"
 #include "follow_camera.h"
+#include "plankton.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -95,7 +96,12 @@ HRESULT CGame::Init(void)
 		{ 10,10 },
 		"sea.jpg");
 
+	// ãÛÇÃê∂ê¨
 	CSkyCube::Create();
+
+	CPlankton::Create(
+		{ 0.0f,0.0f,0.0f }, 
+		{ 50.0f,50.0f });
 #if 0
 	CObject2D::Create(
 		Const::CENTER_POS_2D,

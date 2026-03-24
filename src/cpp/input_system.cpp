@@ -96,5 +96,5 @@ bool InputSystem::DebugEnableFollowCamera(void)
 	// キーボードの取得
 	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
 
-	return (pKeyboard->GetPress(DIK_F8));
+	return (pKeyboard->GetTrigger(DIK_F8));
 }
