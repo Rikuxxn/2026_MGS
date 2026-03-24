@@ -228,6 +228,6 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 	// ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è
 	if (other->CompareTag("Player"))
 	{
-		CPlayer *pPlayer = 
+		//CPlayer *pPlayer = 
 	}
 }
