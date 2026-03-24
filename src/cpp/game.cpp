@@ -14,7 +14,7 @@
 #include "object_billboard.h"
 #include "ranking.h"
 #include "SkyCube.h"
-
+#include "follow_camera.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -77,13 +77,16 @@ HRESULT CGame::Init(void)
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
 		Const::VEC3_NULL,
-		{1.68f,0.0f,0.0f});
+		{ 1.68f, 0.0f, 0.0f });
 
 	CPlayer* pPlayer = CPlayer::Create(
 		{ 0.0f,100.0f,0.0f },
 		{ 0.0f,0.0f,0.0f },
 		"motion.txt"
 	);
+
+	// ƒJƒƒ‰’Ç]ˆ—‚Ì’Ç‰Á
+	pCamera->AddSystem(std::make_unique<CFollowCamera>(pCamera, pPlayer));
 
 	CMeshField* pMeshField = CMeshField::Create(
 		{ 0.0f,0.0f,0.0f },
