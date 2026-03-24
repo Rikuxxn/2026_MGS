@@ -18,7 +18,7 @@
 //***************************************************
 namespace ShaderConst
 {
-    constexpr const char* OUTLINE_PATH                  = "data/SHADER/outLine.hlsl";                   // アウトラインシェーダーのパス
+    constexpr const char* SKY_CUBE_PATH                = "data/SHADER/skycube.hlsl";                   // スカイキューブのパス
     constexpr const char* GAUS_BLUR_PATH                = "data/SHADER/gausblur.hlsl";                  // ガウスブラーのパス
     constexpr const char* LUMINANCE_PATH                = "data/SHADER/luminance.hlsl";                 // 輝度抽出のパス
     constexpr const char* BLOOM_PATH                    = "data/SHADER/bloom.hlsl";                     // ブルームのパス
@@ -86,6 +86,15 @@ HRESULT CShaderManager::Init(void)
 
     // 初期化処理
     if (FAILED(m_apShader[TYPE_SHADOW_MAP_RECIEVE]->Init(ShaderConst::SHADOW_MAP_RECIEVE_PATH, ShaderConst::TECHNIQUE)))
+    {
+        return E_FAIL;
+    }
+
+    // シャドウマップを受けるシェーダーの生成
+    m_apShader[TYPE_SKY_CUBE] = std::make_unique<CShader>();
+
+    // 初期化処理
+    if (FAILED(m_apShader[TYPE_SKY_CUBE]->Init(ShaderConst::SKY_CUBE_PATH, ShaderConst::TECHNIQUE)))
     {
         return E_FAIL;
     }

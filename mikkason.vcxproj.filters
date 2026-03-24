@@ -487,7 +487,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubePS.hlsl" />
-    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubeVS.hlsl" />
+    <FxCompile Include="data\SHADER\skycube.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
