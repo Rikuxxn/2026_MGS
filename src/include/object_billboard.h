@@ -53,7 +53,7 @@ public:
 	void			SetTextureID	(const char* pTexturePath);
 	inline void		SetPosition		(const D3DXVECTOR3& pos)	{ m_pos = pos; }
 	inline void		SetSize			(const D3DXVECTOR2& size)	{ m_size = size; }
-	inline void		SetColor		(const D3DXCOLOR& col)		{ m_col = col; }
+	inline void		SetColor		(const D3DXCOLOR&	col)	{ m_col = col; }
 
 	inline const D3DXVECTOR3&	GetPosition	(void) const { return m_pos; }
 	inline const D3DXVECTOR2&	GetSize		(void) const { return m_size; }

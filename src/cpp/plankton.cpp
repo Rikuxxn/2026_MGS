@@ -14,6 +14,8 @@
 #include "color_constants.h"
 #include "Collider.h"
 #include "RigidBody.h"
+#include "player.h"
+
 
 //***************************************************
 // ’è”éŒ¾
@@ -226,6 +228,6 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 	// ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è
 	if (other->CompareTag("Player"))
 	{
-		Uninit();
+		CPlayer *pPlayer = 
 	}
 }

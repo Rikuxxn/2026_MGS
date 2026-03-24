@@ -101,6 +101,7 @@ private:
 	std::unique_ptr<CCharacter> m_pCharacter;				// キャラクタークラスへのポインタ
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
+
 	D3DXVECTOR3                 m_colliderPos;				// カプセルコライダーの位置
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	float						m_fSpeed;					// 足の速さ
