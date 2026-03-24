@@ -101,7 +101,7 @@ HRESULT CGame::Init(void)
 
 	// ƒvƒ‰ƒ“ƒNƒgƒ“‚Ì¶¬
 	CPlankton::Create(
-		{ 100.0f,50.0f,0.0f }, 
+		{ 80.0f,10.0f,0.0f }, 
 		{ 50.0f,50.0f });
 #if 0
 	CObject2D::Create(
