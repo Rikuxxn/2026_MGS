@@ -14,6 +14,7 @@
 #include "fade.h"
 #include "scene.h"
 #include "object.h"
+#include "DebugProc3D.h"
 
 //===================================================
 // コンストラクタ
@@ -120,6 +121,10 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 
 	// デバッグ情報の生成
 	m_pDebugProc = std::make_unique<CDebugProc>();
+
+	// 3Dデバッグ情報の生成
+	m_pDebug3D = std::make_unique<CDebugProc3D>();
+	m_pDebug3D->Init();
 
 	// 初期化処理
 	if (FAILED(m_pDebugProc->Init()))
@@ -284,6 +289,14 @@ LPDIRECT3DDEVICE9 CRenderer::GetDevice(void)
 {
 	// デバイスのポインタを返す
 	return m_pD3DDevice;
+}
+
+//===================================================
+// 3Dデバッグ情報の取得処理
+//===================================================
+CDebugProc3D* CRenderer::GetDebugProc3D(void)
+{ 
+	return m_pDebug3D.get(); 
 }
 
 //===================================================
