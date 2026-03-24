@@ -32,8 +32,8 @@ CHARACTERSET
 		INDEX = 0					# 
 		PARENT = -1					# 親モデル()
 		MODEL_PART = 0				# 上半身か下半身か << 1 上半身 : 0 下半身 >>
-		POS = 18.50 2.50 0.00		# 位置
-		ROT = 0.00 0.00 0.00		# 向き
+		POS = 0.0 2.50 0.00		# 位置
+		ROT = 0.00 -1.57 0.00		# 向き
 	END_PARTSSET
 
 	PARTSSET

@@ -47,6 +47,18 @@
         },
         {
             "file_path": "data/MODEL/whole/whole_05.x"
+        },
+        {
+            "file_path": "data/MODEL/dolphin/dolphin_00.x"
+        },
+        {
+            "file_path": "data/MODEL/dolphin/dolphin_01.x"
+        },
+        {
+            "file_path": "data/MODEL/dolphin/dolphin_02.x"
+        },
+        {
+            "file_path": "data/MODEL/dolphin/dolphin_03.x"
         }
     ]
 }
