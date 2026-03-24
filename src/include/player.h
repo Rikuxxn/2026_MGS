@@ -16,9 +16,8 @@
 //***************************************************
 #include "object.h"
 #include "collision_result.h"
-#include "State.h"
-#include "RigidBody.h"
 #include "GameObject.h"
+#include "State.h"
 
 //***************************************************
 // 前方宣言
@@ -27,6 +26,7 @@ class CCharacter;	// キャラクタークラス
 class CDebugProc3D;	// 3Dデバッグ表示クラス
 class Collider;		// コライダークラス
 class PhysicsWorld;	// 物理世界クラス
+class RigidBody;
 
 //***************************************************
 // プレイヤーの処理のクラスの定義
@@ -53,10 +53,10 @@ public:
 	/// <returns>プレイヤーのポインタ</returns>
 	static CPlayer* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath);
 
-	HRESULT Init		(void) override;
-	void	Uninit		(void) override;
-	void	Update		(void) override;
-	void	Draw		(void) override;
+	HRESULT Init			(void) override;
+	void	Uninit			(void) override;
+	void	Update			(void) override;
+	void	Draw			(void) override;
 
 	// Physics処理
 	void ReleasePhysics		(void);										// Physics削除処理
@@ -69,12 +69,12 @@ public:
 	RigidBody*	GetRigidBody		(void) const { return m_pRigidBody.get(); }	// 剛体の取得
 	Collider*	GetCollisionShape	(void) const;								// コリジョンの取得
 	const D3DXVECTOR3& GetPosition	(void) const;
-	D3DXVECTOR3 GetMove(void) const;
+	D3DXVECTOR3 GetMove				(void) const;
 	D3DXVECTOR3 GetColliderPos		(void) const { return m_colliderPos; }
-	bool GetIsMoving(void) const { return m_isMoving; }
-	bool GetOnGround(void) { return m_bOnGround; }
-	bool GetIsJumping(void) { return m_isJumping; }
-	InputData GatherInput(void);
+	bool GetIsMoving				(void) const { return m_isMoving; }
+	bool GetOnGround				(void) { return m_bOnGround; }
+	bool GetIsJumping				(void) { return m_isJumping; }
+	InputData GatherInput			(void);
 
 	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 	void SetIsJumping(bool flag) { m_isJumping = flag; }
@@ -101,7 +101,6 @@ private:
 	std::unique_ptr<CCharacter> m_pCharacter;				// キャラクタークラスへのポインタ
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
-	CDebugProc3D*				m_pDebug3D;					// 3Dデバッグ表示へのポインタ
 	D3DXVECTOR3                 m_colliderPos;				// カプセルコライダーの位置
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	float						m_fSpeed;					// 足の速さ

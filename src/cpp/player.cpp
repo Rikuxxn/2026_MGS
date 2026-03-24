@@ -19,6 +19,11 @@
 #include "PhysicsWorld.h"
 #include "DebugProc3D.h"
 #include "Collider.h"
+#include "RigidBody.h"
+#include "renderer.h"
+
+
+#include "whole.h"
 
 // コライダーパラメータ
 namespace ColliderParam
@@ -42,7 +47,6 @@ CPlayer::CPlayer() :
 	// 値のクリア
 	m_pRigidBody	= nullptr;				// 剛体へのポインタ
 	m_pShape		= nullptr;				// 当たり判定の形へのポインタ
-	m_pDebug3D		= nullptr;				// 3Dデバッグ表示へのポインタ
 	m_colliderPos	= Const::VEC3_NULL;		// コライダーの位置
 	m_isMoving		= false;				// 移動しているか
 	m_bOnGround		= false;				// 接地フラグ
@@ -128,13 +132,13 @@ void CPlayer::Update(void)
 		m_pCharacter->Update();
 	}
 
-	auto pPhysicsWorld = CManager::GetInstance()->GetPhysicsWorld();
+	//auto pPhysicsWorld = CManager::GetInstance()->GetPhysicsWorld();
 
-	if (!m_isJumping && pPhysicsWorld)
-	{
-		// 接地判定
-		m_bOnGround = OnGround(pPhysicsWorld, 5.0f);
-	}
+	//if (!m_isJumping && pPhysicsWorld)
+	//{
+	//	// 接地判定
+	//	m_bOnGround = OnGround(pPhysicsWorld, 5.0f);
+	//}
 
 	// ステートマシン更新
 	m_stateMachine.Update();
@@ -142,25 +146,8 @@ void CPlayer::Update(void)
 	// 入力判定の取得
 	InputData input = GatherInput();
 
-	//// 位置の取得
-	//D3DXVECTOR3 pos = m_pCharacter->GetPosition();
-
-	//// 地面に当たっていたら
-	//if (m_collisionMeshFieldResult.bHit)
-	//{
-	//	// 高さの設定
-	//	pos.y = m_collisionMeshFieldResult.fHeight;
-
-	//	D3DXVECTOR3 move = m_pCharacter->GetMove();
-
-	//	// 重力を消す
-	//	move.y = 0.0f;
-
-	//	m_pCharacter->SetMove(move);
-	//}
-
-	//// 位置の更新
-	//m_pCharacter->SetPosition(pos);
+	// 位置の取得
+	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
 
 	// 向きの取得
 	D3DXVECTOR3 rot = m_pCharacter->GetRotation();
@@ -195,13 +182,19 @@ void CPlayer::Draw(void)
 		m_pCharacter->Draw();
 	}
 
-//#ifdef _DEBUG
-//	// カプセルコライダーの描画
-//	if (auto cap = GetCollisionShape()->As<CapsuleCollider>())
-//	{
-//		m_pDebug3D->DrawCapsuleCollider(cap, ColliderParam::COLOR);
-//	}
-//#endif
+#ifdef _DEBUG
+	// カプセルコライダーの描画
+	if (auto cap = GetCollisionShape()->As<CapsuleCollider>())
+	{
+		// レンダラーの取得
+		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
+
+		// 3Dデバッグ情報の取得
+		auto pDebug3D = pRenderer->GetDebugProc3D();
+
+		pDebug3D->DrawCapsuleCollider(cap, ColliderParam::COLOR);
+	}
+#endif
 }
 
 //===================================================
@@ -305,8 +298,8 @@ void CPlayer::CreatePhysics(float radius, float height, float mass)
 
 	if (pWorld != nullptr)
 	{
-		// 重力を消す
-		pWorld->SetGravity(Const::VEC3_NULL);
+		//// 重力を消す
+		//pWorld->SetGravity(Const::VEC3_NULL);
 
 		// リジッドボディを追加
 		pWorld->AddRigidBody(m_pRigidBody);
@@ -331,12 +324,30 @@ void CPlayer::UpdateCollider(D3DXVECTOR3 offset)
 
 	// Rigidbody から物理座標を取得（カプセル中心）
 	D3DXVECTOR3 rigidPos = m_pRigidBody->GetPosition();
-
+	
 	// カプセルコライダーに反映
 	m_colliderPos = rigidPos;
 
 	// モデル描画やゲーム上の座標は足元基準に変換
 	pos = rigidPos - offset;
+
+	// 地面に当たっていたら
+	if (m_collisionMeshFieldResult.bHit)
+	{
+		// マネージャーの取得
+		CManager* pManager = CManager::GetInstance();
+
+		// 物理ワールドに追加
+		PhysicsWorld* pWorld = pManager->GetPhysicsWorld();
+
+		// 高さの設定
+		pos.y = m_collisionMeshFieldResult.fHeight;
+		rigidPos.y = m_collisionMeshFieldResult.fHeight + offset.y;
+		m_pRigidBody->SetTransform(rigidPos, q, m_pRigidBody->GetScale());
+
+		// 重力を消す
+		pWorld->SetGravity(Const::VEC3_NULL);
+	}
 
 	// プレイヤー位置を更新
 	m_pCharacter->SetPosition(pos);

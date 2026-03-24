@@ -20,6 +20,7 @@
 // 前方宣言
 //***************************************************
 class CTextureAnimation;	// テクスチャアニメーションのクラス
+class CRigitBody;			// リジッドボディー
 
 //***************************************************
 // ビルボードのクラスの定義
@@ -72,11 +73,12 @@ private:
 private:
 	std::unique_ptr<CTextureAnimation> m_pTextureAnimation;	// テクスチャアニメーションのクラスへのポインタ
 
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffer;	// 頂点へのポインタ
-	D3DXMATRIX				m_mtxWorld;		// ワールドマトリックス
-	D3DXCOLOR				m_col;			// 色
-	D3DXVECTOR3				m_pos;			// 位置のクラスのポインタ
-	D3DXVECTOR2				m_size;			// 大きさ
-	int						m_nTextureID;	// テクスチャのインデックス
+	std::shared_ptr<CRigitBody> m_pRigidBody;	// リジッドボディー
+	LPDIRECT3DVERTEXBUFFER9		m_pVtxBuffer;		// 頂点へのポインタ
+	D3DXMATRIX					m_mtxWorld;			// ワールドマトリックス
+	D3DXCOLOR					m_col;				// 色
+	D3DXVECTOR3					m_pos;				// 位置のクラスのポインタ
+	D3DXVECTOR2					m_size;				// 大きさ
+	int							m_nTextureID;		// テクスチャのインデックス
 };
 #endif

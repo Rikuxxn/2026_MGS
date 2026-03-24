@@ -1,6 +1,6 @@
 //===================================================
 //
-// プランクトンの処理 [plankton.h]
+// クジラの処理をするクラス [whole.h]
 // Author:YUTO YOSHIDA
 // 
 //===================================================
@@ -8,41 +8,51 @@
 //***************************************************
 // 多重インクルード防止
 //***************************************************
-#ifndef _PLANKTON_H_
-#define _PLANKTON_H_
+#ifndef _WHOLE_H_
+#define _WHOLE_H_
 
 //***************************************************
 // インクルードファイル
 //***************************************************
-#include "effect.h"
-#include "GameObject.h"
+#include "object.h"
+//#include "GameObject.h"
 
 //***************************************************
 // 前方宣言
 //***************************************************
-class Collider;		// コライダークラス
-class PhysicsWorld;	// 物理世界クラス
-class RigidBody;	// 剛体
+class CCharacter;	// キャラクタークラス
 
 //***************************************************
-// プランクトンクラスの定義
+// クジラクラスの定義
 //***************************************************
-class CPlankton : public CObjectBillboard, public IGameObject
+class CWhole : public CObject
 {
 public:
-	CPlankton();
-	~CPlankton();
+	// モーションの種類
+	enum MOTIONTYPE
+	{
+		MOTIONTYPE_NEUTRAL = 0,
+		MOTIONTYPE_EAT,
+		MOTIONTYPE_MAX
+	};
 
-	static CPlankton* Create(const D3DXVECTOR3& pos, const D3DXVECTOR2& size);
+	CWhole();
+	~CWhole();
+
+	/// <summary>
+	/// クジラの生成
+	/// </summary>
+	/// <param name="位置"></param>
+	/// <param name="向き"></param>
+	/// <param name="モーションのファイルパス"></param>
+	/// <returns>クジラのポインタ</returns>
+	static CWhole* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath);
 
 	HRESULT Init	(void) override;
 	void	Uninit	(void) override;
 	void	Update	(void) override;
 	void	Draw	(void) override;
-
-	void	OnCollisionEnter(IGameObject* other) override;
 private:
-	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ
-	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
+	std::unique_ptr<CCharacter> m_pCharacter;	// キャラクタークラスへのポインタ
 };
 #endif

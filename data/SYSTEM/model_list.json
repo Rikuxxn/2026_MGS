@@ -29,6 +29,24 @@
         },
         {
             "file_path": "data/MODEL/AKRmodel/09_footL.x"
+        },
+        {
+            "file_path": "data/MODEL/whole/whole_00.x"
+        },
+        {
+            "file_path": "data/MODEL/whole/whole_01.x"
+        },
+        {
+            "file_path": "data/MODEL/whole/whole_02.x"
+        },
+        {
+            "file_path": "data/MODEL/whole/whole_03.x"
+        },
+        {
+            "file_path": "data/MODEL/whole/whole_04.x"
+        },
+        {
+            "file_path": "data/MODEL/whole/whole_05.x"
         }
     ]
 }

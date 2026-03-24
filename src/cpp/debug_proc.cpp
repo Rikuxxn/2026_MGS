@@ -10,8 +10,8 @@
 //***************************************************
 #include "debug_proc.h"
 #include "manager.h"
-#include"renderer.h"
-#include <stdio.h>
+#include "renderer.h"
+#include "stdio.h"
 
 //***************************************************
 // Ã“Iƒƒ“ƒo•Ï”‚ÌéŒ¾

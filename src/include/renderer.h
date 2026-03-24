@@ -20,6 +20,7 @@
 // 前方宣言
 //***************************************************
 class CDebugProc;		// デバッグ情報
+class CDebugProc3D;		// 3Dデバッグ表示
 class CScreenPolygon;	// 画面のポリゴン
 class CScene;			// シーンのクラス
 class CFade;			// フェードクラス
@@ -51,11 +52,13 @@ public:
 	void Draw(const int fps, CScene* pScene, CFade* pFade);
 
 	LPDIRECT3DDEVICE9 GetDevice(void);
+	CDebugProc3D* GetDebugProc3D(void);
 
 	void onWireFrame();
 	void offWireFrame();
 private:
 	std::unique_ptr<CDebugProc>		m_pDebugProc;		// デバッグ情報のクラス
+	std::unique_ptr<CDebugProc3D>	m_pDebug3D;			// 3Dデバッグ表示へのポインタ
 	LPDIRECT3D9						m_pD3D;				// Directxデバイスへのポインタ
 	LPDIRECT3DDEVICE9				m_pD3DDevice;		// Directxデバイスへのポインタ
 };

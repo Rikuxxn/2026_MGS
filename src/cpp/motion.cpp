@@ -481,17 +481,17 @@ void CMotion::Update(std::vector<std::unique_ptr<CModel>>& vpModel,const int nNu
 	}	
 	
 	// モーションが終了したら
-	if (IsEndMotion())
+	if (IsEndMotion() == true)
 	{
 		// ブレンドのフレームを計算
 		int nBlendFrame = info[m_nType].vKeyInfo[m_nNumKey - 1].nFrame;
 
-		m_nCounterMotionBlend = 0;		// ブレンドモーションのカウンターをリセット
-		m_nKeyBlend = 0;				// ブレンドキーをリセット
-		m_nCounterBlend = 0;			// ブレンドフレームをリセット
-		m_bFinish = true;				// モーションが終わった
-		m_nFrameBlend = nBlendFrame;	// ブレンドフレームを設定
-		m_nTypeBlend = 0;	// ニュートラルにブレンドする
+		m_nCounterMotionBlend	= 0;			// ブレンドモーションのカウンターをリセット
+		m_nKeyBlend				= 0;			// ブレンドキーをリセット
+		m_nCounterBlend			= 0;			// ブレンドフレームをリセット
+		m_bFinish				= true;			// モーションが終わった
+		m_nFrameBlend			= nBlendFrame;	// ブレンドフレームを設定
+		m_nTypeBlend			= 0;			// ニュートラルにブレンドする
 	}
 
 	// モーションの出だしのブレンドが終了した
@@ -500,13 +500,14 @@ void CMotion::Update(std::vector<std::unique_ptr<CModel>>& vpModel,const int nNu
 	// キーが最大かつブレンドのカウントが最大になった
 	if (IsFinishEndBlend() == true)
 	{
-		m_bFinish = false;				// もとに戻す
-		m_bBlend = false;				// もとに戻す
-		m_nCount = m_nCounterMotionBlend;	    // フレームをブレンドした先のフレームに合わせる
-		m_nAllCounter = m_nCounterMotionBlend;
-		m_nTypeBlend = 0;				// ニュートラルにブレンドする
+		m_bFinish		= false;				// もとに戻す
+		m_bBlend		= false;				// もとに戻す
+		m_nCount		= m_nCounterMotionBlend;	    // フレームをブレンドした先のフレームに合わせる
+		m_nAllCounter	= m_nCounterMotionBlend;
+		m_nTypeBlend	= 0;				// ニュートラルにブレンドする
 		m_nCounterBlend = 0;
-		m_nKey = m_nKeyBlend;
+		m_nKey			= m_nKeyBlend;
+		m_nType			= 0;
 	}
 
 	// フレームを計算
@@ -661,7 +662,7 @@ bool CMotion::IsEndLoopMotion(void)
 //===================================================
 bool CMotion::IsFinishEndBlend(void)
 {
-	if (m_bFinish == true && m_nFrameBlend <= m_nCounterBlend - 1 && m_bFirst == false)
+	if (m_bBlend == true && m_bFinish == true && m_nFrameBlend <= m_nCounterBlend && m_bFirst == false)
 	{
 		return true;
 	}
