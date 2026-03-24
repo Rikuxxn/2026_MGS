@@ -16,6 +16,7 @@
 #include "SkyCube.h"
 #include "follow_camera.h"
 #include "plankton.h"
+#include "whole.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -103,6 +104,13 @@ HRESULT CGame::Init(void)
 	CPlankton::Create(
 		{ 80.0f,10.0f,0.0f }, 
 		{ 50.0f,50.0f });
+
+	// ÉNÉWÉâÇÃê∂ê¨
+	CWhole::Create(
+		{ -160.0f,10.0f,0.0f },
+		{ 0.0f,0.0f,0.0f },
+		"data/MOTION/motion_whole.txt");
+
 #if 0
 	CObject2D::Create(
 		Const::CENTER_POS_2D,

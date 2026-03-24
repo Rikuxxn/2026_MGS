@@ -15,17 +15,19 @@
 // インクルードファイル
 //***************************************************
 #include "object.h"
-//#include "GameObject.h"
+#include "GameObject.h"
 
 //***************************************************
 // 前方宣言
 //***************************************************
 class CCharacter;	// キャラクタークラス
+class Collider;		// コライダークラス
+class RigidBody;	// リジッドボディクラス
 
 //***************************************************
 // クジラクラスの定義
 //***************************************************
-class CWhole : public CObject
+class CWhole : public CObject, public IGameObject
 {
 public:
 	// モーションの種類
@@ -52,7 +54,19 @@ public:
 	void	Uninit	(void) override;
 	void	Update	(void) override;
 	void	Draw	(void) override;
+
+	Collider* GetCollisionShape(void) const;						// コリジョンの取得
+
+	// Physics処理
+	void ReleasePhysics(void);										// Physics削除処理
+	void CreatePhysics(D3DXVECTOR3 size, float mass);		// Phtsics生成処理
+	void UpdateCollider(D3DXVECTOR3 offset);						// コライダーの位置更新処理
+
+	void	OnCollisionEnter(IGameObject* other) override;
+
 private:
 	std::unique_ptr<CCharacter> m_pCharacter;	// キャラクタークラスへのポインタ
+	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ
+	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
 };
 #endif
