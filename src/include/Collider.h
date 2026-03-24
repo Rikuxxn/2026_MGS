@@ -12,6 +12,7 @@
 //*****************************************************************************
 #include "MathConst.h"
 #include "GameObject.h"
+#include "PhysicsWorld.h"
 
 //*****************************************************************************
 // 前方宣言
@@ -39,6 +40,10 @@ public:
     virtual ~Collider() {}
 
     virtual void    UpdateTransform(const D3DXVECTOR3& /*pos*/, const D3DXQUATERNION& /*rot*/, const D3DXVECTOR3& /*scale*/) {}
+
+    // レイとコライダーの衝突判定
+    virtual bool Raycast(const PhysicsWorld::Ray& /*ray*/, float /*maxDistance*/, PhysicsWorld::RaycastHit& /*hit*/) = 0;
+
     TYPE            GetType(void) const { return m_Type; }
 
     virtual void OnCollisionEnter(Collider* other);
@@ -65,6 +70,8 @@ public:
         {
             return m_Type == SPHERE ? reinterpret_cast<T*>(this) : nullptr;
         }
+
+        //return nullptr;
     }
 
     void SetOwner(IGameObject* owner) { m_owner = owner; }
@@ -101,7 +108,12 @@ public:
     // 位置・回転・スケールを反映
     void UpdateTransform(const D3DXVECTOR3& pos, const D3DXQUATERNION& rot, const D3DXVECTOR3& scale) override;
     void calculateLocalInertia(float mass, D3DXVECTOR3& inertia) const override;
-
+    bool Raycast(const PhysicsWorld::Ray& ray, float maxDistance, PhysicsWorld::RaycastHit& hit) override;
+    bool RayVsOBB(
+        const PhysicsWorld::Ray& ray,
+        const BoxCollider* box,
+        float maxDistance,
+        PhysicsWorld::RaycastHit& hit);
     const D3DXVECTOR3&      GetScaledSize(void) const { return m_ScaledSize; }
     const D3DXMATRIX&       GetRotation(void) const { return m_Rotation; }
     const D3DXQUATERNION&   GetRotationQuat(void) const { return m_RotationQuat; }
@@ -128,6 +140,11 @@ public:
 
     // 慣性モーメント
     void calculateLocalInertia(float mass, D3DXVECTOR3& inertia) const;
+
+    bool Raycast(const PhysicsWorld::Ray& /*ray*/, float /*maxDistance*/, PhysicsWorld::RaycastHit& /*hit*/)
+    {
+        return false;
+    }
 
     float       GetRadius(void) const { return m_Radius; }
     float       GetHeight(void) const { return m_Height; }
@@ -160,6 +177,11 @@ public:
 
     // 慣性モーメント
     void calculateLocalInertia(float mass, D3DXVECTOR3& inertia) const;
+
+    bool Raycast(const PhysicsWorld::Ray& /*ray*/, float /*maxDistance*/, PhysicsWorld::RaycastHit& /*hit*/)
+    {
+        return false;
+    }
 
     float                   GetRadius(void) const { return m_RadiusScaled; }
     float                   GetHeight(void) const { return m_HeightScaled; }
@@ -195,6 +217,11 @@ public:
 
     // 慣性モーメント
     void calculateLocalInertia(float mass, D3DXVECTOR3& inertia) const override;
+
+    bool Raycast(const PhysicsWorld::Ray& /*ray*/, float /*maxDistance*/, PhysicsWorld::RaycastHit& /*hit*/)
+    {
+        return false;
+    }
 
     float                   GetRadius       (void) const { return m_ScaledRadius; }
     const D3DXMATRIX&       GetRotation     (void) const { return m_Rotation; }

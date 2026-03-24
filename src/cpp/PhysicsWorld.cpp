@@ -821,6 +821,47 @@ void PhysicsWorld::StepSimulation(float dt)
     }
 }
 //=============================================================================
+// レイキャスト処理
+//=============================================================================
+bool PhysicsWorld::Raycast(const Ray& ray, float maxDistance, RaycastHit& outHit)
+{
+    bool hasHit = false;
+
+    // 初期化
+    outHit.distance = maxDistance;
+
+    for (auto& body : m_Bodies)
+    {
+        // リジッドボディがnullptrだったら
+        if (!body)
+        {
+            continue;
+        }
+
+        // コライダーの取得
+        auto collider = body->GetCollider();
+
+        // コライダーがnullptrだったら
+        if (!collider)
+        {
+            continue;
+        }
+
+        RaycastHit hit;
+
+        if (collider->Raycast(ray, maxDistance, hit))
+        {
+            if (hit.distance < outHit.distance)
+            {
+                outHit = hit;
+                hasHit = true;
+            }
+        }
+    }
+
+    return hasHit;
+}
+//=============================================================================
 // コリジョンのプロセス処理
 //=============================================================================
 void PhysicsWorld::ProcessCollisionEvents(void)

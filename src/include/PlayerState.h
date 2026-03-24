@@ -63,7 +63,7 @@ public:
 
 private:
 	static constexpr int INTERVAL			= 20;	// 生成インターバル
-	static constexpr int JUMP_RESET_TIME	= 55;	// ジャンプリセット時間
+	static constexpr int JUMP_RESET_TIME	= 15;	// ジャンプリセット時間
 
 	int m_counter;
 };

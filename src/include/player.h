@@ -18,13 +18,15 @@
 #include "collision_result.h"
 #include "State.h"
 #include "RigidBody.h"
-#include "Collider.h"
+#include "GameObject.h"
 
 //***************************************************
 // 前方宣言
 //***************************************************
 class CCharacter;	// キャラクタークラス
 class CDebugProc3D;	// 3Dデバッグ表示クラス
+class Collider;		// コライダークラス
+class PhysicsWorld;	// 物理世界クラス
 
 //***************************************************
 // プレイヤーの処理のクラスの定義
@@ -57,15 +59,15 @@ public:
 	void	Draw		(void) override;
 
 	// Physics処理
-	void ReleasePhysics	(void);										// Physics削除処理
-	void CreatePhysics	(float radius, float height, float mass);	// Phtsics生成処理
-	void UpdateCollider	(D3DXVECTOR3 offset);						// コライダーの位置更新処理
-	void SetPhysicsMove	(D3DXVECTOR3 move);							// 物理用移動量の設定処理
-	void ApplyDeceleration(void);									// 減速処理
-
+	void ReleasePhysics		(void);										// Physics削除処理
+	void CreatePhysics		(float radius, float height, float mass);	// Phtsics生成処理
+	void UpdateCollider		(D3DXVECTOR3 offset);						// コライダーの位置更新処理
+	void SetPhysicsMove		(D3DXVECTOR3 move);							// 物理用移動量の設定処理
+	void ApplyDeceleration	(void);										// 減速処理
+	bool OnGround			(PhysicsWorld* world, float rayLength);		// 接地判定
 
 	RigidBody*	GetRigidBody		(void) const { return m_pRigidBody.get(); }	// 剛体の取得
-	Collider*	GetCollisionShape	(void) const { return m_pShape.get(); }		// コリジョンの取得
+	Collider*	GetCollisionShape	(void) const;								// コリジョンの取得
 	const D3DXVECTOR3& GetPosition	(void) const;
 	D3DXVECTOR3 GetMove(void) const;
 	D3DXVECTOR3 GetColliderPos		(void) const { return m_colliderPos; }
@@ -85,7 +87,7 @@ public:
 
 public:
 	static constexpr float SPEED				= 100.0f;	// 移動スピード
-	static constexpr float MAX_JUMP_POWER		= 33.0f;	// ジャンプ初速
+	static constexpr float MAX_JUMP_POWER		= 250.0f;	// ジャンプ初速
 	static constexpr float DECELERATION_RATE	= 0.85f;	// 減速率
 	static constexpr float ACCEL_RATE			= 0.15f;	// イージング率
 private:
