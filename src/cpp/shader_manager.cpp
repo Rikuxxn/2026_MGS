@@ -18,7 +18,7 @@
 //***************************************************
 namespace ShaderConst
 {
-    constexpr const char* SKY_CUBE_PATH                = "data/SHADER/skycube.hlsl";                   // スカイキューブのパス
+    constexpr const char* SKY_CUBE_PATH                 = "data/SHADER/skycube.hlsl";                   // スカイキューブのパス
     constexpr const char* GAUS_BLUR_PATH                = "data/SHADER/gausblur.hlsl";                  // ガウスブラーのパス
     constexpr const char* LUMINANCE_PATH                = "data/SHADER/luminance.hlsl";                 // 輝度抽出のパス
     constexpr const char* BLOOM_PATH                    = "data/SHADER/bloom.hlsl";                     // ブルームのパス

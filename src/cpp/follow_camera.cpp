@@ -55,11 +55,11 @@ void CFollowCamera::Update(D3DXVECTOR3& posV, D3DXVECTOR3& posR, D3DXVECTOR3& ro
 
 	static bool bFollow = true;
 
-	//// ƒJƒƒ‰’Ç]‚ÌØ‚è‘Ö‚¦
-	//if (InputSystem::DebugEnableFollow())
-	//{
-	//	bFollow = bFollow ? false : true;
-	//}
+	// ƒJƒƒ‰’Ç]‚ÌØ‚è‘Ö‚¦
+	if (InputSystem::DebugEnableFollowCamera())
+	{
+		bFollow = bFollow ? false : true;
+	}
 
 	if (bFollow == false)
 	{

@@ -84,3 +84,17 @@ bool InputSystem::PlayerJump(void)
 
 	return (pKeyboard->GetPress(DIK_SPACE) || pJoypad->GetTrigger(pJoypad->JOYKEY_A));
 }
+
+//===================================================
+// カメラ追従の切り替えキー
+//===================================================
+bool InputSystem::DebugEnableFollowCamera(void)
+{
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// キーボードの取得
+	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
+
+	return (pKeyboard->GetPress(DIK_F8));
+}
