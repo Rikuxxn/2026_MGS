@@ -11,6 +11,9 @@
 #include "object.h"
 #include "manager.h"
 #include "camera.h"
+#include "texture_mrt_manager.h"
+#include "shader.h"
+#include "shader_manager.h"
 
 //***************************************************
 // 静的メンバ変数の宣言
@@ -190,7 +193,7 @@ void CObject::DrawAll(void)
 	pCamera->SetCamera();
 
 	// 優先順位分回す
-	for (int nCntPriority = 0; nCntPriority < PRIORITY_MAX; nCntPriority++)
+	for (int nCntPriority = 0; nCntPriority <= PRIORITY_UI_FRONT; nCntPriority++)
 	{
 		CObject* pObject = m_apTop[nCntPriority]; // 先頭オブジェクトを代入
 
@@ -308,4 +311,73 @@ void CObject::Destroy(CObject* pObject)
 	delete pObject;
 
 	pObject = nullptr;
+}
+
+//===================================================
+// シャドウマップの描画処理
+//===================================================
+void CObject::DrawShadowMap(void)
+{
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// テクスチャMRTのマネージャーの取得
+	CTextureMRTManager* pTextureMRTManager = pManager->GetTextureMRTManager();
+
+	// シェーダーのマネージャーの取得
+	CShaderManager* pShaderManager = pManager->GetShaderManager();
+
+	// シャドウマップの取得
+	CShader* pShadowMap = pShaderManager->GetAddrees(CShaderManager::TYPE_SHADOW_MAP);
+
+	// 取得出来たら
+	if (pTextureMRTManager != nullptr)
+	{
+		// レンダーターゲットの変更
+		pTextureMRTManager->ChangeRenderTarget(CTextureMRTManager::TYPE_SHADOW_MAP);
+	}
+
+	// 取得出来たら
+	if (pShadowMap != nullptr)
+	{
+		pShadowMap->Begin();
+	}
+
+	CObject* pObject = m_apTop[PRIORITY_SHADOW_MAP]; // 先頭オブジェクトを代入
+
+	// nullじゃないなら
+	while (pObject != nullptr)
+	{
+		CObject* pObjectNext = pObject->m_pNext; // 次のオブジェクトのポインタを代入
+
+		//// ポーズ状態の取得
+		//bool bPause = CPauseManager::GetPause();
+
+		//// オブジェクトがポーズでポーズ中じゃないならポーズを描画しない
+		//if (pObject->GetType() == TYPE_PAUSE && bPause == false)
+		//{
+		//	pObject = pObjectNext; // 次のオブジェクトを代入
+
+		//	// 処理を飛ばす
+		//	continue;
+		//}
+
+		// 更新処理
+		pObject->Draw();
+
+		pObject = pObjectNext; // 次のオブジェクトを代入
+	}
+
+	// 取得出来たら
+	if (pTextureMRTManager != nullptr)
+	{
+		// レンダーターゲットをもとに戻す
+		pTextureMRTManager->ResetRenderTarget();
+	}
+
+	// 取得出来たら
+	if (pShadowMap != nullptr)
+	{
+		pShadowMap->End();
+	}
 }

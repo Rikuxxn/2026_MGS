@@ -21,5 +21,7 @@ namespace InputSystem
 	bool PlayerMoveBack(void);
 	bool PlayerMoveRight(void);
 	bool PlayerJump(void);
+
+	bool DebugEnableFollowCamera(void);
 }
 #endif

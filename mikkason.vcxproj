@@ -163,6 +163,7 @@
     <ClCompile Include="src\cpp\debug_proc.cpp" />
     <ClCompile Include="src\cpp\effect.cpp" />
     <ClCompile Include="src\cpp\fade.cpp" />
+    <ClCompile Include="src\cpp\follow_camera.cpp" />
     <ClCompile Include="src\cpp\game.cpp" />
     <ClCompile Include="src\cpp\input_system.cpp" />
     <ClCompile Include="src\cpp\mesh_circle.cpp" />
@@ -193,6 +194,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\cpp\PhysicsWorld.cpp" />
+    <ClCompile Include="src\cpp\plankton.cpp" />
     <ClCompile Include="src\cpp\player.cpp" />
     <ClCompile Include="src\cpp\PlayerState.cpp" />
     <ClCompile Include="src\cpp\ranking.cpp" />
@@ -204,9 +206,11 @@
     <ClCompile Include="src\cpp\score.cpp" />
     <ClCompile Include="src\cpp\shader.cpp" />
     <ClCompile Include="src\cpp\shader_manager.cpp" />
+    <ClCompile Include="src\cpp\shadowmap_objectX.cpp" />
     <ClCompile Include="src\cpp\SkyCube.cpp" />
     <ClCompile Include="src\cpp\texture_animation.cpp" />
     <ClCompile Include="src\cpp\texture_manager.cpp" />
+    <ClCompile Include="src\cpp\texture_mrt_manager.cpp" />
     <ClCompile Include="src\cpp\timer.cpp" />
     <ClCompile Include="src\cpp\title.cpp" />
     <ClCompile Include="src\cpp\tutorial.cpp" />
@@ -217,12 +221,15 @@
     <ClInclude Include="src\include\BlockList.h" />
     <ClInclude Include="src\include\BlockManager.h" />
     <ClInclude Include="src\include\camera.h" />
+    <ClInclude Include="src\include\camera_system.h" />
     <ClInclude Include="src\include\character.h" />
     <ClInclude Include="src\include\Collider.h" />
     <ClInclude Include="src\include\collision_result.h" />
     <ClInclude Include="src\include\collision_system.h" />
+    <ClInclude Include="src\include\color_constants.h" />
     <ClInclude Include="src\include\DebugProc3D.h" />
     <ClInclude Include="src\include\effect.h" />
+    <ClInclude Include="src\include\follow_camera.h" />
     <ClInclude Include="src\include\GameObject.h" />
     <ClInclude Include="src\include\input_system.h" />
     <ClInclude Include="src\include\MathConst.h" />
@@ -253,6 +260,7 @@
     <ClInclude Include="src\include\particle.h" />
     <ClInclude Include="src\include\pch.h" />
     <ClInclude Include="src\include\PhysicsWorld.h" />
+    <ClInclude Include="src\include\plankton.h" />
     <ClInclude Include="src\include\player.h" />
     <ClInclude Include="src\include\PlayerState.h" />
     <ClInclude Include="src\include\ranking.h" />
@@ -264,31 +272,27 @@
     <ClInclude Include="src\include\score.h" />
     <ClInclude Include="src\include\shader.h" />
     <ClInclude Include="src\include\shader_manager.h" />
+    <ClInclude Include="src\include\shadowmap_objectX.h" />
     <ClInclude Include="src\include\SkyCube.h" />
     <ClInclude Include="src\include\State.h" />
     <ClInclude Include="src\include\texture_animation.h" />
     <ClInclude Include="src\include\texture_manager.h" />
+    <ClInclude Include="src\include\texture_mrt_manager.h" />
     <ClInclude Include="src\include\timer.h" />
     <ClInclude Include="src\include\title.h" />
     <ClInclude Include="src\include\tutorial.h" />
     <ClInclude Include="src\include\utility_math.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubePS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PSMain</EntryPointName>
+    <FxCompile Include="data\SHADER\skycube.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PSMain</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PSMain</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubeVS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VSMain</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VSMain</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

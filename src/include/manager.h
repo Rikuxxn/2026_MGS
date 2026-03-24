@@ -32,6 +32,7 @@ class CMotionLoader;		// モーションのロードクラス
 class PhysicsWorld;			// 物理世界クラス
 class CBlockManager;		// ブロックマネージャークラス
 class CShaderManager;		// シェーダーマネージャーのクラス
+class CTextureMRTManager;	// マルチレンダーターゲットのテクスチャ
 
 //***************************************************
 // マネージャークラスの定義
@@ -51,20 +52,21 @@ public:
 	void ChangeMode(std::unique_ptr<CScene> pNewScene);
 	void BeginFade(std::unique_ptr<CScene> pNewScene, const D3DXCOLOR col = { 0.0f,0.0f,0.0f,0.0f });
 	
-	inline CRenderer*		GetRenderer			(void)				{ return m_pRenderer.get (); }
-	inline CTextureManager* GetTextureManager	(void)				{ return m_pTextureManager.get (); }
-	inline CInputKeyboard*	GetInputKeyboard	(void)				{ return m_pKeyboard.get(); }
-	inline CInputJoypad*	GetInputJoypad		(void)				{ return m_pJoypad.get(); }
-	inline CInputMouse*		GetInputMouse		(void)				{ return m_pMouse.get(); }
-	inline CModelManager*	GetModelManager		(void)				{ return m_pModelManager.get(); }
-	inline CScene*			GetScene			(void)				{ return m_pScene.get(); }
-	inline CLight*			GetLight			(void)				{ return m_pLight.get(); }
-	inline CCamera*			GetCamera			(void)				{ return m_pCamera.get(); }
-	inline CMotionLoader*	GetMotionLoader		(void)				{ return m_pMotionLoader.get(); }
-	inline PhysicsWorld*	GetPhysicsWorld		(void)				{ return m_pPhysicsWorld.get(); }
-	inline CBlockManager*	GetBlockManager		(void)				{ return m_pBlockManager.get(); }
-	inline CShaderManager*	GetShaderManager	(void)				{ return m_pShaderManager.get(); }
-	inline void				SetFps				(const int nFps)	{ m_nFps = nFps; }
+	inline CRenderer*			GetRenderer			(void)				{ return m_pRenderer.get (); }
+	inline CTextureManager*		GetTextureManager	(void)				{ return m_pTextureManager.get (); }
+	inline CInputKeyboard*		GetInputKeyboard	(void)				{ return m_pKeyboard.get(); }
+	inline CInputJoypad*		GetInputJoypad		(void)				{ return m_pJoypad.get(); }
+	inline CInputMouse*			GetInputMouse		(void)				{ return m_pMouse.get(); }
+	inline CModelManager*		GetModelManager		(void)				{ return m_pModelManager.get(); }
+	inline CScene*				GetScene			(void)				{ return m_pScene.get(); }
+	inline CLight*				GetLight			(void)				{ return m_pLight.get(); }
+	inline CCamera*				GetCamera			(void)				{ return m_pCamera.get(); }
+	inline CMotionLoader*		GetMotionLoader		(void)				{ return m_pMotionLoader.get(); }
+	inline PhysicsWorld*		GetPhysicsWorld		(void)				{ return m_pPhysicsWorld.get(); }
+	inline CBlockManager*		GetBlockManager		(void)				{ return m_pBlockManager.get(); }
+	inline CShaderManager*		GetShaderManager	(void)				{ return m_pShaderManager.get(); }
+	inline CTextureMRTManager*	GetTextureMRTManager(void)				{ return m_pTextureMRTManager.get(); }
+	inline void					SetFps				(const int nFps)	{ m_nFps = nFps; }
 private:
 	CManager();
 
@@ -83,6 +85,7 @@ private:
 	std::unique_ptr<PhysicsWorld>			m_pPhysicsWorld;		// 物理世界へのポインタ
 	std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
 	std::unique_ptr<CShaderManager>			m_pShaderManager;		// シェーダーマネージャーへのポインタ
+	std::unique_ptr<CTextureMRTManager>		m_pTextureMRTManager;	// マルチレンダーターゲットのマネージャーへのポインタ
 
 	int m_nFps;														// フレームレート
 };

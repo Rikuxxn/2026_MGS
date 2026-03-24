@@ -13,6 +13,9 @@
 #include "object3d.h"
 #include "object_billboard.h"
 #include "ranking.h"
+#include "SkyCube.h"
+#include "follow_camera.h"
+#include "plankton.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -75,8 +78,31 @@ HRESULT CGame::Init(void)
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
 		Const::VEC3_NULL,
-		{1.68f,0.0f,0.0f});
+		{ 1.68f, 0.0f, 0.0f });
 
+	CPlayer* pPlayer = CPlayer::Create(
+		{ 0.0f,100.0f,0.0f },
+		{ 0.0f,0.0f,0.0f },
+		"motion.txt"
+	);
+
+	// ÉJÉÅÉâí«è]èàóùÇÃí«â¡
+	pCamera->AddSystem(std::make_unique<CFollowCamera>(pCamera, pPlayer));
+
+	CMeshField* pMeshField = CMeshField::Create(
+		{ 0.0f,0.0f,0.0f },
+		{ 1000.0f,1000.0f },
+		Const::WHITE,
+		{ 10,10 },
+		"sea.jpg");
+
+	// ãÛÇÃê∂ê¨
+	CSkyCube::Create();
+
+	CPlankton::Create(
+		{ 0.0f,0.0f,0.0f }, 
+		{ 50.0f,50.0f });
+#if 0
 	CObject2D::Create(
 		Const::CENTER_POS_2D,
 		{ 80.0f,50.0f },
@@ -112,19 +138,6 @@ HRESULT CGame::Init(void)
 		{ 50.0f,50.0f },
 		Const::WHITE,
 		"test.png");
-
-	CPlayer* pPlayer = CPlayer::Create(
-		{ 0.0f,100.0f,0.0f },
-		{ 0.0f,0.0f,0.0f },
-		"motion.txt"
-	);
-
-	CMeshField* pMeshField = CMeshField::Create(
-		{ 0.0f,0.0f,0.0f },
-		{ 1000.0f,1000.0f },
-		Const::WHITE,
-		{ 10,10 },
-		"test000.png");
 
 	CMeshCylinder::Create(
 		{ 0.0f,0.0f,0.0f },
@@ -174,7 +187,7 @@ HRESULT CGame::Init(void)
 
 	// ìñÇΩÇËîªíËÇÃí«â¡
 	m_vpCollisionSystem.push_back(std::move(pMeshFieldCollisionSystem));
-
+#endif
 	return S_OK;
 }
 

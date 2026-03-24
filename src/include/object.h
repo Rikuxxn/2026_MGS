@@ -33,6 +33,7 @@ public:
 		PRIORITY_BILLBOARD,		// ビルボード
 		PRIORITY_UI_BACK,		// UI(奥)
 		PRIORITY_UI_FRONT,		// UI(手前)
+		PRIORITY_SHADOW_MAP,	// シャドウマップ(別のレンダーターゲット)
 		PRIORITY_MAX
 	};
 
@@ -68,6 +69,7 @@ protected:
 	void Release(void);	
 private:
 	void Destroy(CObject* pObject);
+	void DrawShadowMap(void);
 private:
 	static std::array<CObject*, PRIORITY_MAX>	m_apTop;	// 先頭オブジェクトへのポインタ
 	static std::array<CObject*, PRIORITY_MAX>	m_apCur;	// 最後尾オブジェクトへのポインタ

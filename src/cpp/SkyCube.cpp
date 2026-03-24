@@ -12,6 +12,8 @@
 #include "Manager.h"
 #include "renderer.h"
 #include "texture_manager.h"
+#include "shader.h"
+#include "shader_manager.h"
 
 //=============================================================================
 // コンストラクタ
@@ -66,12 +68,12 @@ HRESULT CSkyCube::Init(void)
 
 	// キューブマップ用テクスチャのIDの設定
 	m_nIdxTexture = pTexture->RegisterCube(
-		"data/SkyCube/night/posx.jpg",
-		"data/SkyCube/night/negx.jpg",
-		"data/SkyCube/night/posy.jpg",
-		"data/SkyCube/night/negy.jpg",
-		"data/SkyCube/night/posz.jpg",
-		"data/SkyCube/night/negz.jpg");
+		"data/TEXTURE/SKYCUBE/posx.jpg",
+		"data/TEXTURE/SKYCUBE/negx.jpg",
+		"data/TEXTURE/SKYCUBE/posy.jpg",
+		"data/TEXTURE/SKYCUBE/negy.jpg",
+		"data/TEXTURE/SKYCUBE/posz.jpg",
+		"data/TEXTURE/SKYCUBE/negz.jpg");
 
 	// フルスクリーンクアッド生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4,
@@ -124,68 +126,83 @@ void CSkyCube::Update(void)
 //=============================================================================
 void CSkyCube::Draw(void)
 {
-	//// レンダラーの取得
-	//CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
 
-	//// デバイスの取得
-	//LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+	// レンダラーの取得
+	CRenderer* pRenderer = pManager->GetRenderer();
 
-	//// テクスチャの取得
-	//CTextureManager* pTexture = CManager::GetInstance()->GetTextureManager();
+	// デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	//// カメラの取得
-	//CCamera* pCamera = CManager::GetInstance()->GetCamera();
+	// テクスチャの取得
+	CTextureManager* pTexture = pManager->GetTextureManager();
 
-	//// Zテスト設定
-	//pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	// シェーダーマネージャーの取得
+	CShaderManager* pShaderManager = pManager->GetShaderManager();
 
-	//// サンプラーステートの設定
-	//pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	//pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-	//pDevice->SetSamplerState(0, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP);
+	// 空のシェーダーの取得
+	CShader* pShader = pShaderManager->GetAddrees(CShaderManager::TYPE_SKY_CUBE);
 
-	//// シェーダの設定
-	//pDevice->SetVertexShader(pRenderer->GetSkyCubeVS());
-	//pDevice->SetPixelShader(pRenderer->GetSkyCubePS());
+	// カメラの取得
+	CCamera* pCamera = CManager::GetInstance()->GetCamera();
 
-	//if (pCamera)
-	//{
-	//	// 行列
-	//	D3DXMATRIX view = pCamera->GetViewMatrix();
-	//	D3DXMATRIX proj = pCamera->GetProjMatrix();
+	// Zテスト設定
+	pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	//	// Viewの平行移動除去
-	//	view._41 = view._42 = view._43 = 0.0f;
+	// サンプラーステートの設定
+	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP);
 
-	//	D3DXMATRIX invVP;
-	//	D3DXMATRIX vp = view * proj;
-	//	D3DXMatrixInverse(&invVP, nullptr, &vp);
+	if (pShader != nullptr)
+	{
+		pShader->Begin();
 
-	//	// 頂点シェーダの定数
-	//	pRenderer->GetSkyCubeVSConsts()->SetMatrix(pDevice, "gInvViewProj", &invVP);
-	//}
+		pShader->BeginPass();
+	}
 
-	//// 頂点バッファをデバイスのデータストリームに設定
-	//pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_3D));
+	// 行列
+	D3DXMATRIX mtxView;
+	D3DXMATRIX mtxProj;
 
-	//// 頂点フォーマットの設定
-	//pDevice->SetFVF(FVF_VERTEX_3D);
+	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+	pDevice->GetTransform(D3DTS_PROJECTION, &mtxProj);
 
-	//// テクスチャの設定
-	//pDevice->SetTexture(0, pTexture->GetCubeAddress(m_nIdxTexture));
+	// Viewの平行移動除去
+	mtxView._41 = mtxView._42 = mtxView._43 = 0.0f;
 
-	//// ポリゴン描画
-	//pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+	D3DXMATRIX invVP;
+	D3DXMATRIX vp = mtxView * mtxProj;
+	D3DXMatrixInverse(&invVP, nullptr, &vp);
 
-	//// 元に戻す
-	//pDevice->SetVertexShader(nullptr);
-	//pDevice->SetPixelShader(nullptr);
+	// マトリックスの設定
+	pShader->SetMatrix("g_InvViewProj", invVP);
 
-	//pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-	//pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	//pDevice->SetSamplerState(0, D3DSAMP_ADDRESSW, D3DTADDRESS_WRAP);
+	// 頂点バッファをデバイスのデータストリームに設定
+	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_3D));
 
-	//pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	// 頂点フォーマットの設定
+	pDevice->SetFVF(FVF_VERTEX_3D);
+
+	// テクスチャの設定
+	pDevice->SetTexture(0, pTexture->GetCubeAddress(m_nIdxTexture));
+
+	// ポリゴン描画
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+	if (pShader != nullptr)
+	{
+		pShader->EndPass();
+
+		pShader->End();
+	}
+
+	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSW, D3DTADDRESS_WRAP);
+
+	pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }

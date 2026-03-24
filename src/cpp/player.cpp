@@ -23,14 +23,15 @@
 // コライダーパラメータ
 namespace ColliderParam
 {
-	const D3DXVECTOR3	OFFSET{ 0.0f, 36.0f, 0.0f };	// オフセット
-	const D3DXCOLOR		COLOR{ 0.0f, 1.0f, 0.3f, 1.0f };// 色
+	const D3DXVECTOR3	OFFSET{ 0.0f, 36.0f, 0.0f };		// オフセット
+	const D3DXCOLOR		COLOR{ 0.0f, 1.0f, 0.3f, 1.0f };	// 色
 }
 
 //===================================================
 // コンストラクタ
 //===================================================
 CPlayer::CPlayer() : 
+	CObject(PRIORITY_CHARACTER),
 	m_pCharacter(nullptr),
 	m_rotDest(Const::VEC3_NULL),
 	m_fSpeed(2.0f)
@@ -304,6 +305,10 @@ void CPlayer::CreatePhysics(float radius, float height, float mass)
 
 	if (pWorld != nullptr)
 	{
+		// 重力を消す
+		pWorld->SetGravity(Const::VEC3_NULL);
+
+		// リジッドボディを追加
 		pWorld->AddRigidBody(m_pRigidBody);
 	}
 }
