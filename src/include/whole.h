@@ -1,0 +1,58 @@
+//===================================================
+//
+// クジラの処理をするクラス [whole.h]
+// Author:YUTO YOSHIDA
+// 
+//===================================================
+
+//***************************************************
+// 多重インクルード防止
+//***************************************************
+#ifndef _WHOLE_H_
+#define _WHOLE_H_
+
+//***************************************************
+// インクルードファイル
+//***************************************************
+#include "object.h"
+//#include "GameObject.h"
+
+//***************************************************
+// 前方宣言
+//***************************************************
+class CCharacter;	// キャラクタークラス
+
+//***************************************************
+// クジラクラスの定義
+//***************************************************
+class CWhole : public CObject
+{
+public:
+	// モーションの種類
+	enum MOTIONTYPE
+	{
+		MOTIONTYPE_NEUTRAL = 0,
+		MOTIONTYPE_EAT,
+		MOTIONTYPE_MAX
+	};
+
+	CWhole();
+	~CWhole();
+
+	/// <summary>
+	/// クジラの生成
+	/// </summary>
+	/// <param name="位置"></param>
+	/// <param name="向き"></param>
+	/// <param name="モーションのファイルパス"></param>
+	/// <returns>クジラのポインタ</returns>
+	static CWhole* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath);
+
+	HRESULT Init	(void) override;
+	void	Uninit	(void) override;
+	void	Update	(void) override;
+	void	Draw	(void) override;
+private:
+	std::unique_ptr<CCharacter> m_pCharacter;	// キャラクタークラスへのポインタ
+};
+#endif

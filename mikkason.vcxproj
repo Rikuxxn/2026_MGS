@@ -215,6 +215,7 @@
     <ClCompile Include="src\cpp\title.cpp" />
     <ClCompile Include="src\cpp\tutorial.cpp" />
     <ClCompile Include="src\cpp\utility_math.cpp" />
+    <ClCompile Include="src\cpp\whole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\Block.h" />
@@ -282,6 +283,7 @@
     <ClInclude Include="src\include\title.h" />
     <ClInclude Include="src\include\tutorial.h" />
     <ClInclude Include="src\include\utility_math.h" />
+    <ClInclude Include="src\include\whole.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\SHADER\skycube.hlsl">

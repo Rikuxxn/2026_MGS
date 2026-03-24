@@ -21,6 +21,9 @@
 #include "Collider.h"
 #include "RigidBody.h"
 
+
+#include "whole.h"
+
 // コライダーパラメータ
 namespace ColliderParam
 {
