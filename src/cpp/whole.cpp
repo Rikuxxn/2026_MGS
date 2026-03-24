@@ -34,7 +34,7 @@ CWhole::CWhole() :
 	m_pCharacter(nullptr)
 {
 	// タグの設定
-	SetTag("Whole");
+	SetTag("Whale");
 
 	// 値のクリア
 	m_pRigidBody	= nullptr;				// 剛体へのポインタ
