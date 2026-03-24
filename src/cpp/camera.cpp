@@ -11,6 +11,8 @@
 #include "camera.h"
 #include "renderer.h"
 #include "manager.h"
+#include "camera_system.h"
+#include "utility_math.h"
 
 #ifdef _DEBUG
 #include "input.h"
@@ -35,6 +37,7 @@ namespace CameraConst
 // コンストラクタ
 //===================================================
 CCamera::CCamera() :
+	m_vpSystem(),
 	m_fDistance(0.0f),
 	m_mtxProjection(),
 	m_mtxView(),
@@ -50,6 +53,11 @@ CCamera::CCamera() :
 //===================================================
 CCamera::~CCamera()
 {
+	// 要素分回す
+	for (auto& system : m_vpSystem)
+	{
+		system.reset();
+	}
 }
 
 //===================================================
@@ -63,14 +71,13 @@ HRESULT CCamera::Init(void)
 	m_rot = Const::VEC3_NULL;
 	m_vecU = Const::VEC_U;
 
-	//// 機能分回す
-	//for (auto& system : m_pSystem)
-	//{
-	//	// 破棄
-	//	system.reset();
-	//}
+	// 要素分回す
+	for (auto& system : m_vpSystem)
+	{
+		system.reset();
+	}
 
-	//m_pSystem.clear();
+	m_vpSystem.clear();
 
 	return S_OK;
 }
@@ -80,15 +87,6 @@ HRESULT CCamera::Init(void)
 //===================================================
 void CCamera::Uninit(void)
 {
-	//// 機能分回す
-	//for (auto& system : m_pSystem)
-	//{
-	//	// 破棄
-	//	system.reset();
-	//}
-
-	//// 要素をクリア
-	//m_pSystem.clear();
 }
 
 //===================================================
@@ -96,17 +94,17 @@ void CCamera::Uninit(void)
 //===================================================
 void CCamera::Update(void)
 {
-	//// 機能分回す
-	//for (auto& system : m_pSystem)
-	//{
-	//	// 更新処理
-	//	system->Update(m_posV, m_posR, m_rot);
-	//}
+	// 機能分回す
+	for (auto& system : m_vpSystem)
+	{
+		// 更新処理
+		system->Update(m_posV, m_posR, m_rot);
+	}
 
-	//// 角度の正規化
-	//math::NormalizeRot(&m_rot.x);
-	//math::NormalizeRot(&m_rot.y);
-	//math::NormalizeRot(&m_rot.z);
+	// 角度の正規化
+	math::NormalizeRot(&m_rot.x);
+	math::NormalizeRot(&m_rot.y);
+	math::NormalizeRot(&m_rot.z);
 
 #ifdef _DEBUG
 	DebugCamera();
@@ -188,14 +186,14 @@ void CCamera::SetCamera(const D3DXVECTOR3& posV, const D3DXVECTOR3& posR, const 
 	m_posV.z = m_posR.z - sinf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
 }
 
-////===================================================
-//// カメラのシステムの追加
-////===================================================
-//void CCamera::AddSystem(std::unique_ptr<CCameraSystemBase> pNewSystem)
-//{
-//	// 要素の追加
-//	m_pSystem.push_back(std::move(pNewSystem));
-//}
+//===================================================
+// カメラのシステムの追加処理
+//===================================================
+void CCamera::AddSystem(std::unique_ptr<CCameraSystem> pNewSystem)
+{
+	// 要素の追加
+	m_vpSystem.push_back(std::move(pNewSystem));
+}
 
 //===================================================
 // カメラのデバッグの設定
