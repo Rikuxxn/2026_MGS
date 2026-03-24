@@ -305,6 +305,10 @@ void CPlayer::CreatePhysics(float radius, float height, float mass)
 
 	if (pWorld != nullptr)
 	{
+		// 重力を消す
+		pWorld->SetGravity(Const::VEC3_NULL);
+
+		// リジッドボディを追加
 		pWorld->AddRigidBody(m_pRigidBody);
 	}
 }
