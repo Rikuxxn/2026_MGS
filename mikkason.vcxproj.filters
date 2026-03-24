@@ -291,6 +291,12 @@
     <ClCompile Include="src\cpp\shader_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\shadowmap_objectX.cpp">
+      <Filter>ソース ファイル\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\texture_mrt_manager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\camera.h">
@@ -470,9 +476,19 @@
     <ClInclude Include="src\include\shader_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\shadowmap_objectX.h">
+      <Filter>ヘッダー ファイル\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\texture_mrt_manager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\color_constants.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubePS.hlsl" />
-    <FxCompile Include="data\SHADER\SKYCUBE\SkyCubeVS.hlsl" />
+    <FxCompile Include="data\SHADER\skycube.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
