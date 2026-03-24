@@ -69,11 +69,11 @@ HRESULT CGame::Init(void)
 	// カメラの取得
 	CCamera* pCamera = pManager->GetCamera();
 
-	// ブロックマネージャーの取得
-	CBlockManager* pBlockManager = pManager->GetBlockManager();
+	//// ブロックマネージャーの取得
+	//CBlockManager* pBlockManager = pManager->GetBlockManager();
 
-	// ステージの読み込み
-	pBlockManager->LoadFromJson("data/STAGE/test.json");
+	//// ステージの読み込み
+	//pBlockManager->LoadFromJson("data/STAGE/test.json");
 
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
@@ -91,16 +91,17 @@ HRESULT CGame::Init(void)
 
 	CMeshField* pMeshField = CMeshField::Create(
 		{ 0.0f,0.0f,0.0f },
-		{ 1000.0f,1000.0f },
+		{ 5000.0f,5000.0f },
 		Const::WHITE,
-		{ 10,10 },
+		{ 120,120 },
 		"sea.jpg");
 
 	// 空の生成
 	CSkyCube::Create();
 
+	// プランクトンの生成
 	CPlankton::Create(
-		{ 0.0f,0.0f,0.0f }, 
+		{ 100.0f,50.0f,0.0f }, 
 		{ 50.0f,50.0f });
 #if 0
 	CObject2D::Create(
@@ -181,13 +182,13 @@ HRESULT CGame::Init(void)
 		{ 120.0f,20.0f },
 		120,
 		"number001.png");
-
+#endif
 	// メッシュフィールドの判定処理
 	auto pMeshFieldCollisionSystem = std::make_unique<CMeshFieldCollisionSystem>(pPlayer, pMeshField);
 
 	// 当たり判定の追加
 	m_vpCollisionSystem.push_back(std::move(pMeshFieldCollisionSystem));
-#endif
+
 	return S_OK;
 }
 

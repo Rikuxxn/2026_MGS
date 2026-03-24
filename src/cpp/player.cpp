@@ -19,6 +19,7 @@
 #include "PhysicsWorld.h"
 #include "DebugProc3D.h"
 #include "Collider.h"
+#include "RigidBody.h"
 
 // コライダーパラメータ
 namespace ColliderParam
@@ -128,13 +129,13 @@ void CPlayer::Update(void)
 		m_pCharacter->Update();
 	}
 
-	auto pPhysicsWorld = CManager::GetInstance()->GetPhysicsWorld();
+	//auto pPhysicsWorld = CManager::GetInstance()->GetPhysicsWorld();
 
-	if (!m_isJumping && pPhysicsWorld)
-	{
-		// 接地判定
-		m_bOnGround = OnGround(pPhysicsWorld, 5.0f);
-	}
+	//if (!m_isJumping && pPhysicsWorld)
+	//{
+	//	// 接地判定
+	//	m_bOnGround = OnGround(pPhysicsWorld, 5.0f);
+	//}
 
 	// ステートマシン更新
 	m_stateMachine.Update();
@@ -142,25 +143,8 @@ void CPlayer::Update(void)
 	// 入力判定の取得
 	InputData input = GatherInput();
 
-	//// 位置の取得
-	//D3DXVECTOR3 pos = m_pCharacter->GetPosition();
-
-	//// 地面に当たっていたら
-	//if (m_collisionMeshFieldResult.bHit)
-	//{
-	//	// 高さの設定
-	//	pos.y = m_collisionMeshFieldResult.fHeight;
-
-	//	D3DXVECTOR3 move = m_pCharacter->GetMove();
-
-	//	// 重力を消す
-	//	move.y = 0.0f;
-
-	//	m_pCharacter->SetMove(move);
-	//}
-
-	//// 位置の更新
-	//m_pCharacter->SetPosition(pos);
+	// 位置の取得
+	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
 
 	// 向きの取得
 	D3DXVECTOR3 rot = m_pCharacter->GetRotation();
@@ -180,6 +164,23 @@ void CPlayer::Update(void)
 		// Yを入力方向に向ける
 		m_rotDest.y = atan2f(-input.moveDir.x, -input.moveDir.z);
 	}
+
+	// 地面に当たっていたら
+	if (m_collisionMeshFieldResult.bHit)
+	{
+		// 高さの設定
+		pos.y = m_collisionMeshFieldResult.fHeight;
+
+		D3DXVECTOR3 move = m_pCharacter->GetMove();
+
+		// 重力を消す
+		move.y = 0.0f;
+
+		m_pCharacter->SetMove(move);
+	}
+
+	// 位置の更新
+	m_pCharacter->SetPosition(pos);
 
 	// コライダーの更新
 	UpdateCollider(ColliderParam::OFFSET);
@@ -327,7 +328,7 @@ void CPlayer::UpdateCollider(D3DXVECTOR3 offset)
 
 	// Rigidbody から物理座標を取得（カプセル中心）
 	D3DXVECTOR3 rigidPos = m_pRigidBody->GetPosition();
-
+	
 	// カプセルコライダーに反映
 	m_colliderPos = rigidPos;
 
