@@ -22,10 +22,12 @@ public:
 	virtual ~CObjectX();
 
 	static CObjectX* Create(const char* pFilepath, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 size);
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+
+	virtual HRESULT Init	(void) override;
+	virtual void	Uninit	(void) override;
+	virtual void	Update	(void) override;
+	virtual void	Draw	(void) override;
+
 	void DrawNormal(LPDIRECT3DDEVICE9 pDevice);
 
 	//*****************************************************************************
@@ -49,7 +51,7 @@ public:
 	D3DXCOLOR GetMaterialColor(void) const;
 	LPD3DXMESH GetMesh(void)const { return m_pMesh; }
 	DWORD GetNumMat(void) const { return m_dwNumMat; }// Xファイル読み込み時に取得済みのマテリアル数
-
+	D3DXMATRIX GetMatrixWorld(void) const { return m_mtxWorld; }
 private:
 	int*						m_nIdxTexture;
 	D3DXVECTOR3					m_pos;				// 位置

@@ -24,6 +24,7 @@
 #include "PhysicsWorld.h"
 #include "BlockManager.h"
 #include "shader_manager.h"
+#include "texture_mrt_manager.h"
 
 //***************************************************
 // 定数宣言
@@ -100,7 +101,7 @@ CManager::CManager() :
 	m_pCamera(nullptr),
 	//m_pSound(nullptr),
 	//m_pMotionManager(nullptr),
-	//m_pTextureMRTManager(nullptr),
+	m_pTextureMRTManager(nullptr),
 	m_pShaderManager(nullptr),
 	m_nFps(0)
 {
@@ -196,23 +197,16 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 	// モーションのロードクラスの生成
 	m_pMotionLoader = std::make_unique<CMotionLoader>();
 
-	//m_pTextureMRTManager = std::make_unique<CTextureMRTManager>();
-	//m_pTextureMRTManager->Init();
+	// テクスチャMRTのマネージャーの取得
+	m_pTextureMRTManager = std::make_unique<CTextureMRTManager>();
+	m_pTextureMRTManager->Init();
 
 	// モデルのマネージャーの生成
 	m_pModelManager = std::make_unique<CModelManager>();
 	m_pModelManager->Load();
 
-	//// モーションのマネージャーの生成
-	//m_pMotionManager = std::make_unique<CMotionManager>();
-
-	m_pShaderManager = std::make_unique<CShaderManager>();
-
-	// 初期化に失敗したら
-	if (FAILED(m_pShaderManager->Init()))
-	{
-		assert(false && "シェーダー生成失敗!!!");
-	}
+	// シェーダー
+	m_pShaderManager = CShaderManager::Create();
 
 	// 初期モードの設定
 	ChangeMode(std::make_unique<CGame>());
@@ -260,6 +254,13 @@ void CManager::Uninit(void)
 	{
 		m_pRenderer->Uninit();
 		m_pRenderer.reset();
+	}
+
+	// テクスチャMRTマネージャの破棄
+	if (m_pTextureMRTManager != nullptr)
+	{
+		m_pTextureMRTManager->Release();
+		m_pTextureMRTManager.reset();
 	}
 
 	// テクスチャマネージャの破棄
