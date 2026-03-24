@@ -98,7 +98,6 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	{
 		// ジャンプ状態
 		m_pMachine->ChangeState<CPlayerJumpState>();
-		return;
 	}
 
 	// 移動していなければ待機ステートに戻す
@@ -116,10 +115,6 @@ void CPlayerJumpState::OnStart(CPlayer* pPlayer)
 {
 	// ジャンプ中にする
 	pPlayer->SetIsJumping(true);
-
-	//// 上方向の速度を直接ジャンプ力にする
-	//velocity.setY(CPlayer::MAX_JUMP_POWER);
-	//pPlayer->GetRigidBody()->setLinearVelocity(velocity);
 
 	// 通常移動量の取得
 	D3DXVECTOR3 normalMove = pPlayer->GetMove();
