@@ -17,6 +17,8 @@
 #include "RigidBody.h"
 #include "renderer.h"
 #include "DebugProc3D.h"
+#include "whale_controller.h"
+#include "game.h"
 
 // コライダーパラメータ
 namespace ColliderParam
@@ -292,9 +294,9 @@ void CWhale::OnCollisionEnter(IGameObject* other)
 	// プレイヤー
 	if (other->CompareTag("Player"))
 	{
-		//// クジラの操作クラスの取得
-		//CWhaleController* pWhaleController = CGame::GetWhaleController();
+		// クジラの操作クラスの取得
+		CWhaleController* pWhaleController = CGame::GetWhaleController();
 
-		//pWhaleController->OnHitPlayer(this);
+		pWhaleController->OnHitPlayer(this);
 	}
 }

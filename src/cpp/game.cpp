@@ -42,8 +42,9 @@
 //***************************************************
 // 静的メンバ変数宣
 //***************************************************
-std::unique_ptr<CBlockManager>			CGame::m_pBlockManager			= nullptr;	// ブロックマネージャーの生成
-std::unique_ptr<CWhaleController> CGame::m_pWhaleController = nullptr;			// クジラののコントローラの生成
+std::unique_ptr<CBlockManager>	CGame::m_pBlockManager			= nullptr;	// ブロックマネージャーの生成
+std::unique_ptr<CWhaleController> CGame::m_pWhaleController = nullptr;			// クジラのコントローラの生成
+std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;			// プランクトンのコントローラの生成
 
 //===================================================
 // コンストラクタ
