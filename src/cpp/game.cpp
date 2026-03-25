@@ -107,7 +107,7 @@ HRESULT CGame::Init(void)
 		{ 1.68f, 0.0f, 0.0f });
 
 	CPlayer* pPlayer = CPlayer::Create(
-		{ 0.0f,100.0f,0.0f },
+		{ 0.0f,20.0f,-1280.0f },
 		{ 0.0f,0.0f,0.0f },
 		"motion_dolphin.txt"
 	);
