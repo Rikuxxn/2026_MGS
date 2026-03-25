@@ -103,7 +103,7 @@ HRESULT CGame::Init(void)
 
 	CMeshField* pMeshField = CMeshField::Create(
 		{ 0.0f,0.0f,0.0f },
-		{ 5000.0f,5000.0f },
+		{ 3500.0f, 3500.0f },
 		Const::WHITE,
 		{ 120,120 },
 		"sea.jpg");

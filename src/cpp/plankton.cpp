@@ -23,6 +23,8 @@
 namespace PlanktonConst
 {
 	constexpr const char* TEXTURE_PATH = "effect000.jpg";	// テクスチャのパス
+
+	constexpr float FOLLOW_ALPHA = 0.05f;	// 位置の補間の係数
 }
 
 //===================================================
@@ -180,11 +182,17 @@ void CPlankton::Update(void)
 
 	if (m_bFollow == true)
 	{
+		// 現在の位置の取得
+		D3DXVECTOR3 currentPos = CObjectBillboard::GetPosition();
+
+		// 現在の位置と補間する
+		currentPos += (m_followPos - currentPos) * PlanktonConst::FOLLOW_ALPHA;
+
 		// コライダー位置の設定
-		m_pRigidBody->SetTransform(m_followPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
+		m_pRigidBody->SetTransform(currentPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
 
 		// プランクトンの位置を更新(プレイヤー追従)
-		CObjectBillboard::SetPosition(m_followPos);
+		CObjectBillboard::SetPosition(currentPos);
 	}
 }
 
