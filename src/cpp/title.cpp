@@ -61,10 +61,10 @@ HRESULT CTitle::Init(void)
 
 	// äCíÍ
 	CObjectX::Create(
-		"data/MODEL/seabed.x", 
-		{ 0.0f,-500.0f,0.0f }, 
-		Const::VEC3_NULL, 
-		{ 10.0f,10.0f,10.0f });
+		"data/MODEL/seabed01.x",
+		{ 0.0f,-500.0f,0.0f },
+		Const::VEC3_NULL,
+		{ 5.0f,5.0f,5.0f });
 
 	// ãÛÇÃê∂ê¨
 	CSkyCube::Create();
@@ -75,8 +75,6 @@ HRESULT CTitle::Init(void)
 		Const::WHITE,
 		{ 120,120 },
 		"sea.jpg");
-
-
 
 	return S_OK;
 }
