@@ -30,6 +30,15 @@ class RigidBody;	// 剛体
 class CPlankton : public CObjectBillboard, public IGameObject
 {
 public:
+	// 状態の種類
+	enum class State : uint8_t
+	{
+		Idel = 0,	// 何もしない
+		Follow,		// 追従
+		BeEaten,	// 食われる
+		Max
+	};
+
 	CPlankton();
 	~CPlankton();
 
@@ -45,12 +54,15 @@ public:
 	Collider* GetCollisionShape(void) const;								// コリジョンの取得
 
 	inline void	GetFollowPosition(const D3DXVECTOR3& followPos) { m_followPos = followPos; }
-	inline bool GetFollowState(void) const { return m_bFollow; }
+	State GetState(void) const;
+	void SetState(State state) { m_state = state; }
+
+	//inline void SetFollowState(const bool b) 
 private:
 	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_followPos;	// 追従位置
-	bool						m_bFollow;		// 追従するかどうか
 	float						m_fTime;		// ぐるぐる回る
+	State						m_state;		// 状態
 };
 #endif

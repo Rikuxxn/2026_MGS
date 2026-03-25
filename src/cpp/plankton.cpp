@@ -37,7 +37,7 @@ CPlankton::CPlankton() :
 	m_pRigidBody(nullptr),
 	m_pShape(nullptr),
 	m_followPos(Const::VEC3_NULL),
-	m_bFollow(false),
+	m_state(State::Idel),
 	m_fTime(0.0f)
 {
 	// プランクトンのタグを設定
@@ -184,7 +184,7 @@ void CPlankton::Update(void)
 	// 更新処理
 	CObjectBillboard::Update();
 
-	if (m_bFollow == true)
+	if (m_state == State::Follow)
 	{
 		// 現在の位置の取得
 		D3DXVECTOR3 currentPos = CObjectBillboard::GetPosition();
@@ -279,7 +279,7 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 		// プライヤーとの結合
 		pPlanktonController->RegisterPlayerPlanktonList(this);
 
-		m_bFollow = true;
+		m_state = State::Follow;
 	}
 }
 
@@ -289,4 +289,12 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 Collider* CPlankton::GetCollisionShape(void) const
 {
 	return m_pShape.get();
+}
+
+//===================================================
+// 状態の取得
+//===================================================
+CPlankton::State CPlankton::GetState(void) const
+{
+	return m_state;
 }

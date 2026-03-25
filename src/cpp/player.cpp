@@ -175,6 +175,8 @@ void CPlayer::Update(void)
 
 	// プランクトンの更新処理
 	UpdatePlankton();
+
+	UpdateWhale();
 }
 
 //===================================================
@@ -577,7 +579,7 @@ void CPlayer::UpdatePlankton(void)
 	for (auto& plankton : m_pHasPlanktonList)
 	{
 		// 追従状態じゃないなら処理を飛ばす
-		if (plankton->GetFollowState() == false)
+		if (plankton->GetState() != CPlankton::State::Follow)
 		{
 			continue;
 		}
@@ -595,6 +597,11 @@ void CPlayer::UpdatePlankton(void)
 //=============================================================================
 void CPlayer::UpdateWhale(void)
 {
+	// プランクトンを持っていないなら
+	if (m_pHasPlanktonList.empty())
+	{
+		return;
+	}
 	// 当たったクジラがいないなら
 	if (m_pWhale == nullptr)
 	{
@@ -604,6 +611,11 @@ void CPlayer::UpdateWhale(void)
 	// プランクトン
 	for (auto& plankton : m_pHasPlanktonList)
 	{
-		
+		plankton->Uninit();
 	}
+
+	m_pHasPlanktonList.clear();
+
+	// 接続を消す
+	m_pWhale = nullptr;
 }
