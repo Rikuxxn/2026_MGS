@@ -36,9 +36,18 @@ public:
 	// 更新処理
 	void Update(void);
 
+	// ドーナツ状にクジラ生成する処理
+	void SpawnWhale(void);
+
 	// プレイヤーと当たったとときの処理
 	void OnHitPlayer(CWhale* pWhale);
+
+	// クジラが満足した処理
+	void OnWhaleSatisfied(CWhale* whale);
+
 private:
+	static constexpr int MAX_WHALE_NUM = 5;// クジラの最大生成数
+
 	CPlayer* m_pPlayer;
 	std::list<CWhale*> m_pList;	// クジラのリスト
 };
