@@ -17,6 +17,7 @@
 #include "camera.h"
 #include "mesh_field.h"
 #include "skycube.h"
+#include "objectx.h"
 
 //===================================================
 // コンストラクタ
@@ -58,10 +59,17 @@ HRESULT CTitle::Init(void)
 		"title.png",
 		0.0f);
 
+	// 海底
+	CObjectX::Create(
+		"data/MODEL/seabed.x", 
+		{ 0.0f,-500.0f,0.0f }, 
+		Const::VEC3_NULL, 
+		{ 10.0f,10.0f,10.0f });
+
 	// 空の生成
 	CSkyCube::Create();
 
-	CMeshField* pMeshField = CMeshField::Create(
+	CMeshField::Create(
 		{ 0.0f,0.0f,0.0f },
 		{ 3500.0f, 3500.0f },
 		Const::WHITE,

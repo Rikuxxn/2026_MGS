@@ -7,7 +7,7 @@
 
 // ’è”
 static const float power = 0.3f;
-static const float alpha = 0.5f;
+static const float alpha = 0.8f;
 static const float powPower = 2.0f;
 static const float scale = 8.0f;
 static const float2 speed1 = float2(0.03f, 0.02f);
