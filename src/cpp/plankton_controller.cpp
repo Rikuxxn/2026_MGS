@@ -11,6 +11,7 @@
 #include "plankton_controller.h"
 #include "plankton.h"
 #include "player.h"
+#include "json_loader.h"
 
 //===================================================
 // コンストラクタ
@@ -36,6 +37,12 @@ std::unique_ptr<CPlanktonController> CPlanktonController::Create(CPlayer* pPlaye
 	// 自分自身の生成
 	auto pInstance = std::make_unique<CPlanktonController>();
 
+	// 初期化処理
+	if (FAILED(pInstance->Init()))
+	{
+		pInstance = nullptr;
+		return nullptr;
+	}
 	// 要素の設定
 	pInstance->m_pPlayer = pPlayer;
 
@@ -85,4 +92,32 @@ void CPlanktonController::Update(void)
 		// 位置の設定
 		list->GetFollowPosition(pos);
 	}
+}
+
+//===================================================
+// 初期化処理
+//===================================================
+HRESULT CPlanktonController::Init(void)
+{
+	nlohmann::json config;
+
+	// 読み込み処理
+	if (FAILED(JsonLoader::Load("plankton.json", config)))
+	{
+		return E_FAIL;
+	}
+
+	// 取得した分回す
+	for (const auto& item : config["planktons"])
+	{
+		D3DXVECTOR3 pos;
+		pos.x = item["pos"][0];
+		pos.y = item["pos"][1];
+		pos.z = item["pos"][2];
+
+		// 生成処理
+		CreatePlankton(pos, { 50.0f,50.0f });
+	}
+
+	return S_OK;
 }

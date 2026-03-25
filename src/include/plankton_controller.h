@@ -36,6 +36,8 @@ public:
 	// 更新処理
 	void Update(void);
 private:
+	HRESULT Init(void);
+private:
 	CPlayer* m_pPlayer;				// プレイヤーのクラス
 	std::list<CPlankton*> m_pList;	// プランクトンのリスト
 };
