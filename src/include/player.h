@@ -26,7 +26,8 @@ class CCharacter;	// キャラクタークラス
 class CDebugProc3D;	// 3Dデバッグ表示クラス
 class Collider;		// コライダークラス
 class PhysicsWorld;	// 物理世界クラス
-class RigidBody;
+class RigidBody;	
+class CPlankton;	// プランクトンクラス
 
 //***************************************************
 // プレイヤーの処理のクラスの定義
@@ -77,7 +78,12 @@ public:
 	bool GetIsJumping				(void) { return m_isJumping; }
 	InputData GatherInput			(void);
 
-	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
+	/// <summary>
+	/// プランクトンの追加
+	/// </summary>
+	/// <param name="pPlankton"></param>
+	void RegisterPlankton			(CPlankton* pPlankton);
+	inline void SetMeshFieldCollisionResult	(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 	void SetIsJumping(bool flag) { m_isJumping = flag; }
 
 	// ステート用にフラグ更新
@@ -97,7 +103,11 @@ private:
 	static constexpr float	CAPSULE_RADIUS		= 16.5f;	// カプセルコライダーの半径
 	static constexpr float	CAPSULE_HEIGHT		= 40.0f;	// カプセルコライダーの高さ
 private:
+	void UpdatePlankton(void);
+private:
 	CollisionResult::MeshField m_collisionMeshFieldResult;	// メッシュフィールドの判定の結果
+
+	std::list<CPlankton*>		m_pHasPlanktonList;			// 自分が持っているプランクトンのリスト
 
 	std::unique_ptr<CCharacter> m_pCharacter;				// キャラクタークラスへのポインタ
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ

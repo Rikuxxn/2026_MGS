@@ -36,9 +36,9 @@ public:
 	void	Update	(void) override;
 	void	Draw	(void) override;
 
-	inline CPlanktonController* GetPlanktonController(void) { return m_pPlanktonController.get(); }
+	static inline CPlanktonController* GetPlanktonController(void) { return m_pPlanktonController.get(); }
 private:
 	std::vector<std::unique_ptr<CCollisionSystem>>	m_vpCollisionSystem;	// 当たり判定の処理
-	std::unique_ptr<CPlanktonController>			m_pPlanktonController;	// プランクトンの生成するクラス
+	static std::unique_ptr<CPlanktonController>		m_pPlanktonController;	// プランクトンの生成するクラス
 };
 #endif

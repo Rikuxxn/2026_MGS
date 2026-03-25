@@ -8,7 +8,7 @@
 //***************************************************
 // インクルードファイル
 //***************************************************
-#include "whole.h"
+#include "whale.h"
 #include "character.h"
 #include "motion.h"
 #include "manager.h"
@@ -289,5 +289,9 @@ void CWhole::UpdateCollider(D3DXVECTOR3 offset)
 //===================================================
 void CWhole::OnCollisionEnter(IGameObject* other)
 {
+	// プレイヤー
+	if (other->CompareTag("Player"))
+	{
 
+	}
 }

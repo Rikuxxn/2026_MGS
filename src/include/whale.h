@@ -62,7 +62,7 @@ public:
 	void CreatePhysics(D3DXVECTOR3 size, float mass);		// Phtsics生成処理
 	void UpdateCollider(D3DXVECTOR3 offset);						// コライダーの位置更新処理
 
-	void	OnCollisionEnter(IGameObject* other) override;
+	void OnCollisionEnter(IGameObject* other) override;
 
 private:
 	std::unique_ptr<CCharacter> m_pCharacter;	// キャラクタークラスへのポインタ

@@ -315,7 +315,7 @@
     <ClCompile Include="src\cpp\plankton.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\whole.cpp">
+    <ClCompile Include="src\cpp\whale.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\plankton_controller.cpp">
@@ -325,9 +325,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\Sound.cpp">
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\cpp\particle_registry.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\mesh_sphere.cpp">
+      <Filter>ソース ファイル\mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -526,7 +529,7 @@
     <ClInclude Include="src\include\plankton.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\whole.h">
+    <ClInclude Include="src\include\whale.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\include\plankton_controller.h">
@@ -536,9 +539,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\include\Sound.h">
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\include\particle_registry.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\mesh_sphere.h">
+      <Filter>ヘッダー ファイル\mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

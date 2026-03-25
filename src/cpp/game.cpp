@@ -16,8 +16,10 @@
 #include "SkyCube.h"
 #include "follow_camera.h"
 #include "plankton.h"
-#include "whole.h"
+#include "whale.h"
 #include "plankton_controller.h"
+#include "mesh_sphere.h"
+#include "color_constants.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -37,13 +39,17 @@
 #include "texture_animation.h"
 #include "Sound.h"
 
+//***************************************************
+// 静的メンバ変数宣
+//***************************************************
+std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// プランクトンのコントローラの生成
+
 //===================================================
 // コンストラクタ
 //===================================================
 CGame::CGame() :
 	CScene(CScene::MODE_GAME),
-	m_vpCollisionSystem(),
-	m_pPlanktonController()
+	m_vpCollisionSystem()
 {
 }
 
@@ -246,28 +252,6 @@ void CGame::Update(void)
 		CManager::GetInstance()->BeginFade(std::make_unique<CRanking>());
 	}
 #endif // _DEBUG
-
-
-	CEffect::Info effectInfo;
-
-	effectInfo.unFlag =
-		CEffect::FLAG_GRAVITY |
-		CEffect::FLAG_ALPHA_DECREASE |
-		CEffect::FLAG_RADIUS_DECREASE |
-		CEffect::FLAG_INERTIA;
-
-
-	effectInfo.move = { 50.0f,1.0f,1.0f };
-	effectInfo.nLife = 60;
-	effectInfo.fGravity = 0.2f;
-	effectInfo.fInertia = 0.9f;
-
-	CEffect::Create(
-		effectInfo,
-		{ 0.0f,0.0f,0.0f },
-		{ 10.0f,10.0f },
-		Const::WHITE,
-		"effect000.jpg");
 
 	CParticle::Info particleInfo;
 

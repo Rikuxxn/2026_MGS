@@ -21,9 +21,9 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "renderer.h"
+#include "plankton.h"
 
-
-#include "whole.h"
+#include "whale.h"
 
 // コライダーパラメータ
 namespace ColliderParam
@@ -39,7 +39,8 @@ CPlayer::CPlayer() :
 	CObject(PRIORITY_CHARACTER),
 	m_pCharacter(nullptr),
 	m_rotDest(Const::VEC3_NULL),
-	m_fSpeed(2.0f)
+	m_fSpeed(2.0f),
+	m_pHasPlanktonList()
 {
 	// タグの設定
 	SetTag("Player");
@@ -170,6 +171,9 @@ void CPlayer::Update(void)
 
 	// コライダーの更新
 	UpdateCollider(Const::VEC3_NULL);
+
+	// プランクトンの更新処理
+	UpdatePlankton();
 }
 
 //===================================================
@@ -545,4 +549,42 @@ CPlayer::InputData CPlayer::GatherInput(void)
 	}
 
 	return input;
+}
+
+//=============================================================================
+// プランクトン
+//=============================================================================
+void CPlayer::RegisterPlankton(CPlankton* pPlankton)
+{
+	// 要素があるか調べる
+	auto itr = std::find(m_pHasPlanktonList.begin(), m_pHasPlanktonList.end(), pPlankton);
+
+	// 持っていないなら
+	if (itr == m_pHasPlanktonList.end())
+	{
+		// 要素の追加
+		m_pHasPlanktonList.push_back(pPlankton);
+	}
+}
+
+//=============================================================================
+// プランクトンの更新処理
+//=============================================================================
+void CPlayer::UpdatePlankton(void)
+{
+	// 持っているプランクトン分回す
+	for (auto& plankton : m_pHasPlanktonList)
+	{
+		// 追従状態じゃないなら処理を飛ばす
+		if (plankton->GetFollowState() == false)
+		{
+			continue;
+		}
+
+		// 自分の位置の取得
+		D3DXVECTOR3 pos = GetPosition();
+
+		// プランクトンの位置の設定処理
+		plankton->GetFollowPosition(pos);
+	}
 }

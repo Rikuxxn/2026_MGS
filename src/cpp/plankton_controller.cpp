@@ -73,25 +73,37 @@ HRESULT CPlanktonController::CreatePlankton(const D3DXVECTOR3& pos, const D3DXVE
 //===================================================
 void CPlanktonController::Update(void)
 {
-	if (m_pPlayer == nullptr)
+	//if (m_pPlayer == nullptr)
+	//{
+	//	return;
+	//}
+
+	//// ˆÊ’u‚ÌŽæ“¾
+	//D3DXVECTOR3 pos = m_pPlayer->GetPosition();
+
+	//// —v‘f•ª‰ñ‚·
+	//for (auto& list : m_pList)
+	//{
+	//	// ’Ç]ó‘Ô‚¶‚á‚È‚¢‚È‚ç
+	//	if (list->GetFollowState() == false)
+	//	{
+	//		continue;
+	//	}
+
+	//	// ˆÊ’u‚ÌÝ’è
+	//	list->GetFollowPosition(pos);
+	//}
+}
+
+//===================================================
+// ƒvƒŒƒCƒ„[‚Ìƒvƒ‰ƒ“ƒNƒgƒ“‚ÌƒŠƒXƒg‚Ì“o˜^ˆ—
+//===================================================
+void CPlanktonController::RegisterPlayerPlanktonList(CPlankton* pPlankton)
+{
+	if (m_pPlayer != nullptr)
 	{
-		return;
-	}
-
-	// ˆÊ’u‚ÌŽæ“¾
-	D3DXVECTOR3 pos = m_pPlayer->GetPosition();
-
-	// —v‘f•ª‰ñ‚·
-	for (auto& list : m_pList)
-	{
-		// ’Ç]ó‘Ô‚¶‚á‚È‚¢‚È‚ç
-		if (list->GetFollowState() == false)
-		{
-			continue;
-		}
-
-		// ˆÊ’u‚ÌÝ’è
-		list->GetFollowPosition(pos);
+		// ƒvƒ‰ƒ“ƒNƒgƒ“‚Ì“o˜^
+		m_pPlayer->RegisterPlankton(pPlankton);
 	}
 }
 

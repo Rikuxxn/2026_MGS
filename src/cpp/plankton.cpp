@@ -16,6 +16,8 @@
 #include "RigidBody.h"
 #include "player.h"
 #include "DebugProc3D.h"
+#include "game.h"
+#include "plankton_controller.h"
 
 //***************************************************
 // 定数宣言
@@ -262,6 +264,12 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 	// プレイヤーとの当たり判定
 	if (other->CompareTag("Player"))
 	{
+		// プランクトンの操作クラスの定義
+		CPlanktonController *pPlanktonController = CGame::GetPlanktonController();
+
+		// プライヤーとの結合
+		pPlanktonController->RegisterPlayerPlanktonList(this);
+
 		m_bFollow = true;
 	}
 }

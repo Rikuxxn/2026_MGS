@@ -58,7 +58,6 @@ void CTitle::Uninit(void)
 //===================================================
 void CTitle::Update(void)
 {
-#ifdef _DEBUG
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
 
@@ -69,6 +68,8 @@ void CTitle::Update(void)
 	{
 		pManager->BeginFade(std::make_unique<CGame>());
 	}
+
+#ifdef _DEBUG
 #endif // _DEBUG
 }
 
