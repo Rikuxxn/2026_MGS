@@ -52,9 +52,11 @@ public:
 	/// テクスチャのIDの設定
 	/// </summary>
 	/// <param name="テクスチャのパス"></param>
-	void	SetTextureID(const char* pTexturePath);
+	void	SetTextureID(const char* pNoiseTexturePath, const char* pSeaTexturePath);
 private:
 	std::unique_ptr<CMeshFieldCollision> m_pCollision;	// 当たり判定
+
+	static constexpr float DELTA_TIME = 0.004f;
 
 	LPDIRECT3DVERTEXBUFFER9		m_pVtxBuffer;	// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9		m_pIdxBuffer;	// インデックスバッファへのポインタ
@@ -68,6 +70,8 @@ private:
 	int	m_nNumVertex;			// 頂点数
 	int	m_nNumPolygon;			// ポリゴン数
 	int	m_nNumIndex;			// インデックス数
-	int	m_nTextureID;			// テクスチャのID
+	int	m_nNoiseTextureID;		// テクスチャのID
+	int	m_nSeaTextureID;		// テクスチャのID
+	float m_fTime;				// 波の動きを出す
 };
 #endif

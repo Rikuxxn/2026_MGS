@@ -761,6 +761,12 @@ void PhysicsWorld::StepSimulation(float dt)
 
                     m_currentCollisions.insert(MakePair(A->GetCollider().get(), B->GetCollider().get()));
 
+                    // •¨—“I‚ÈÕ“Ë”»’è‚ð‚µ‚È‚¢
+                    if (!A->IsNoCollision() || !B->IsNoCollision())
+                    {
+                        return;
+                    }
+
                     // ‘Š‘Î‘¬“x
                     D3DXVECTOR3 relVel = B->GetVelocity() - A->GetVelocity();
                     float velAlongNormal = D3DXVec3Dot(&relVel, &normal);

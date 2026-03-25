@@ -113,7 +113,7 @@ HRESULT CGame::Init(void)
 
 	// プランクトンの生成処理
 	m_pPlanktonController->CreatePlankton(
-		{ 80.0f,10.0f,0.0f },
+		{ 150.0f,10.0f,0.0f },
 		{ 50.0f,50.0f });
 
 	//// プランクトンの生成

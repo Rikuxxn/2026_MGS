@@ -51,6 +51,7 @@ public:
     bool IsOnGround(void) const { return m_onGround; }
 
     void SetIsDynamic       (bool flag)                 { m_isDynamic = flag; }
+    void SetCollisionFlag   (bool flag)                 { m_isNoCollision = flag; }
     void SetLinearFactor    (const D3DXVECTOR3& factor) { m_LinearFactor = factor; }
     void SetAngularFactor   (const D3DXVECTOR3& factor) { m_AngularFactor = factor; }
     void SetAngularVelocity (const D3DXVECTOR3& vel)    { m_AngularVelocity = vel; }
@@ -76,6 +77,7 @@ public:
     const float                 GetRollingFriction  (void) const { return m_RollingFriction; }
     const float                 GetMass             (void) const { return m_Mass; }
     const float                 GetRestitution      (void) const { return m_Restitution; }
+    const bool                  IsNoCollision       (void) const { return m_isNoCollision; }
 
 private:
     std::shared_ptr<Collider>   m_Collider;            // コライダーのポインタ
@@ -97,6 +99,7 @@ private:
     float                       m_Mass;                // 質量
     bool                        m_isDynamic;           // 動的ブロックかどうか
     bool                        m_onGround;            // 乗っているかどうか
+    bool                        m_isNoCollision;       // 衝突無し
 };
 
 #endif
