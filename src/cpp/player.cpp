@@ -40,7 +40,8 @@ CPlayer::CPlayer() :
 	m_pCharacter(nullptr),
 	m_rotDest(Const::VEC3_NULL),
 	m_fSpeed(2.0f),
-	m_pHasPlanktonList()
+	m_pHasPlanktonList(),
+	m_pWhale(nullptr)
 {
 	// É^ÉOÇÃê›íË
 	SetTag("Player");

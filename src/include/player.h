@@ -28,6 +28,7 @@ class Collider;		// コライダークラス
 class PhysicsWorld;	// 物理世界クラス
 class RigidBody;	
 class CPlankton;	// プランクトンクラス
+class CWhale;		// クジラ
 
 //***************************************************
 // プレイヤーの処理のクラスの定義
@@ -68,22 +69,24 @@ public:
 	void ApplyDeceleration	(void);										// 減速処理
 	bool OnGround			(PhysicsWorld* world, float rayLength);		// 接地判定
 
-	RigidBody*	GetRigidBody		(void) const { return m_pRigidBody.get(); }	// 剛体の取得
-	Collider*	GetCollisionShape	(void) const;								// コリジョンの取得
-	const D3DXVECTOR3& GetPosition	(void) const;
-	D3DXVECTOR3 GetMove				(void) const;
-	D3DXVECTOR3 GetColliderPos		(void) const { return m_colliderPos; }
-	bool GetIsMoving				(void) const { return m_isMoving; }
-	bool GetOnGround				(void) { return m_bOnGround; }
-	bool GetIsJumping				(void) { return m_isJumping; }
-	InputData GatherInput			(void);
+	RigidBody*			GetRigidBody		(void) const { return m_pRigidBody.get(); }	// 剛体の取得
+	Collider*			GetCollisionShape	(void) const;								// コリジョンの取得
+	const D3DXVECTOR3&	GetPosition			(void) const;
+	D3DXVECTOR3			GetMove				(void) const;
+	D3DXVECTOR3			GetColliderPos		(void) const { return m_colliderPos; }
+	bool				GetIsMoving			(void) const { return m_isMoving; }
+	bool				GetOnGround			(void) { return m_bOnGround; }
+	bool				GetIsJumping		(void) { return m_isJumping; }
+	InputData			GatherInput			(void);
+	inline void			OnHitWhale			(CWhale* pWhale) { m_pWhale = pWhale; }
+
+	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 
 	/// <summary>
 	/// プランクトンの追加
 	/// </summary>
 	/// <param name="pPlankton"></param>
 	void RegisterPlankton			(CPlankton* pPlankton);
-	inline void SetMeshFieldCollisionResult	(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 	void SetIsJumping(bool flag) { m_isJumping = flag; }
 
 	// ステート用にフラグ更新
@@ -113,6 +116,7 @@ private:
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
 
+	CWhale*						m_pWhale;					// クジラクラスへのポインタ(参照用)				
 	D3DXVECTOR3                 m_colliderPos;				// カプセルコライダーの位置
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	float						m_fSpeed;					// 足の速さ
