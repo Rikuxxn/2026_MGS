@@ -645,6 +645,8 @@ void CPlayer::UpdateWhale(void)
 			(*plankton)->Uninit();
 			plankton = m_pHasPlanktonList.erase(plankton);
 
+			m_pWhale->EatPlankton();
+
 			// 要素の最後だったら例外スローでるので処理を抜ける
 			if (plankton == m_pHasPlanktonList.end())
 			{
@@ -655,8 +657,6 @@ void CPlayer::UpdateWhale(void)
 
 	if (m_pHasPlanktonList.empty())
 	{
-		m_pWhale->SetScal(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
-
 		// 接続を消す
 		m_pWhale = nullptr;
 	}
