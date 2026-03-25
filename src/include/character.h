@@ -51,6 +51,7 @@ public:
 	inline const D3DXVECTOR3& GetMove				(void) const { return m_move; }
 	inline const D3DXVECTOR3& GetPosition			(void) const { return m_pos; }
 	inline const D3DXVECTOR3& GetRotation			(void) const { return m_rot; }
+	inline const D3DXVECTOR3& GetScale				(void) const { return m_scale; }
 
 	inline CMotion* GetMotion(void) { return m_pMotion.get(); }
 
