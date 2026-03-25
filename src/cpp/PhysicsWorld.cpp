@@ -735,9 +735,9 @@ void PhysicsWorld::StepSimulation(float dt)
         }
     }
 
-    // Õ“Ë‰ğŒˆ‚Ì”½•œ
-    for (int iter = 0; iter < ITERATIONS; iter++)
-    {
+    //// Õ“Ë‰ğŒˆ‚Ì”½•œ
+    //for (int iter = 0; iter < ITERATIONS; iter++)
+    //{
         for (size_t nCnt = 0; nCnt < m_Bodies.size(); nCnt++)
         {
             for (size_t nCnt2 = nCnt + 1; nCnt2 < m_Bodies.size(); nCnt2++)
@@ -798,7 +798,7 @@ void PhysicsWorld::StepSimulation(float dt)
                 }
             }
         }
-    }
+    //}
 
     // ÅI•â³
     for (auto& body : m_Bodies)
