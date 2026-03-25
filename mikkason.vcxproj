@@ -188,6 +188,7 @@
     <ClCompile Include="src\cpp\ObjectX.cpp" />
     <ClCompile Include="src\cpp\object_billboard.cpp" />
     <ClCompile Include="src\cpp\particle.cpp" />
+    <ClCompile Include="src\cpp\particle_registry.cpp" />
     <ClCompile Include="src\cpp\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -262,6 +263,7 @@
     <ClInclude Include="src\include\ObjectX.h" />
     <ClInclude Include="src\include\object_billboard.h" />
     <ClInclude Include="src\include\particle.h" />
+    <ClInclude Include="src\include\particle_registry.h" />
     <ClInclude Include="src\include\pch.h" />
     <ClInclude Include="src\include\PhysicsWorld.h" />
     <ClInclude Include="src\include\plankton.h" />
@@ -302,6 +304,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\SYSTEM\particle.json" />
     <None Include="data\SYSTEM\plankton.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -25,6 +25,7 @@
 #include "BlockManager.h"
 #include "shader_manager.h"
 #include "texture_mrt_manager.h"
+#include "particle_registry.h"
 
 //***************************************************
 // 定数宣言
@@ -103,6 +104,7 @@ CManager::CManager() :
 	//m_pMotionManager(nullptr),
 	m_pTextureMRTManager(nullptr),
 	m_pShaderManager(nullptr),
+	m_pParticleRegistry(nullptr),
 	m_nFps(0)
 {
 }
@@ -208,8 +210,11 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 	// シェーダー
 	m_pShaderManager = CShaderManager::Create();
 
+	// パーティクルの管理クラスの生成
+	m_pParticleRegistry = CParticleRegistry::Create();
+
 	// 初期モードの設定
-	ChangeMode(std::make_unique<CGame>());
+	ChangeMode(std::make_unique<CTitle>());
 
 	// フェードの生成
 	m_pFade = CFade::Create();
@@ -222,6 +227,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 //===================================================
 void CManager::Uninit(void)
 {
+	// パーティクルの管理クラスの破棄
+	m_pParticleRegistry.reset();
+
 	// シェーダーのマネージャーの破棄
 	if (m_pShaderManager != nullptr)
 	{
