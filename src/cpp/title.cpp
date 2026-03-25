@@ -38,10 +38,10 @@ HRESULT CTitle::Init(void)
 
 	CObject2D::Create(
 		Const::CENTER_POS_2D,
-		{ 150.0f,50.0f },
+		{ 600.0f,150.0f },
 		Const::WHITE,
 		"title.png",
-		0.5f);
+		0.0f);
 
 	return S_OK;
 }
