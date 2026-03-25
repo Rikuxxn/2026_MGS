@@ -589,3 +589,21 @@ void CPlayer::UpdatePlankton(void)
 		plankton->GetFollowPosition(pos);
 	}
 }
+
+//=============================================================================
+// クジラの更新処理
+//=============================================================================
+void CPlayer::UpdateWhale(void)
+{
+	// 当たったクジラがいないなら
+	if (m_pWhale == nullptr)
+	{
+		return;
+	}
+
+	// プランクトン
+	for (auto& plankton : m_pHasPlanktonList)
+	{
+		
+	}
+}

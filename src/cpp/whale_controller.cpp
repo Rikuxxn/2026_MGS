@@ -10,6 +10,7 @@
 //***************************************************
 #include "whale_controller.h"
 #include "whale.h"
+#include "player.h"
 
 //===================================================
 // コンストラクタ
@@ -56,4 +57,9 @@ std::unique_ptr<CWhaleController> CWhaleController::Create(CPlayer* pPlayer)
 //===================================================
 void CWhaleController::OnHitPlayer(CWhale* pWhale)
 {
+	if (m_pPlayer != nullptr)
+	{
+		// クジラと当たったら
+		m_pPlayer->OnHitWhale(pWhale);
+	}
 }

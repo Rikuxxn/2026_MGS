@@ -107,6 +107,7 @@ private:
 	static constexpr float	CAPSULE_HEIGHT		= 40.0f;	// カプセルコライダーの高さ
 private:
 	void UpdatePlankton(void);
+	void UpdateWhale(void);
 private:
 	CollisionResult::MeshField m_collisionMeshFieldResult;	// メッシュフィールドの判定の結果
 
