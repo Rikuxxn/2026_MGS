@@ -28,6 +28,7 @@ namespace PlanktonConst
 
 	constexpr float FOLLOW_LENGTH = 50.0f;	// 位置の補間の係数
 	constexpr float FOLLOW_SPEED = 0.04f;
+	constexpr float EATEN_LERP_TIME = 60.0f;	// 食べられに行く演出の補完係数
 }
 
 //===================================================
@@ -38,6 +39,7 @@ CPlankton::CPlankton() :
 	m_pShape(nullptr),
 	m_followPos(Const::VEC3_NULL),
 	m_state(State::Idel),
+	m_eatenData(),
 	m_fTime(0.0f)
 {
 	// プランクトンのタグを設定
@@ -111,6 +113,8 @@ HRESULT CPlankton::Init(void)
 	{
 		return E_FAIL;
 	}
+
+	m_eatenData.nFrameCounter = 0;
 
 	// テクスチャのIDの設定
 	CObjectBillboard::SetTextureID(PlanktonConst::TEXTURE_PATH);
@@ -297,4 +301,41 @@ Collider* CPlankton::GetCollisionShape(void) const
 CPlankton::State CPlankton::GetState(void) const
 {
 	return m_state;
+}
+
+//===================================================
+// 食べられに行く処理
+//===================================================
+bool CPlankton::ProceedToBeEaten(const D3DXVECTOR3& destPos)
+{
+	// 食べられる状態じゃないなら
+	if (m_state != CPlankton::State::BeEaten)
+	{
+		return false;
+	}
+
+	// 位置の取得
+	D3DXVECTOR3 pos = CObjectBillboard::GetPosition();
+
+	// フレームの割合を求める
+	float fRate = m_eatenData.nFrameCounter / PlanktonConst::EATEN_LERP_TIME;
+
+	// フレームを加算
+	m_eatenData.nFrameCounter++;
+
+	// 目的の位置に近づける
+	pos += (destPos - pos) * fRate;
+
+	CObjectBillboard::SetPosition(pos);
+
+	// コライダー位置の設定
+	m_pRigidBody->SetTransform(pos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
+
+	if (fRate >= 1.0f)
+	{
+		m_eatenData.nFrameCounter = 0;
+		return true;
+	}
+
+	return false;
 }

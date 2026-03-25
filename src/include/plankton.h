@@ -57,12 +57,26 @@ public:
 	State GetState(void) const;
 	void SetState(State state) { m_state = state; }
 
+	/// <summary>
+	/// 食べられに行く処理
+	/// </summary>
+	/// <param name="destPos"></param>
+	bool ProceedToBeEaten(const D3DXVECTOR3& destPos);
+
 	//inline void SetFollowState(const bool b) 
+private:
+	// 食べられる演出のパラメータ
+	struct EatenData
+	{
+		D3DXVECTOR3	eatenPos;			// 食べられる位置
+		int			nFrameCounter;	// カウンター
+	};
 private:
 	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_followPos;	// 追従位置
-	float						m_fTime;		// ぐるぐる回る
 	State						m_state;		// 状態
+	EatenData					m_eatenData;	// 食べられる演出のデータ
+	float						m_fTime;		// ぐるぐる回る
 };
 #endif

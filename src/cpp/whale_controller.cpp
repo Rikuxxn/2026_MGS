@@ -25,6 +25,7 @@ CWhaleController::CWhaleController() :
 //===================================================
 CWhaleController::~CWhaleController()
 {
+	m_pList.clear();
 }
 
 //===================================================
@@ -34,6 +35,9 @@ CWhale* CWhaleController::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot,
 {
 	// 生成処理
 	CWhale* pWhale = CWhale::Create(pos, rot, pMotionFilePath);
+
+	// クジラの追加
+	m_pList.push_back(pWhale);
 
 	// 生成処理
 	return pWhale;
@@ -50,6 +54,22 @@ std::unique_ptr<CWhaleController> CWhaleController::Create(CPlayer* pPlayer)
 	pInstance->m_pPlayer = pPlayer;
 
 	return pInstance;
+}
+
+//===================================================
+// 更新処理
+//===================================================
+void CWhaleController::Update(void)
+{
+	// プレイヤーの位置の取得
+	D3DXVECTOR3 playerPos = m_pPlayer->GetPosition();
+
+	// プランクトン
+	for (auto& whale : m_pList)
+	{
+		// モーションを設定するかどうか判定する
+		whale->SetMotionByPlayerDistance(playerPos);
+	}
 }
 
 //===================================================

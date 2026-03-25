@@ -33,9 +33,13 @@ public:
 	CWhale* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath);
 	static std::unique_ptr<CWhaleController> Create(CPlayer* pPlayer);
 
+	// 更新処理
+	void Update(void);
+
 	// プレイヤーと当たったとときの処理
 	void OnHitPlayer(CWhale* pWhale);
 private:
 	CPlayer* m_pPlayer;
+	std::list<CWhale*> m_pList;	// クジラのリスト
 };
 #endif

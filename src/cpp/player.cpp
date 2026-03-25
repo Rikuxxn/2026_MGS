@@ -555,6 +555,17 @@ CPlayer::InputData CPlayer::GatherInput(void)
 }
 
 //=============================================================================
+// クジラに当たったら
+//=============================================================================
+void CPlayer::OnHitWhale(CWhale* pWhale)
+{
+	if (m_pWhale == nullptr)
+	{
+		m_pWhale = pWhale;
+	}
+}
+
+//=============================================================================
 // プランクトン
 //=============================================================================
 void CPlayer::RegisterPlankton(CPlankton* pPlankton)
@@ -608,14 +619,36 @@ void CPlayer::UpdateWhale(void)
 		return;
 	}
 
+	D3DXVECTOR3 whalePos = m_pWhale->GetPosition();
+
+	bool bRelease = false;
+
 	// プランクトン
-	for (auto& plankton : m_pHasPlanktonList)
+	for (auto plankton = m_pHasPlanktonList.begin() ; plankton != m_pHasPlanktonList.end();plankton++)
 	{
-		plankton->Uninit();
+		(*plankton)->SetState(CPlankton::State::BeEaten);
+
+		// 破棄できるなら
+		bRelease = (*plankton)->ProceedToBeEaten(whalePos);
+
+		// 破棄するなら
+		if (bRelease)
+		{
+			// 終了処理
+			(*plankton)->Uninit();
+			plankton = m_pHasPlanktonList.erase(plankton);
+
+			// 要素の最後だったら例外スローでるので処理を抜ける
+			if (plankton == m_pHasPlanktonList.end())
+			{
+				break;
+			}
+		}
 	}
 
-	m_pHasPlanktonList.clear();
-
-	// 接続を消す
-	m_pWhale = nullptr;
+	if (m_pHasPlanktonList.empty())
+	{
+		// 接続を消す
+		m_pWhale = nullptr;
+	}
 }
