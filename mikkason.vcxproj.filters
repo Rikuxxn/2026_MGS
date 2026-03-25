@@ -324,6 +324,9 @@
     <ClCompile Include="src\cpp\json_loader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\particle_registry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\debug_proc.h">
@@ -530,6 +533,9 @@
     <ClInclude Include="src\include\json_loader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\particle_registry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\SHADER\skycube.hlsl">
@@ -538,6 +544,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data\SYSTEM\plankton.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="data\SYSTEM\particle.json">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>

@@ -1,0 +1,19 @@
+{
+  "particles": [
+		{
+			"key" :  "test",
+			"texturePath": "effect000.jpg",
+			"col": [ 0, 0, 0, 0 ],
+			"fAngleXMax": 90,
+			"fAngleXMin": -90,
+			"fAngleYMax": 60,
+			"fAngleYMin": -60,
+			"moveMax": [ 1, 1, 1 ],
+			"moveMin": [ 0.5, 0.5, 0.5 ],
+			"num": 5,
+			"nTime": 5,
+			"size": [ 5.0, 5.0 ],
+			"nLife": 20
+		}
+  ]
+}

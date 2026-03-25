@@ -272,7 +272,7 @@ void CGame::Update(void)
 	CParticle::Info particleInfo;
 
 	// ‚±‚Ì’n–‚İ‚Ä‚¦‚Èˆø”‘Å‚Ä‚Î‘€ì‚Å‚«‚Ü‚·
-	particleInfo.pos = {0.0f,0.0f,-200.0f};
+	particleInfo.pos = { 0.0f,0.0f,-200.0f };
 	particleInfo.col = Const::WHITE;
 	particleInfo.fAngleXMax = 90;
 	particleInfo.fAngleXMin = -90;
