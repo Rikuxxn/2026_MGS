@@ -140,7 +140,7 @@ HRESULT CGame::Init(void)
 		"data/MODEL/seabed01.x",
 		{ 0.0f,-500.0f,0.0f },
 		Const::VEC3_NULL,
-		{ 10.0f,10.0f,10.0f });
+		{ 5.0f,5.0f,5.0f });
 
 
 	CTimer::Create(
