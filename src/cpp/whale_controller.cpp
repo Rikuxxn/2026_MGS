@@ -11,6 +11,7 @@
 #include "whale_controller.h"
 #include "whale.h"
 #include "player.h"
+#include "MathConst.h"
 
 //===================================================
 // コンストラクタ
@@ -85,8 +86,8 @@ void CWhaleController::Update(void)
 void CWhaleController::SpawnWhale(void)
 {
 	// 半径（内側と外側）
-	float minRadius = 500.0f;
-	float maxRadius = 800.0f;
+	const float minRadius = 500.0f;
+	const float maxRadius = 800.0f;
 
 	// 0.0～1.0
 	float r = (rand() % 1000) / 1000.0f;
@@ -95,7 +96,7 @@ void CWhaleController::SpawnWhale(void)
 	float radius = sqrtf(r) * (maxRadius - minRadius) + minRadius;
 
 	// 角度
-	float angle = (rand() % 360) * (D3DX_PI / 180.0f);
+	float angle = (rand() % CMathConstant::I_ANGLE_MAX) * (D3DX_PI / CMathConstant::F_ANGLE_HALF);
 
 	// 中心位置
 	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, 0.0f, 200.0f);
