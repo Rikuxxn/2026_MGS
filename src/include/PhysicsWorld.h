@@ -123,7 +123,7 @@ private:
 
 private:
     static constexpr int    AXIS             = 3;       // 各軸
-    static constexpr int    ITERATIONS       = 8;       // 反復回数
+    static constexpr int    ITERATIONS       = 1;       // 反復回数
     static constexpr float  DEFAULT_GRAVITY  = -300.0f; // デフォルトの重力
 
     std::vector<std::shared_ptr<RigidBody>>                 m_Bodies;               // リジッドボディ
