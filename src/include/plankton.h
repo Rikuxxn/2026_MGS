@@ -41,6 +41,7 @@ public:
 	void	Draw	(void) override;
 
 	void	OnCollisionEnter(IGameObject* other) override;
+
 	Collider* GetCollisionShape(void) const;								// ƒRƒŠƒWƒ‡ƒ“‚ÌŽæ“¾
 
 	inline void	GetFollowPosition(const D3DXVECTOR3& followPos) { m_followPos = followPos; }

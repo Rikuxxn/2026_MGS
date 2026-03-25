@@ -32,7 +32,7 @@ CPlankton::CPlankton() :
 	m_pRigidBody(nullptr),
 	m_pShape(nullptr),
 	m_followPos(Const::VEC3_NULL),
-	m_bFollow(true)
+	m_bFollow(false)
 {
 	// プランクトンのタグを設定
 	SetTag("planckton");
@@ -139,6 +139,7 @@ HRESULT CPlankton::Init(void)
 	m_pRigidBody->SetTransform(colliderPos, q, Const::INIT_SCAL);
 
 	m_pRigidBody->SetIsDynamic(false);			// ダイナミックブロックに設定
+	m_pRigidBody->SetCollisionFlag(false);		// 物理的な衝突判定をしない
 
 	//// パラメータは現在は無視
 	//m_pRigidBody->SetLinearFactor(Const::INIT_SCAL);
@@ -177,10 +178,14 @@ void CPlankton::Update(void)
 	// 更新処理
 	CObjectBillboard::Update();
 
-	//// 位置の設定
-	//m_pRigidBody->SetTransform(m_followPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
+	if (m_bFollow == true)
+	{
+		// コライダー位置の設定
+		m_pRigidBody->SetTransform(m_followPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
 
-	//CObjectBillboard::SetPosition(m_followPos);
+		// プランクトンの位置を更新(プレイヤー追従)
+		CObjectBillboard::SetPosition(m_followPos);
+	}
 }
 
 //===================================================
