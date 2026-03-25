@@ -37,11 +37,13 @@
 #include "BlockManager.h"
 #include "texture_animation.h"
 #include "Sound.h"
+#include "whale_controller.h"
 
 //***************************************************
 // 静的メンバ変数宣
 //***************************************************
-std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// プランクトンのコントローラの生成
+std::unique_ptr<CBlockManager>			CGame::m_pBlockManager			= nullptr;	// ブロックマネージャーの生成
+std::unique_ptr<CWhaleController> CGame::m_pWhaleController = nullptr;			// クジラののコントローラの生成
 
 //===================================================
 // コンストラクタ
@@ -70,6 +72,10 @@ CGame::~CGame()
 		m_pPlanktonController.reset();
 	}
 
+	if (m_pWhaleController != nullptr)
+	{
+		m_pWhaleController.reset();
+	}
 	m_vpCollisionSystem.clear();
 }
 
@@ -78,17 +84,21 @@ CGame::~CGame()
 //===================================================
 HRESULT CGame::Init(void)
 {
+	// ブロックマネージャーの生成
+	m_pBlockManager = std::make_unique<CBlockManager>();
+	m_pBlockManager->Init();
+
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
 
 	// カメラの取得
 	CCamera* pCamera = pManager->GetCamera();
 
-	//// ブロックマネージャーの取得
-	//CBlockManager* pBlockManager = pManager->GetBlockManager();
-
-	//// ステージの読み込み
-	//pBlockManager->LoadFromJson("data/STAGE/test.json");
+#ifdef _DEBUG
+#else
+	// 岩の配置情報の読み込み
+	m_pBlockManager->LoadFromJson("data/STAGE/rock_info.json");
+#endif
 
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
@@ -103,6 +113,7 @@ HRESULT CGame::Init(void)
 
 	// プランクトンの操作クラスの生成
 	m_pPlanktonController = CPlanktonController::Create(pPlayer);
+	m_pWhaleController = CWhaleController::Create(pPlayer);
 
 	// カメラ追従処理の追加
 	pCamera->AddSystem(std::make_unique<CFollowCamera>(pCamera, pPlayer));
@@ -118,7 +129,7 @@ HRESULT CGame::Init(void)
 	CSkyCube::Create();
 
 	// クジラの生成
-	CWhole::Create(
+	CWhale::Create(
 		{ -160.0f,10.0f,0.0f },
 		{ 0.0f,0.0f,0.0f },
 		"data/MOTION/motion_whole.txt");

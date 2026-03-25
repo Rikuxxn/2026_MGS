@@ -29,7 +29,7 @@ namespace ColliderParam
 //===================================================
 // コンストラクタ
 //===================================================
-CWhole::CWhole() : 
+CWhale::CWhale() : 
 	CObject(PRIORITY_CHARACTER),
 	m_pCharacter(nullptr)
 {
@@ -44,7 +44,7 @@ CWhole::CWhole() :
 //===================================================
 // デストラクタ
 //===================================================
-CWhole::~CWhole()
+CWhale::~CWhale()
 {
 	// キャラクタークラスの破棄
 	if (m_pCharacter != nullptr)
@@ -57,10 +57,10 @@ CWhole::~CWhole()
 //===================================================
 // 生成処理
 //===================================================
-CWhole* CWhole::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath)
+CWhale* CWhale::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath)
 {
 	// 自分自身の生成
-	CWhole* pInstance = new CWhole;
+	CWhale* pInstance = new CWhale;
 
 	// キャラクターの生成
 	pInstance->m_pCharacter = CCharacter::Create(pos, rot, pMotionFilePath);
@@ -80,7 +80,7 @@ CWhole* CWhole::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const cha
 //===================================================
 // 初期化処理
 //===================================================
-HRESULT CWhole::Init(void)
+HRESULT CWhale::Init(void)
 {
 	// モーションの取得
 	CMotion *pMotion = m_pCharacter->GetMotion();
@@ -96,7 +96,7 @@ HRESULT CWhole::Init(void)
 //===================================================
 // 終了処理
 //===================================================
-void CWhole::Uninit(void)
+void CWhale::Uninit(void)
 {
 	// Physicsの破棄
 	ReleasePhysics();
@@ -108,7 +108,7 @@ void CWhole::Uninit(void)
 //===================================================
 // 更新処理
 //===================================================
-void CWhole::Update(void)
+void CWhale::Update(void)
 {
 	if (m_pCharacter != nullptr)
 	{
@@ -126,7 +126,7 @@ void CWhole::Update(void)
 //===================================================
 // 描画処理
 //===================================================
-void CWhole::Draw(void)
+void CWhale::Draw(void)
 {
 	if (m_pCharacter != nullptr)
 	{
@@ -152,7 +152,7 @@ void CWhole::Draw(void)
 //===================================================
 // コライダーの取得処理
 //===================================================
-Collider* CWhole::GetCollisionShape(void) const
+Collider* CWhale::GetCollisionShape(void) const
 {
 	return m_pShape.get();
 }
@@ -160,7 +160,7 @@ Collider* CWhole::GetCollisionShape(void) const
 //=============================================================================
 // Physicsの破棄
 //=============================================================================
-void CWhole::ReleasePhysics(void)
+void CWhale::ReleasePhysics(void)
 {
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
@@ -193,7 +193,7 @@ void CWhole::ReleasePhysics(void)
 //=============================================================================
 // 当たり判定の生成処理
 //=============================================================================
-void CWhole::CreatePhysics(D3DXVECTOR3 size, float mass)
+void CWhale::CreatePhysics(D3DXVECTOR3 size, float mass)
 {
 	// コライダーを生成(スフィア)
 	m_pShape = std::make_shared<SphereCollider>(size);
@@ -240,7 +240,7 @@ void CWhole::CreatePhysics(D3DXVECTOR3 size, float mass)
 //=============================================================================
 // 当たり判定の位置更新
 //=============================================================================
-void CWhole::UpdateCollider(D3DXVECTOR3 offset)
+void CWhale::UpdateCollider(D3DXVECTOR3 offset)
 {
 	// 向きの取得
 	D3DXVECTOR3 rot = m_pCharacter->GetRotation();
@@ -287,11 +287,14 @@ void CWhole::UpdateCollider(D3DXVECTOR3 offset)
 //===================================================
 // 衝突瞬間判定
 //===================================================
-void CWhole::OnCollisionEnter(IGameObject* other)
+void CWhale::OnCollisionEnter(IGameObject* other)
 {
 	// プレイヤー
 	if (other->CompareTag("Player"))
 	{
+		//// クジラの操作クラスの取得
+		//CWhaleController* pWhaleController = CGame::GetWhaleController();
 
+		//pWhaleController->OnHitPlayer(this);
 	}
 }

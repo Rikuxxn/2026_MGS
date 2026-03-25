@@ -27,7 +27,7 @@ class RigidBody;	// リジッドボディクラス
 //***************************************************
 // クジラクラスの定義
 //***************************************************
-class CWhole : public CObject, public IGameObject
+class CWhale : public CObject, public IGameObject
 {
 public:
 	// モーションの種類
@@ -38,8 +38,8 @@ public:
 		MOTIONTYPE_MAX
 	};
 
-	CWhole();
-	~CWhole();
+	CWhale();
+	~CWhale();
 
 	/// <summary>
 	/// クジラの生成
@@ -48,7 +48,7 @@ public:
 	/// <param name="向き"></param>
 	/// <param name="モーションのファイルパス"></param>
 	/// <returns>クジラのポインタ</returns>
-	static CWhole* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath);
+	static CWhale* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const char* pMotionFilePath);
 
 	HRESULT Init	(void) override;
 	void	Uninit	(void) override;

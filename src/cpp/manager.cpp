@@ -22,7 +22,7 @@
 #include "game.h"
 #include "motion_loader.h"
 #include "PhysicsWorld.h"
-#include "BlockManager.h"
+//#include "BlockManager.h"
 #include "shader_manager.h"
 #include "texture_mrt_manager.h"
 #include "particle_registry.h"
@@ -175,10 +175,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 
 	// 重力の設定
 	m_pPhysicsWorld->SetGravity(D3DXVECTOR3(0.0f, ManagerConst::GRAVITY, 0.0f));
-
-	// ブロックマネージャーの生成
-	m_pBlockManager = std::make_unique<CBlockManager>();
-	m_pBlockManager->Init();
 
 	// カメラの生成
 	m_pCamera = std::make_unique<CCamera>();
