@@ -16,6 +16,7 @@
 // コンストラクタ
 //===================================================
 CTimer::CTimer() : 
+	CObject(PRIORITY_UI_FRONT),
 	m_apNumber(),
 	m_pos(Const::VEC3_NULL),
 	m_size(Const::VEC2_NULL),

@@ -26,7 +26,6 @@
 #include "mesh_circle.h"
 #include "player.h"
 #include "input.h"
-#include "manager.h"
 #include "score.h"
 #include "timer.h"
 #include "minute_second_timer.h"
@@ -118,6 +117,12 @@ HRESULT CGame::Init(void)
 		{ 0.0f,0.0f,0.0f },
 		"data/MOTION/motion_whole.txt");
 
+	CTimer::Create(
+		{ 700.0f,50.0f,0.0f },
+		{ 120.0f,40.0f },
+		120,
+		"number008.png");
+
 #if 0
 	CObject2D::Create(
 		Const::CENTER_POS_2D,
@@ -184,12 +189,6 @@ HRESULT CGame::Init(void)
 		{ 640.0f,100.0f,0.0f },
 		{ 120.0f,20.0f },
 		4545,
-		"number001.png");
-
-	CTimer::Create(
-		{ 640.0f,500.0f,0.0f },
-		{ 120.0f,20.0f },
-		120,
 		"number001.png");
 
 	CMinuteSecondTimer::Create(

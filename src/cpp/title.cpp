@@ -14,6 +14,9 @@
 #include "manager.h"
 #include "game.h"
 #include "object2d.h"
+#include "camera.h"
+#include "mesh_field.h"
+#include "skycube.h"
 
 //===================================================
 // コンストラクタ
@@ -36,12 +39,36 @@ CTitle::~CTitle()
 HRESULT CTitle::Init(void)
 {
 
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// カメラの取得
+	CCamera* pCamera = pManager->GetCamera();
+
+	pCamera->SetCamera(
+		{ -420.0f,230.0f,130.0f },
+		{ 0.0f,250.0f,120.0f },
+		{ 1.5f, 1.60f, 0.0f });
+
+	// タイトル
 	CObject2D::Create(
 		Const::CENTER_POS_2D,
 		{ 600.0f,150.0f },
 		Const::WHITE,
 		"title.png",
 		0.0f);
+
+	// 空の生成
+	CSkyCube::Create();
+
+	CMeshField* pMeshField = CMeshField::Create(
+		{ 0.0f,0.0f,0.0f },
+		{ 3500.0f, 3500.0f },
+		Const::WHITE,
+		{ 120,120 },
+		"sea.jpg");
+
+
 
 	return S_OK;
 }
