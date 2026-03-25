@@ -34,6 +34,7 @@ class CBlockManager;		// ブロックマネージャークラス
 class CShaderManager;		// シェーダーマネージャーのクラス
 class CTextureMRTManager;	// マルチレンダーターゲットのテクスチャ
 class CParticleRegistry;	// パーティクルのレジストリー
+class CSound;				// サウンドクラス
 
 //***************************************************
 // マネージャークラスの定義
@@ -67,7 +68,8 @@ public:
 	inline CBlockManager*		GetBlockManager		(void)				{ return m_pBlockManager.get(); }
 	inline CShaderManager*		GetShaderManager	(void)				{ return m_pShaderManager.get(); }
 	inline CTextureMRTManager*	GetTextureMRTManager(void)				{ return m_pTextureMRTManager.get(); }
-	inline CParticleRegistry*	GetParticleRegistry(void)				{ return m_pParticleRegistry.get(); }
+	inline CParticleRegistry*	GetParticleRegistry	(void)				{ return m_pParticleRegistry.get(); }
+	inline CSound*				GetSound			(void)				{ return m_pSound.get(); }
 	inline void					SetFps				(const int nFps)	{ m_nFps = nFps; }
 private:
 	CManager();
@@ -89,6 +91,7 @@ private:
 	std::unique_ptr<CShaderManager>			m_pShaderManager;		// シェーダーマネージャーへのポインタ
 	std::unique_ptr<CTextureMRTManager>		m_pTextureMRTManager;	// マルチレンダーターゲットのマネージャーへのポインタ
 	std::unique_ptr<CParticleRegistry>		m_pParticleRegistry;	// パーティクルの管理クラスへのポインタ
+	std::unique_ptr<CSound>					m_pSound;				// サウンドクラスへのポインタ
 
 	int m_nFps;														// フレームレート
 };

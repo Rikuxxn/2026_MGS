@@ -26,6 +26,7 @@
 #include "shader_manager.h"
 #include "texture_mrt_manager.h"
 #include "particle_registry.h"
+#include "Sound.h"
 
 //***************************************************
 // 定数宣言
@@ -105,6 +106,7 @@ CManager::CManager() :
 	m_pTextureMRTManager(nullptr),
 	m_pShaderManager(nullptr),
 	m_pParticleRegistry(nullptr),
+	m_pSound(nullptr),
 	m_nFps(0)
 {
 }
@@ -138,8 +140,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 	// 乱数の種の設定
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	//// 音の生成
-	//m_pSound = std::make_unique<CSound>();
+	// 音の生成
+	m_pSound = std::make_unique<CSound>();
 
 	// レンダラーの生成
 	m_pRenderer = std::make_unique<CRenderer>();
@@ -153,8 +155,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWind)
 	// マウスの生成
 	m_pMouse = std::make_unique<CInputMouse>();
 
-	//// 音の初期化処理
-	//if (FAILED(m_pSound->Init(hWnd))) return E_FAIL;
+	// 音の初期化処理
+	if (FAILED(m_pSound->Init(hWnd))) return E_FAIL;
 
 	// キーボードの初期化処理
 	if (FAILED(m_pKeyboard->Init(hInstance, hWnd))) return E_FAIL;
@@ -321,11 +323,11 @@ void CManager::Uninit(void)
 	}
 
 	// 音の破棄
-	//if (m_pSound != nullptr)
-	//{
-	//	m_pSound->Uninit();
-	//	m_pSound.reset();
-	//}
+	if (m_pSound != nullptr)
+	{
+		m_pSound->Uninit();
+		m_pSound.reset();
+	}
 
 	// 自分自身の破棄
 	if (m_pInstance != nullptr)
