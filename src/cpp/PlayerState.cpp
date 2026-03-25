@@ -112,24 +112,33 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 補間後の速度をプレイヤーにセット
 	pPlayer->SetPhysicsMove(currentMove);
 
-	//CParticle::Info particleInfo;
+	CParticle::Info particleInfo;
 
-	//// パーティクル設定
-	//particleInfo.pos = pPlayer->GetPosition();
-	//particleInfo.col = Color::LIGHTBLUE;
-	//particleInfo.fAngleXMax = 90;
-	//particleInfo.fAngleXMin = -90;
-	//particleInfo.fAngleYMax = 60;
-	//particleInfo.fAngleYMin = -60;
-	//particleInfo.moveMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	//particleInfo.moveMin = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
-	//particleInfo.nNum = 5;
-	//particleInfo.nTime = 5;
-	//particleInfo.size = { 55.0f,55.0f };
-	//particleInfo.texturePath = "smoke.jpg";
-	//particleInfo.effectInfo.nLife = 20;
+	// オフセット
+	D3DXVECTOR3 localOffset(0.0f, 0.0f, 100.0f);
+	D3DXVECTOR3 worldOffset;
 
-	//CParticle::Create(particleInfo);
+	// ブロックのワールドマトリックスを取得
+	D3DXMATRIX worldMtx = pPlayer->GetWorldMatrix();
+
+	D3DXVec3TransformCoord(&worldOffset, &localOffset, &worldMtx);
+
+	// パーティクル設定
+	particleInfo.pos = worldOffset;
+	particleInfo.col = Color::LIGHTBLUE;
+	particleInfo.fAngleXMax = 90;
+	particleInfo.fAngleXMin = -90;
+	particleInfo.fAngleYMax = 60;
+	particleInfo.fAngleYMin = -60;
+	particleInfo.moveMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	particleInfo.moveMin = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+	particleInfo.nNum = 5;
+	particleInfo.nTime = 5;
+	particleInfo.size = { 50.0f,50.0f };
+	particleInfo.texturePath = "smoke.jpg";
+	particleInfo.effectInfo.nLife = 20;
+
+	CParticle::Create(particleInfo);
 
 	// ジャンプ入力があればジャンプステートに切替
 	if (input.isJump && pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
