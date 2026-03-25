@@ -111,16 +111,6 @@ HRESULT CGame::Init(void)
 	// 空の生成
 	CSkyCube::Create();
 
-	// プランクトンの生成処理
-	m_pPlanktonController->CreatePlankton(
-		{ 150.0f,10.0f,0.0f },
-		{ 50.0f,50.0f });
-
-	//// プランクトンの生成
-	//CPlankton::Create(
-	//	{ 80.0f,10.0f,0.0f }, 
-	//	{ 50.0f,50.0f });
-
 	// クジラの生成
 	CWhole::Create(
 		{ -160.0f,10.0f,0.0f },

@@ -112,7 +112,7 @@ HRESULT CPlankton::Init(void)
 	CObjectBillboard::SetTextureID(PlanktonConst::TEXTURE_PATH);
 
 	// 色の設定
-	CObjectBillboard::SetColor(Color::KHAKI);
+	CObjectBillboard::SetColor(Color::GOLD);
 
 	// コライダーを生成(カプセル)
 	m_pShape = std::make_shared<SphereCollider>(D3DXVECTOR3(50.0f,50.0f,50.0f));

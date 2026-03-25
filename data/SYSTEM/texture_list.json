@@ -23,6 +23,9 @@
         },
         {
             "file_path": "data/TEXTURE/SEA/water.png"
+        },
+        {
+            "file_path": "data/TEXTURE/title.png"
         }
     ]
 }
