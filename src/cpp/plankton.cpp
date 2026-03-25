@@ -141,7 +141,7 @@ HRESULT CPlankton::Init(void)
 	m_pRigidBody->SetTransform(colliderPos, q, Const::INIT_SCAL);
 
 	m_pRigidBody->SetIsDynamic(false);			// ダイナミックブロックに設定
-	m_pRigidBody->SetCollisionFlag(false);		// 物理的な衝突判定をしない
+	m_pRigidBody->SetCollisionFlag(true);		// 物理的な衝突判定をしない
 
 	//// パラメータは現在は無視
 	//m_pRigidBody->SetLinearFactor(Const::INIT_SCAL);
