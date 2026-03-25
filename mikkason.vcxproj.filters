@@ -324,7 +324,11 @@
     <ClCompile Include="src\cpp\json_loader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="src\cpp\Sound.cpp">
+=======
+    <ClCompile Include="src\cpp\particle_registry.cpp">
+>>>>>>> f87acc1b83d4fe0a8bf10eab441bab129a768be8
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -533,7 +537,11 @@
     <ClInclude Include="src\include\json_loader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="src\include\Sound.h">
+=======
+    <ClInclude Include="src\include\particle_registry.h">
+>>>>>>> f87acc1b83d4fe0a8bf10eab441bab129a768be8
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -544,6 +552,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data\SYSTEM\plankton.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="data\SYSTEM\particle.json">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
