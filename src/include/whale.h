@@ -33,8 +33,9 @@ public:
 	// モーションの種類
 	enum MOTIONTYPE
 	{
-		MOTIONTYPE_NEUTRAL = 0,
-		MOTIONTYPE_EAT,
+		MOTIONTYPE_NEUTRAL = 0,	// ニュートラル
+		MOTIONTYPE_EAT,			// 食べる
+		MOTIONTYPE_REACTION,	// プレイヤーが近づいたときのリアクション
 		MOTIONTYPE_MAX
 	};
 
@@ -63,10 +64,16 @@ public:
 	void UpdateCollider(D3DXVECTOR3 offset);						// コライダーの位置更新処理
 
 	void OnCollisionEnter(IGameObject* other) override;
+	void SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos);
+	inline void SetDestRotation(const D3DXVECTOR3& dest) { m_rotDest = dest; }
 
+	const D3DXVECTOR3& GetPosition(void) const;
+	const D3DXVECTOR3& GetEatPos(void);
 private:
-	std::unique_ptr<CCharacter> m_pCharacter;	// キャラクタークラスへのポインタ
-	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ
-	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
+	std::unique_ptr<CCharacter> m_pCharacter;				// キャラクタークラスへのポインタ
+	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
+	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
+	D3DXVECTOR3					m_rotDest;					// 目的の向き
+	int							m_nReactionMotionInterval;	// リアクションのモーションのインターバル
 };
 #endif

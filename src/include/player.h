@@ -79,7 +79,7 @@ public:
 	bool				GetOnGround			(void) { return m_bOnGround; }
 	bool				GetIsJumping		(void) { return m_isJumping; }
 	InputData			GatherInput			(void);
-	inline void			OnHitWhale			(CWhale* pWhale) { m_pWhale = pWhale; }
+	void				OnHitWhale			(CWhale* pWhale);
 
 	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 

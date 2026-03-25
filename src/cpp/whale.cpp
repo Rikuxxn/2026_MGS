@@ -19,6 +19,18 @@
 #include "DebugProc3D.h"
 #include "whale_controller.h"
 #include "game.h"
+#include "utility_math.h"
+#include "effect.h"
+
+//***************************************************
+// 定数宣言
+//***************************************************
+namespace WhaleConst
+{
+	constexpr float REACTION_MOTION_DISTANCE	= 250.0f;	// リアクションモーションをする範囲
+	constexpr float ROT_LERP_ALPHA				= 0.04f;	// 目的の向きに補完する係数
+	constexpr int REACTION_INTERVAL				= 600;		// 1回リアクションした後の待機時間
+}
 
 // コライダーパラメータ
 namespace ColliderParam
@@ -33,7 +45,9 @@ namespace ColliderParam
 //===================================================
 CWhale::CWhale() : 
 	CObject(PRIORITY_CHARACTER),
-	m_pCharacter(nullptr)
+	m_pCharacter(nullptr),
+	m_rotDest(Const::VEC3_NULL),
+	m_nReactionMotionInterval(0)
 {
 	// タグの設定
 	SetTag("Whale");
@@ -120,6 +134,18 @@ void CWhale::Update(void)
 
 	// 位置の取得
 	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
+
+	// 向きの取得
+	D3DXVECTOR3 rot = m_pCharacter->GetRotation();
+
+	// 目的の向きまで最短で行くために正規化
+	math::NormalizeDiffRot(m_rotDest.y - rot.y, &rot.y);
+
+	// 目的の向きに近づける
+	rot.y += (m_rotDest.y - rot.y) * WhaleConst::ROT_LERP_ALPHA;
+
+	// 向きの更新
+	m_pCharacter->SetRotation(rot);
 
 	// コライダーの更新
 	UpdateCollider(pos);
@@ -300,4 +326,76 @@ void CWhale::OnCollisionEnter(IGameObject* other)
 		// プレイヤーと当たった
 		pWhaleController->OnHitPlayer(this);
 	}
+}
+
+//===================================================
+// プレイヤーとの距離を判定してモーションを設定する関数
+//===================================================
+void CWhale::SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos)
+{
+	// 生成できてないなら
+	if (m_pCharacter == nullptr) return;
+
+	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
+
+	// プレイヤーとの距離を求める
+	float fDistance = math::GetDistance(pos - playerPos);
+
+	// 距離を求める
+	if (fDistance <= WhaleConst::REACTION_MOTION_DISTANCE)
+	{
+		// モーションクラスの取得
+		CMotion* pMotion = m_pCharacter->GetMotion();
+
+		if (pMotion == nullptr)
+		{
+			return;
+		}
+
+		if (m_nReactionMotionInterval <= 0)
+		{
+			// モーションの再生
+			pMotion->Play(MOTIONTYPE_REACTION, true, 10);
+		}
+
+		m_rotDest.y = math::GetTargetAngle(pos, playerPos);
+
+		m_nReactionMotionInterval = WhaleConst::REACTION_INTERVAL;
+	}
+	else // 範囲外に出たら
+	{
+		m_nReactionMotionInterval = 0;
+	}
+	m_nReactionMotionInterval--;
+}
+
+//===================================================
+// 位置の取得
+//===================================================
+const D3DXVECTOR3& CWhale::GetPosition(void) const
+{
+	return m_pCharacter->GetPosition();
+}
+
+//===================================================
+// 食べる位置の取得
+//===================================================
+const D3DXVECTOR3& CWhale::GetEatPos(void)
+{
+	// プレイヤーと
+	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
+
+#ifdef _DEBUG
+	CEffect::Info effectInfo;
+
+	effectInfo.unFlag = CEffect::FLAG_NONE;
+	effectInfo.move = Const::VEC3_NULL;
+	effectInfo.nLife = 5;
+	
+	D3DXVECTOR3 effectPos = pos;
+
+	CEffect::Create(effectInfo, effectPos, { 10.0f,10.0f},Const::WHITE,"effect000.jpg");
+#endif // _DEBUG
+	return pos;
+	// TODO: return ステートメントをここに挿入します
 }

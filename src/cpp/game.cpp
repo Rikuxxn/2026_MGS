@@ -130,7 +130,7 @@ HRESULT CGame::Init(void)
 	CSkyCube::Create();
 
 	// ƒNƒWƒ‰‚Ì¶¬
-	CWhale::Create(
+	m_pWhaleController->Create(
 		{ -160.0f,10.0f,0.0f },
 		{ 0.0f,0.0f,0.0f },
 		"data/MOTION/motion_whole.txt");
@@ -268,6 +268,11 @@ void CGame::Update(void)
 	if (m_pPlanktonController != nullptr)
 	{
 		m_pPlanktonController->Update();
+	}
+
+	if (m_pWhaleController != nullptr)
+	{
+		m_pWhaleController->Update();
 	}
 #ifdef _DEBUG
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))
