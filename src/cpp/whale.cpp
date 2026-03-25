@@ -21,6 +21,7 @@
 #include "game.h"
 #include "utility_math.h"
 #include "effect.h"
+#include "easing.h"
 
 //***************************************************
 // 定数宣言
@@ -47,7 +48,9 @@ CWhale::CWhale() :
 	CObject(PRIORITY_CHARACTER),
 	m_pCharacter(nullptr),
 	m_rotDest(Const::VEC3_NULL),
-	m_nReactionMotionInterval(0)
+	m_nReactionMotionInterval(0),
+	m_nNumPlankton(0),
+	m_fScalingTime(0.0f)
 {
 	// タグの設定
 	SetTag("Whale");
@@ -149,6 +152,29 @@ void CWhale::Update(void)
 
 	// コライダーの更新
 	UpdateCollider(pos);
+
+	if (m_bScaling)
+	{
+		m_fScalingTime += 1.0f;
+
+		float fRate = m_fScalingTime / 60.0f;
+
+		// バウンドの割合の取得
+		fRate = CEasing::EaseOutBounce(fRate);
+
+		D3DXVECTOR3 destScale(2.0f, 2.0f, 2.0f);
+
+		// 現在のスケール
+		D3DXVECTOR3 scale = Const::INIT_SCAL + (destScale - Const::INIT_SCAL) * fRate;
+
+		// スケールを設定
+		m_pCharacter->SetScale(scale);
+
+		if (fRate >= 1.0f)
+		{
+			m_bScaling = false;
+		}
+	}
 }
 
 //===================================================
@@ -378,6 +404,19 @@ void CWhale::SetScal(const D3DXVECTOR3& scale)
 }
 
 //===================================================
+// プランクトンを食べる処理
+//===================================================
+void CWhale::EatPlankton(void)
+{
+	// 食べた数を加算
+	m_nNumPlankton++;
+
+	m_bScaling = true;
+
+	m_fScalingTime = 0.0f;
+}
+
+//===================================================
 // 位置の取得
 //===================================================
 const D3DXVECTOR3& CWhale::GetPosition(void) const
@@ -391,7 +430,7 @@ const D3DXVECTOR3& CWhale::GetPosition(void) const
 const D3DXVECTOR3& CWhale::GetEatPos(void)
 {
 	// プレイヤーと
-	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
+	const D3DXVECTOR3& pos = m_pCharacter->GetPosition();
 
 #ifdef _DEBUG
 	CEffect::Info effectInfo;
@@ -405,5 +444,4 @@ const D3DXVECTOR3& CWhale::GetEatPos(void)
 	CEffect::Create(effectInfo, effectPos, { 10.0f,10.0f},Const::WHITE,"effect000.jpg");
 #endif // _DEBUG
 	return pos;
-	// TODO: return ステートメントをここに挿入します
 }

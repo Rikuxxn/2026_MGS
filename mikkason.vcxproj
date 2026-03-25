@@ -163,6 +163,7 @@
     <ClCompile Include="src\cpp\Collider.cpp" />
     <ClCompile Include="src\cpp\DebugProc3D.cpp" />
     <ClCompile Include="src\cpp\debug_proc.cpp" />
+    <ClCompile Include="src\cpp\easing.cpp" />
     <ClCompile Include="src\cpp\effect.cpp" />
     <ClCompile Include="src\cpp\fade.cpp" />
     <ClCompile Include="src\cpp\follow_camera.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="src\include\collision_system.h" />
     <ClInclude Include="src\include\color_constants.h" />
     <ClInclude Include="src\include\DebugProc3D.h" />
+    <ClInclude Include="src\include\easing.h" />
     <ClInclude Include="src\include\effect.h" />
     <ClInclude Include="src\include\follow_camera.h" />
     <ClInclude Include="src\include\GameObject.h" />

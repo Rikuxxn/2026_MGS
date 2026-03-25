@@ -66,6 +66,7 @@ public:
 	void OnCollisionEnter(IGameObject* other) override;
 	void SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos);
 	void SetScal(const D3DXVECTOR3& scale);
+	void EatPlankton(void);
 
 	inline void SetDestRotation(const D3DXVECTOR3& dest) { m_rotDest = dest; }
 
@@ -76,6 +77,9 @@ private:
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
+	float						m_fScalingTime;				// sinカーブ用のカウンター
+	int							m_nNumPlankton;				// プランクトンの数
 	int							m_nReactionMotionInterval;	// リアクションのモーションのインターバル
+	bool						m_bScaling;					// スケーリングするなら
 };
 #endif
