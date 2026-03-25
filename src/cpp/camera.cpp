@@ -30,7 +30,7 @@ namespace CameraConst
 	constexpr float FOV						= D3DXToRadian(45.0f);	// 視野角
 	constexpr float ZOOM_SPEED_ALPHA		= 0.1f;					// カメラのズームスピード
 	constexpr float NEAR_PLANE				= 10.0f;				// カメラの近平面
-	constexpr float FAR_PLANE				= 3000.0f;				// カメラの遠平面
+	constexpr float FAR_PLANE				= 5000.0f;				// カメラの遠平面
 };
 
 //===================================================

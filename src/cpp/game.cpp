@@ -135,6 +135,14 @@ HRESULT CGame::Init(void)
 		{ 0.0f,0.0f,0.0f },
 		"data/MOTION/motion_whole.txt");
 
+	// ŠC’ê
+	CObjectX::Create(
+		"data/MODEL/seabed.x",
+		{ 0.0f,-500.0f,0.0f },
+		Const::VEC3_NULL,
+		{ 10.0f,10.0f,10.0f });
+
+
 	CTimer::Create(
 		{ 700.0f,50.0f,0.0f },
 		{ 120.0f,40.0f },

@@ -11,6 +11,8 @@
 #include "PlayerState.h"
 #include "Player.h"
 #include "RigidBody.h"
+#include "particle.h"
+#include "color_constants.h"
 
 //=============================================================================
 // 待機状態の開始処理
@@ -71,13 +73,30 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 移動フラグ更新
 	pPlayer->UpdateMovementFlags(input.moveDir);
 
+	// プランクトンの取得
+	auto plankton = pPlayer->GetPlankton();
+
+	// スピードレート
+	float speedRate = MOVE_SPEED_RATE;
+
+	if (!plankton.empty())
+	{
+		// プランクトンの取得量
+		int nPlanktonNum = plankton.size();
+
+		// プランクトン取得量に応じたスピード
+		speedRate = 1.0f - nPlanktonNum * DEC_SPEED_RATE;	// 8%ずつ低下
+		speedRate = std::max(speedRate, MAX_DEC_RATE);		// 最大50%
+	}
+
 	// 目標速度計算
+	float moveSpeed = CPlayer::SPEED * speedRate;
 	D3DXVECTOR3 targetMove = input.moveDir;
 
 	if (targetMove.x != 0.0f || targetMove.z != 0.0f)
 	{
 		D3DXVec3Normalize(&targetMove, &targetMove);
-		targetMove *= CPlayer::SPEED;
+		targetMove *= moveSpeed;
 	}
 	else
 	{
@@ -92,6 +111,25 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 
 	// 補間後の速度をプレイヤーにセット
 	pPlayer->SetPhysicsMove(currentMove);
+
+	//CParticle::Info particleInfo;
+
+	//// パーティクル設定
+	//particleInfo.pos = pPlayer->GetPosition();
+	//particleInfo.col = Color::LIGHTBLUE;
+	//particleInfo.fAngleXMax = 90;
+	//particleInfo.fAngleXMin = -90;
+	//particleInfo.fAngleYMax = 60;
+	//particleInfo.fAngleYMin = -60;
+	//particleInfo.moveMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	//particleInfo.moveMin = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+	//particleInfo.nNum = 5;
+	//particleInfo.nTime = 5;
+	//particleInfo.size = { 55.0f,55.0f };
+	//particleInfo.texturePath = "smoke.jpg";
+	//particleInfo.effectInfo.nLife = 20;
+
+	//CParticle::Create(particleInfo);
 
 	// ジャンプ入力があればジャンプステートに切替
 	if (input.isJump && pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
