@@ -280,25 +280,6 @@ void CGame::Update(void)
 		CManager::GetInstance()->BeginFade(std::make_unique<CRanking>());
 	}
 #endif // _DEBUG
-
-	CParticle::Info particleInfo;
-
-	// Ç±ÇÃínçñÇ›ÇƒÇ¶Ç»à¯êîë≈ÇƒÇŒëÄçÏÇ≈Ç´Ç‹Ç∑
-	particleInfo.pos = { 0.0f,0.0f,-200.0f };
-	particleInfo.col = Const::WHITE;
-	particleInfo.fAngleXMax = 90;
-	particleInfo.fAngleXMin = -90;
-	particleInfo.fAngleYMax = 60;
-	particleInfo.fAngleYMin = -60;
-	particleInfo.moveMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	particleInfo.moveMin = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
-	particleInfo.nNum = 5;
-	particleInfo.nTime = 5;
-	particleInfo.size = { 5.0f,5.0f };
-	particleInfo.texturePath = "effect000.jpg";
-	particleInfo.effectInfo.nLife = 20;
-	
-	CParticle::Create(particleInfo);
 }
 
 //===================================================

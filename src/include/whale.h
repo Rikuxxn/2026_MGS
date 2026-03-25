@@ -60,7 +60,7 @@ public:
 
 	// Physics処理
 	void ReleasePhysics(void);										// Physics削除処理
-	void CreatePhysics(D3DXVECTOR3 size, float mass);		// Phtsics生成処理
+	void CreatePhysics(D3DXVECTOR3 size, float mass);				// Phtsics生成処理
 	void UpdateCollider(D3DXVECTOR3 offset);						// コライダーの位置更新処理
 
 	void OnCollisionEnter(IGameObject* other) override;
@@ -69,14 +69,25 @@ public:
 	void EatPlankton(void);
 
 	inline void SetDestRotation(const D3DXVECTOR3& dest) { m_rotDest = dest; }
+	inline bool CheckMaxPlankton(void) const;
 
 	const D3DXVECTOR3& GetPosition(void) const;
 	const D3DXVECTOR3& GetEatPos(void);
+	
+private:
+	// 潮吹きの情報
+	struct BlowInfo
+	{
+		int  nBlowTime = 0;	// 潮吹きカウンター
+		bool bBlow = false;		// 潮吹きするかどうか
+	};
+
 private:
 	std::unique_ptr<CCharacter> m_pCharacter;				// キャラクタークラスへのポインタ
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
+	BlowInfo					m_blowInfo;					// 潮吹きの情報
 	float						m_fScalingTime;				// sinカーブ用のカウンター
 	int							m_nNumPlankton;				// プランクトンの数
 	int							m_nReactionMotionInterval;	// リアクションのモーションのインターバル

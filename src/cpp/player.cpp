@@ -193,7 +193,6 @@ void CPlayer::Draw(void)
 	// デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-
 	if (m_pCharacter != nullptr)
 	{
 		m_pCharacter->Draw();

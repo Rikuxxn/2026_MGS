@@ -22,6 +22,8 @@
 #include "utility_math.h"
 #include "effect.h"
 #include "easing.h"
+#include "particle.h"
+#include "color_constants.h"
 
 //***************************************************
 // 定数宣言
@@ -31,6 +33,8 @@ namespace WhaleConst
 	constexpr float REACTION_MOTION_DISTANCE	= 250.0f;	// リアクションモーションをする範囲
 	constexpr float ROT_LERP_ALPHA				= 0.04f;	// 目的の向きに補完する係数
 	constexpr int REACTION_INTERVAL				= 600;		// 1回リアクションした後の待機時間
+	constexpr int MAX_PLANKTON					= 1;		// 最大成長
+	constexpr int BLOW_STAY_TIME				= 600;		// 潮吹きのインターバル
 }
 
 // コライダーパラメータ
@@ -48,6 +52,7 @@ CWhale::CWhale() :
 	CObject(PRIORITY_CHARACTER),
 	m_pCharacter(nullptr),
 	m_rotDest(Const::VEC3_NULL),
+	m_blowInfo(),
 	m_nReactionMotionInterval(0),
 	m_nNumPlankton(0),
 	m_fScalingTime(0.0f)
@@ -153,6 +158,47 @@ void CWhale::Update(void)
 	// コライダーの更新
 	UpdateCollider(pos);
 
+	// 最大まで成長出来たら
+	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
+	{
+		// 潮吹きできる
+		m_blowInfo.bBlow = true;
+
+		m_blowInfo.nBlowTime--;
+
+		// 潮吹き時間になったら
+		if (m_blowInfo.nBlowTime <= 0)
+		{
+			CParticle::Info particleInfo;
+
+			// この地獄みてえな引数打てば操作できます
+			particleInfo.pos.x = pos.x;
+			particleInfo.pos.y = pos.y + 40.0f;
+			particleInfo.pos.z = pos.z;
+			particleInfo.col = Color::AQUA;
+			particleInfo.fAngleXMax = 120;
+			particleInfo.fAngleXMin = -120;
+			particleInfo.fAngleYMax = 250;
+			particleInfo.fAngleYMin = -250;
+
+			particleInfo.moveMax = D3DXVECTOR3(13.0f, 25.0f, 13.0f);
+			particleInfo.moveMin = D3DXVECTOR3(5.5f, 12.5f, 5.5f);
+			particleInfo.nNum = 10;
+			particleInfo.nTime = 60;
+			particleInfo.size = { 10.0f,10.0f };
+			particleInfo.texturePath = "effect000.jpg";
+			particleInfo.effectInfo.nLife = 60;
+			particleInfo.effectInfo.fGravity = 0.4f;
+			particleInfo.effectInfo.unFlag =
+				CEffect::FLAG_ALPHA_DECREASE |
+				CEffect::FLAG_RADIUS_DECREASE |
+				CEffect::FLAG_GRAVITY;
+
+			CParticle::Create(particleInfo);
+
+			m_blowInfo.nBlowTime = WhaleConst::BLOW_STAY_TIME;
+		}
+	}
 	if (m_bScaling)
 	{
 		m_fScalingTime += 1.0f;
@@ -162,7 +208,7 @@ void CWhale::Update(void)
 		// バウンドの割合の取得
 		fRate = CEasing::EaseOutBounce(fRate);
 
-		D3DXVECTOR3 destScale(2.0f, 2.0f, 2.0f);
+		D3DXVECTOR3 destScale(3.0f, 3.0f, 3.0f);
 
 		// 現在のスケール
 		D3DXVECTOR3 scale = Const::INIT_SCAL + (destScale - Const::INIT_SCAL) * fRate;
@@ -343,6 +389,12 @@ void CWhale::UpdateCollider(D3DXVECTOR3 offset)
 //===================================================
 void CWhale::OnCollisionEnter(IGameObject* other)
 {
+	// 最大まで成長していたら処理をしない
+	if (CheckMaxPlankton())
+	{
+		return;
+	}
+
 	// プレイヤー
 	if (other->CompareTag("Player"))
 	{
@@ -414,6 +466,19 @@ void CWhale::EatPlankton(void)
 	m_bScaling = true;
 
 	m_fScalingTime = 0.0f;
+}
+
+//===================================================
+// プランクトンが最大まで行ったかどうか判定
+//===================================================
+inline bool CWhale::CheckMaxPlankton(void) const
+{
+	// 最大まで成長していたら
+	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
+	{
+		return true;
+	}
+	return false;
 }
 
 //===================================================
