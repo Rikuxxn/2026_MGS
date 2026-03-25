@@ -51,32 +51,8 @@ CPlankton::CPlankton() :
 //===================================================
 CPlankton::~CPlankton()
 {
-	// マネージャーの取得
-	CManager* pManager = CManager::GetInstance();
-
-	auto world = pManager->GetPhysicsWorld();
-
-	if (m_pShape != nullptr && world != nullptr)
-	{
-		world->RemoveCollider(m_pShape.get());
-	}
-
-	// リジッドボディの破棄
-	if (m_pRigidBody)
-	{
-		if (world)
-		{
-			world->RemoveRigidBody(m_pRigidBody);
-		}
-
-		m_pRigidBody = nullptr;
-	}
-
-	// シェイプの破棄
-	if (m_pShape)
-	{
-		m_pShape = nullptr;
-	}
+	// Physicsの処理
+	ReleasePhysics();
 }
 
 //===================================================
@@ -216,19 +192,19 @@ void CPlankton::Update(void)
 //===================================================
 void CPlankton::Draw(void)
 {
-#ifdef _DEBUG
-	// スフィアコライダーの描画
-	if (auto cap = GetCollisionShape()->As<SphereCollider>())
-	{
-		// レンダラーの取得
-		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
-
-		// 3Dデバッグ情報の取得
-		auto pDebug3D = pRenderer->GetDebugProc3D();
-
-		pDebug3D->DrawSphereCollider(cap, Color::GREENYELLOW);
-	}
-#endif
+//#ifdef _DEBUG
+//	// スフィアコライダーの描画
+//	if (auto cap = GetCollisionShape()->As<SphereCollider>())
+//	{
+//		// レンダラーの取得
+//		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
+//
+//		// 3Dデバッグ情報の取得
+//		auto pDebug3D = pRenderer->GetDebugProc3D();
+//
+//		pDebug3D->DrawSphereCollider(cap, Color::GREENYELLOW);
+//	}
+//#endif
 
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
@@ -284,6 +260,39 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 		pPlanktonController->RegisterPlayerPlanktonList(this);
 
 		m_state = State::Follow;
+	}
+}
+
+//===================================================
+// Physicsの破棄処理
+//===================================================
+void CPlankton::ReleasePhysics(void)
+{
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	auto world = pManager->GetPhysicsWorld();
+
+	if (m_pShape != nullptr && world != nullptr)
+	{
+		world->RemoveCollider(m_pShape.get());
+	}
+
+	// リジッドボディの破棄
+	if (m_pRigidBody)
+	{
+		if (world)
+		{
+			world->RemoveRigidBody(m_pRigidBody);
+		}
+
+		m_pRigidBody = nullptr;
+	}
+
+	// シェイプの破棄
+	if (m_pShape)
+	{
+		m_pShape = nullptr;
 	}
 }
 
