@@ -47,6 +47,9 @@ public:
 	void OnExit(CPlayer* /*pPlayer*/) override {}
 
 private:
+	static constexpr float	MOVE_SPEED_RATE = 1.0f;		// 移動時のスピードレート
+	static constexpr float	DEC_SPEED_RATE	= 0.08f;	// スピードの減少率
+	static constexpr float	MAX_DEC_RATE	= 0.5f;		// 減少する最大割合(%)
 
 };
 

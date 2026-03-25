@@ -71,13 +71,30 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 移動フラグ更新
 	pPlayer->UpdateMovementFlags(input.moveDir);
 
+	// プランクトンの取得
+	auto plankton = pPlayer->GetPlankton();
+
+	// スピードレート
+	float speedRate = MOVE_SPEED_RATE;
+
+	if (!plankton.empty())
+	{
+		// プランクトンの取得量
+		int nPlanktonNum = plankton.size();
+
+		// プランクトン取得量に応じたスピード
+		speedRate = 1.0f - nPlanktonNum * DEC_SPEED_RATE;	// 8%ずつ低下
+		speedRate = std::max(speedRate, MAX_DEC_RATE);		// 最大50%
+	}
+
 	// 目標速度計算
+	float moveSpeed = CPlayer::SPEED * speedRate;
 	D3DXVECTOR3 targetMove = input.moveDir;
 
 	if (targetMove.x != 0.0f || targetMove.z != 0.0f)
 	{
 		D3DXVec3Normalize(&targetMove, &targetMove);
-		targetMove *= CPlayer::SPEED;
+		targetMove *= moveSpeed;
 	}
 	else
 	{
