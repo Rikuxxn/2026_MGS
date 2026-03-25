@@ -17,6 +17,12 @@
         },
         {
             "file_path": "data/TEXTURE/sea.jpg"
+        },
+        {
+            "file_path": "data/TEXTURE/SEA/waterNoise.png"
+        },
+        {
+            "file_path": "data/TEXTURE/SEA/water.png"
         }
     ]
 }

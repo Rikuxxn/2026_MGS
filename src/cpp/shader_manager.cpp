@@ -18,6 +18,7 @@
 //***************************************************
 namespace ShaderConst
 {
+    constexpr const char* SEA_PATH                      = "data/SHADER/sea.hlsl";                       // 海の水面のパス
     constexpr const char* SKY_CUBE_PATH                 = "data/SHADER/skycube.hlsl";                   // スカイキューブのパス
     constexpr const char* GAUS_BLUR_PATH                = "data/SHADER/gausblur.hlsl";                  // ガウスブラーのパス
     constexpr const char* LUMINANCE_PATH                = "data/SHADER/luminance.hlsl";                 // 輝度抽出のパス
@@ -95,6 +96,15 @@ HRESULT CShaderManager::Init(void)
 
     // 初期化処理
     if (FAILED(m_apShader[TYPE_SKY_CUBE]->Init(ShaderConst::SKY_CUBE_PATH, ShaderConst::TECHNIQUE)))
+    {
+        return E_FAIL;
+    }
+
+    // 海シェーダーの生成
+    m_apShader[TYPE_SEA] = std::make_unique<CShader>();
+
+    // 初期化処理
+    if (FAILED(m_apShader[TYPE_SEA]->Init(ShaderConst::SEA_PATH, ShaderConst::TECHNIQUE)))
     {
         return E_FAIL;
     }
