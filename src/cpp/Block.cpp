@@ -91,6 +91,7 @@ void CBlock::InitFactory(void)
 	m_BlockFactoryMap[CBlock::TYPE_CYLINDER]	= []() -> CBlock* { return new CCylinderBlock(); };
 	m_BlockFactoryMap[CBlock::TYPE_SPHERE]		= []() -> CBlock* { return new CSphereBlock(); };
 	m_BlockFactoryMap[CBlock::TYPE_CAPSULE]		= []() -> CBlock* { return new CCapsuleBlock(); };
+	m_BlockFactoryMap[CBlock::TYPE_ROCK]		= []() -> CBlock* { return new CRockBlock(); };
 }
 //=============================================================================
 // “–‚½‚è”»’è‚Ì¶¬ˆ—

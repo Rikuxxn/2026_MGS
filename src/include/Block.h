@@ -49,6 +49,7 @@ public:
 		TYPE_CYLINDER,
 		TYPE_SPHERE,
 		TYPE_CAPSULE,
+		TYPE_ROCK,
 		TYPE_MAX
 	};
 

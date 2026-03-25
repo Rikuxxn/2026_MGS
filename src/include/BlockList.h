@@ -102,5 +102,26 @@ private:
 
 };
 
+//*****************************************************************************
+// 岩ブロッククラス
+//*****************************************************************************
+class CRockBlock : public CBlock
+{
+public:
+	CRockBlock();
+	~CRockBlock();
+
+	// コライダー
+	std::shared_ptr<Collider> CreateCollisionShape(const D3DXVECTOR3& size) override;
+
+	float GetMass(void) const override { return MASS; }  // 質量の取得
+	//void OnCollisionEnter(IGameObject* other);
+	//void OnCollisionStay(IGameObject* other);
+	//void OnCollisionExit(IGameObject* other);
+
+private:
+	static constexpr float MASS = 4.0f;// 質量
+};
+
 #endif
 
