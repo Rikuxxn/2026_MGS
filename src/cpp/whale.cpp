@@ -466,6 +466,11 @@ void CWhale::EatPlankton(void)
 	m_bScaling = true;
 
 	m_fScalingTime = 0.0f;
+
+	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
+	{
+		CGame::GetWhaleController()->OnWhaleSatisfied(this);
+	}
 }
 
 //===================================================
