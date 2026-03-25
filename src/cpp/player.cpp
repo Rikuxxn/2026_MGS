@@ -28,7 +28,7 @@
 // コライダーパラメータ
 namespace ColliderParam
 {
-	const D3DXVECTOR3	OFFSET{ 0.0f, 36.0f, 0.0f };		// オフセット
+	const D3DXVECTOR3	SPHERE_SIZE{ 120.0f,120.0f,120.0f };// サイズ
 	const D3DXCOLOR		COLOR{ 0.0f, 1.0f, 0.3f, 1.0f };	// 色
 }
 
@@ -98,8 +98,8 @@ HRESULT CPlayer::Init(void)
 	//	m_pCharacter->SetParameter(0.25f, 0.1f);
 	//}
 
-	// カプセルコライダーの設定
-	CreatePhysics(CAPSULE_RADIUS, CAPSULE_HEIGHT, MASS);
+	// スフィアコライダーの設定
+	CreatePhysics(ColliderParam::SPHERE_SIZE, MASS);
 
 	// インスタンスのポインタを渡す
 	m_stateMachine.Start(this);
@@ -169,7 +169,7 @@ void CPlayer::Update(void)
 	}
 
 	// コライダーの更新
-	UpdateCollider(ColliderParam::OFFSET);
+	UpdateCollider(Const::VEC3_NULL);
 }
 
 //===================================================
@@ -183,8 +183,8 @@ void CPlayer::Draw(void)
 	}
 
 #ifdef _DEBUG
-	// カプセルコライダーの描画
-	if (auto cap = GetCollisionShape()->As<CapsuleCollider>())
+	// スフィアコライダーの描画
+	if (auto cap = GetCollisionShape()->As<SphereCollider>())
 	{
 		// レンダラーの取得
 		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
@@ -192,7 +192,7 @@ void CPlayer::Draw(void)
 		// 3Dデバッグ情報の取得
 		auto pDebug3D = pRenderer->GetDebugProc3D();
 
-		pDebug3D->DrawCapsuleCollider(cap, ColliderParam::COLOR);
+		pDebug3D->DrawSphereCollider(cap, ColliderParam::COLOR);
 	}
 #endif
 }
@@ -252,14 +252,10 @@ void CPlayer::ReleasePhysics(void)
 //=============================================================================
 // 当たり判定の生成処理
 //=============================================================================
-void CPlayer::CreatePhysics(float radius, float height, float mass)
+void CPlayer::CreatePhysics(D3DXVECTOR3 size, float mass)
 {
-	//*********************************************************************
-	// カプセルコライダーの設定
-	//*********************************************************************
-
-	// コライダーを生成(カプセル)
-	m_pShape = std::make_shared<CapsuleCollider>(radius, height);
+	// コライダーを生成(スフィア)
+	m_pShape = std::make_shared<SphereCollider>(size);
 
 	// オーナーの設定
 	m_pShape->SetOwner(this);
@@ -381,6 +377,31 @@ void CPlayer::SetPhysicsMove(D3DXVECTOR3 move)
 		vel.z = move.z; // Z方向速度
 		m_pRigidBody->SetVelocity(vel);  // RigidBody にセット
 	}
+}
+
+//=============================================================================
+// ワールドマトリックスの取得
+//=============================================================================
+D3DXMATRIX CPlayer::GetWorldMatrix(void)
+{
+	D3DXMATRIX matScale, matRot, matTrans;
+
+	// スケール行列
+	D3DXVECTOR3 scale = Const::VEC3_NULL; // 拡大率
+	D3DXMatrixScaling(&matScale, scale.x, scale.y, scale.z);
+
+	// 回転行列
+	D3DXVECTOR3 rot = m_pCharacter->GetRotation(); // ラジアン角
+	D3DXMatrixRotationYawPitchRoll(&matRot, rot.y, rot.x, rot.z);
+
+	// 平行移動行列
+	D3DXVECTOR3 pos = GetPosition();
+	D3DXMatrixTranslation(&matTrans, pos.x, pos.y, pos.z);
+
+	// 合成：S * R * T
+	D3DXMATRIX world = matScale * matRot * matTrans;
+
+	return world;
 }
 
 //=============================================================================
