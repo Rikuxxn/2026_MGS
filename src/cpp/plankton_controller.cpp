@@ -13,6 +13,7 @@
 #include "player.h"
 #include "json_loader.h"
 #include "input_system.h"
+#include "MathConst.h"
 
 //===================================================
 // コンストラクタ
@@ -69,6 +70,30 @@ HRESULT CPlanktonController::CreatePlankton(const D3DXVECTOR3& pos, const D3DXVE
 	return S_OK;
 }
 
+//===================================================
+// プランクトン塊生成処理
+//===================================================
+void CPlanktonController::CreateCluster(const D3DXVECTOR3& center, int count, float radiusMax)
+{
+	for (int nCnt = 0; nCnt < count; nCnt++)
+	{
+		// 0.0～1.0 の乱数
+		float r = (rand() % CMathConstant::I_RAND_NUM) / CMathConstant::F_RAND_NUM;
+
+		// 平方根で均一分布
+		float radius = sqrtf(r) * radiusMax;
+
+		float angle = ((rand() % CMathConstant::I_ANGLE_MAX) / CMathConstant::F_ANGLE_HALF) * D3DX_PI;
+
+		D3DXVECTOR3 pos;
+		pos.x = center.x + cosf(angle) * radius;
+		pos.z = center.z + sinf(angle) * radius;
+		pos.y = center.y;
+
+		// プランクトンの生成
+		CreatePlankton(pos, { 10.0f, 10.0f });
+	}
+}
 //===================================================
 // 更新処理
 //===================================================
@@ -156,7 +181,22 @@ HRESULT CPlanktonController::Init(void)
 		pos.z = item["pos"][2];
 
 		// 生成処理
-		CreatePlankton(pos, { 5.0f,5.0f });
+		CreatePlankton(pos, { 10.0f,10.0f });
+	}
+
+	// プランクトンの塊の中心位置
+	m_clusterCenters = 
+	{
+		{0, 0, 0},
+		//{100, 0, 50},
+		//{-80, 0, 120},
+		//{50, 0, -100}
+	};
+
+	// プランクトンの塊生成
+	for (auto& center : m_clusterCenters)
+	{
+		CreateCluster(center, 20, 100.0f); // 20匹、半径50
 	}
 
 	return S_OK;

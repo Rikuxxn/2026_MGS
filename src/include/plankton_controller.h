@@ -32,6 +32,7 @@ public:
 
 	static std::unique_ptr<CPlanktonController> Create(CPlayer* pPlayer);
 	HRESULT CreatePlankton(const D3DXVECTOR3& pos, const D3DXVECTOR2& size);
+	void CreateCluster(const D3DXVECTOR3& center, int count, float radiusMax);
 
 	// 更新処理
 	void Update(void);
@@ -43,6 +44,7 @@ private:
 private:
 	CPlayer* m_pPlayer;							// プレイヤーのクラス
 	std::list<CPlankton*> m_pList;				// プランクトンのリスト
+	std::vector<D3DXVECTOR3> m_clusterCenters;	// 塊の中心位置
 
 	struct Edit
 	{
