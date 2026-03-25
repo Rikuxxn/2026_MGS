@@ -35,6 +35,7 @@
 #include "mesh_field_collision_system.h"
 #include "BlockManager.h"
 #include "texture_animation.h"
+#include "Sound.h"
 
 //===================================================
 // コンストラクタ
@@ -212,6 +213,15 @@ HRESULT CGame::Init(void)
 
 	// 当たり判定の追加
 	m_vpCollisionSystem.push_back(std::move(pMeshFieldCollisionSystem));
+
+	//// 音の取得
+	//CSound* pSound = CManager::GetInstance()->GetSound();
+
+	//// ゲームBGMの再生
+	//if (pSound)
+	//{
+	//	pSound->Play(CSound::SOUND_LABEL_GAMEBGM);
+	//}
 
 	return S_OK;
 }
