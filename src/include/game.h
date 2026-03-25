@@ -15,6 +15,7 @@
 // インクルードファイル
 //***************************************************
 #include "scene.h"
+#include "BlockManager.h"
 
 //***************************************************
 // 前方宣言
@@ -37,11 +38,15 @@ public:
 	void	Update	(void) override;
 	void	Draw	(void) override;
 
-	static inline CPlanktonController* GetPlanktonController(void) { return m_pPlanktonController.get(); }
+
+	static inline CPlanktonController*	GetPlanktonController	(void) { return m_pPlanktonController.get(); }
+	static inline CBlockManager*		GetBlockManager			(void) { return m_pBlockManager.get(); }
 	static inline CWhaleController* GetWhaleController		(void) { return m_pWhaleController.get(); }
 private:
 	std::vector<std::unique_ptr<CCollisionSystem>>	m_vpCollisionSystem;	// 当たり判定の処理
+
 	static std::unique_ptr<CPlanktonController>		m_pPlanktonController;	// プランクトンを生成するクラス
 	static std::unique_ptr<CWhaleController>		m_pWhaleController;		// クジラを生成するクラス
+	static std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
 };
 #endif

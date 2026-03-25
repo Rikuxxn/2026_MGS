@@ -114,7 +114,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\2026_MGS\src\include;C:\Users\student\Desktop\2026_MGS\src\cpp;C:\Users\student\source\repos\mikkason\src\include;C:\Users\student\source\repos\mikkason\src\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\student\Desktop\2026_MGS\src\include;C:\Users\student\Desktop\2026_MGS\src\cpp;$(ProjectDir)\src\include;$(ProjectDir)\src\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>

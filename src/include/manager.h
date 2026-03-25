@@ -30,7 +30,7 @@ class CLight;				// ライト
 class CCamera;				// カメラの取得
 class CMotionLoader;		// モーションのロードクラス
 class PhysicsWorld;			// 物理世界クラス
-class CBlockManager;		// ブロックマネージャークラス
+//class CBlockManager;		// ブロックマネージャークラス
 class CShaderManager;		// シェーダーマネージャーのクラス
 class CTextureMRTManager;	// マルチレンダーターゲットのテクスチャ
 class CParticleRegistry;	// パーティクルのレジストリー
@@ -65,7 +65,6 @@ public:
 	inline CCamera*				GetCamera			(void)				{ return m_pCamera.get(); }
 	inline CMotionLoader*		GetMotionLoader		(void)				{ return m_pMotionLoader.get(); }
 	inline PhysicsWorld*		GetPhysicsWorld		(void)				{ return m_pPhysicsWorld.get(); }
-	inline CBlockManager*		GetBlockManager		(void)				{ return m_pBlockManager.get(); }
 	inline CShaderManager*		GetShaderManager	(void)				{ return m_pShaderManager.get(); }
 	inline CTextureMRTManager*	GetTextureMRTManager(void)				{ return m_pTextureMRTManager.get(); }
 	inline CParticleRegistry*	GetParticleRegistry	(void)				{ return m_pParticleRegistry.get(); }
@@ -87,7 +86,6 @@ private:
 	std::unique_ptr<CCamera>				m_pCamera;				// カメラクラスへのポインタ
 	std::unique_ptr<CMotionLoader>			m_pMotionLoader;		// モーションのロードクラスへのポインタ
 	std::unique_ptr<PhysicsWorld>			m_pPhysicsWorld;		// 物理世界へのポインタ
-	std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
 	std::unique_ptr<CShaderManager>			m_pShaderManager;		// シェーダーマネージャーへのポインタ
 	std::unique_ptr<CTextureMRTManager>		m_pTextureMRTManager;	// マルチレンダーターゲットのマネージャーへのポインタ
 	std::unique_ptr<CParticleRegistry>		m_pParticleRegistry;	// パーティクルの管理クラスへのポインタ

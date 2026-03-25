@@ -42,7 +42,7 @@
 //***************************************************
 // 静的メンバ変数宣
 //***************************************************
-std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// プランクトンのコントローラの生成
+std::unique_ptr<CBlockManager>			CGame::m_pBlockManager			= nullptr;	// ブロックマネージャーの生成
 std::unique_ptr<CWhaleController> CGame::m_pWhaleController = nullptr;			// クジラののコントローラの生成
 
 //===================================================
@@ -84,17 +84,21 @@ CGame::~CGame()
 //===================================================
 HRESULT CGame::Init(void)
 {
+	// ブロックマネージャーの生成
+	m_pBlockManager = std::make_unique<CBlockManager>();
+	m_pBlockManager->Init();
+
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
 
 	// カメラの取得
 	CCamera* pCamera = pManager->GetCamera();
 
-	//// ブロックマネージャーの取得
-	//CBlockManager* pBlockManager = pManager->GetBlockManager();
-
-	//// ステージの読み込み
-	//pBlockManager->LoadFromJson("data/STAGE/test.json");
+#ifdef _DEBUG
+#else
+	// 岩の配置情報の読み込み
+	m_pBlockManager->LoadFromJson("data/STAGE/rock_info.json");
+#endif
 
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
