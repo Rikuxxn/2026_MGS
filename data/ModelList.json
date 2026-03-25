@@ -14,5 +14,9 @@
   {
     "type": 3,
     "modelpath": "data/MODEL/capsule.x"
+  },
+  {
+    "type": 4,
+    "modelpath": "data/MODEL/rock.x"
   }
 ]

@@ -28,7 +28,6 @@
 #include "mesh_circle.h"
 #include "player.h"
 #include "input.h"
-#include "manager.h"
 #include "score.h"
 #include "timer.h"
 #include "minute_second_timer.h"
@@ -124,6 +123,12 @@ HRESULT CGame::Init(void)
 		{ 0.0f,0.0f,0.0f },
 		"data/MOTION/motion_whole.txt");
 
+	CTimer::Create(
+		{ 700.0f,50.0f,0.0f },
+		{ 120.0f,40.0f },
+		120,
+		"number008.png");
+
 #if 0
 	CObject2D::Create(
 		Const::CENTER_POS_2D,
@@ -192,12 +197,6 @@ HRESULT CGame::Init(void)
 		4545,
 		"number001.png");
 
-	CTimer::Create(
-		{ 640.0f,500.0f,0.0f },
-		{ 120.0f,20.0f },
-		120,
-		"number001.png");
-
 	CMinuteSecondTimer::Create(
 		{ 240.0f,300.0f,0.0f },
 		{ 120.0f,20.0f },
@@ -210,14 +209,14 @@ HRESULT CGame::Init(void)
 	// “–‚½‚è”»’è‚Ì’Ç‰Á
 	m_vpCollisionSystem.push_back(std::move(pMeshFieldCollisionSystem));
 
-	//// ‰¹‚ÌŽæ“¾
-	//CSound* pSound = CManager::GetInstance()->GetSound();
+	// ‰¹‚ÌŽæ“¾
+	CSound* pSound = CManager::GetInstance()->GetSound();
 
-	//// ƒQ[ƒ€BGM‚ÌÄ¶
-	//if (pSound)
-	//{
-	//	pSound->Play(CSound::SOUND_LABEL_GAMEBGM);
-	//}
+	// ƒQ[ƒ€BGM‚ÌÄ¶
+	if (pSound)
+	{
+		pSound->Play(CSound::SOUND_LABEL_GAMEBGM);
+	}
 
 	return S_OK;
 }
@@ -227,6 +226,10 @@ HRESULT CGame::Init(void)
 //===================================================
 void CGame::Uninit(void)
 {
+	// ‰¹‚ÌŽæ“¾
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	pSound->StopByLabel(CSound::SOUND_LABEL_GAMEBGM);
 }
 
 //===================================================
