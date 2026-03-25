@@ -89,8 +89,11 @@ HRESULT CGame::Init(void)
 	// ƒJƒƒ‰‚ÌŽæ“¾
 	CCamera* pCamera = pManager->GetCamera();
 
+#ifdef _DEBUG
+#else
 	// Šâ‚Ì”z’uî•ñ‚Ì“Ç‚Ýž‚Ý
 	m_pBlockManager->LoadFromJson("data/STAGE/rock_info.json");
+#endif
 
 	pCamera->SetCamera(
 		{ 0.0f,0.0f,-300.0f },
