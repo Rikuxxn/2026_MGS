@@ -25,6 +25,7 @@ CPlanktonController::CPlanktonController() :
 //===================================================
 CPlanktonController::~CPlanktonController()
 {
+	m_pList.clear();
 }
 
 //===================================================
@@ -53,6 +54,8 @@ HRESULT CPlanktonController::CreatePlankton(const D3DXVECTOR3& pos, const D3DXVE
 	{
 		return E_FAIL;
 	}
+
+	m_pList.push_back(pPlankton);
 
 	return S_OK;
 }
