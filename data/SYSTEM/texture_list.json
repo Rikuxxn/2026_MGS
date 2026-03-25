@@ -29,6 +29,9 @@
         },
         {
             "file_path": "data/TEXTURE/number008.png"
+        },
+        {
+            "file_path": "data/TEXTURE/smoke.jpg"
         }
     ]
 }
