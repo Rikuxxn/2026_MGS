@@ -50,3 +50,10 @@ std::unique_ptr<CWhaleController> CWhaleController::Create(CPlayer* pPlayer)
 
 	return pInstance;
 }
+
+//===================================================
+// プレイヤーとのヒット
+//===================================================
+void CWhaleController::OnHitPlayer(CWhale* pWhale)
+{
+}

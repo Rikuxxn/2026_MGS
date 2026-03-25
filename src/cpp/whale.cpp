@@ -297,6 +297,7 @@ void CWhale::OnCollisionEnter(IGameObject* other)
 		// クジラの操作クラスの取得
 		CWhaleController* pWhaleController = CGame::GetWhaleController();
 
+		// プレイヤーと当たった
 		pWhaleController->OnHitPlayer(this);
 	}
 }
