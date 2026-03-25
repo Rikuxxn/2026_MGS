@@ -13,6 +13,7 @@
 #include "input.h"
 #include "manager.h"
 #include "game.h"
+#include "object2d.h"
 
 //===================================================
 // コンストラクタ
@@ -34,6 +35,14 @@ CTitle::~CTitle()
 //===================================================
 HRESULT CTitle::Init(void)
 {
+
+	CObject2D::Create(
+		Const::CENTER_POS_2D,
+		{ 150.0f,50.0f },
+		Const::WHITE,
+		"title.png",
+		0.5f);
+
 	return S_OK;
 }
 
