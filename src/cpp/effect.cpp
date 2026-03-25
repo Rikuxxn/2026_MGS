@@ -129,8 +129,15 @@ void CEffect::Update(void)
 	// ‘å‚«‚³‚ÌXVˆ—
 	UpdateSize();
 
-	// õ–½‚ğŒ¸‚ç‚·
-	m_info.nLife--;
+	// õ–½‚ğŒ¸‚ç‚·‚È‚ç
+	const bool bDecLife = !(m_info.unFlag & FLAG_NO_LIFE);
+
+	// õ–½ƒAƒŠ
+	if (bDecLife)
+	{
+		// õ–½‚ğŒ¸‚ç‚·
+		m_info.nLife--;
+	}
 
 	CObjectBillboard::SetPosition(pos);
 

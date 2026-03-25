@@ -98,3 +98,31 @@ bool InputSystem::DebugEnableFollowCamera(void)
 
 	return (pKeyboard->GetTrigger(DIK_F8));
 }
+
+//===================================================
+// 編集モードのプランクトンの位置の決定
+//===================================================
+bool InputSystem::EditRegisterPlanktonPos(void)
+{
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// キーボードの取得
+	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
+
+	return (pKeyboard->GetTrigger(DIK_RETURN));
+}
+
+//===================================================
+// 編集モードのセーブ
+//===================================================
+bool InputSystem::EditSavePlanktonPos(void)
+{
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// キーボードの取得
+	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
+
+	return (pKeyboard->GetTrigger(DIK_F4));
+}

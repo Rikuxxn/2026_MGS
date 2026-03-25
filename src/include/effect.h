@@ -31,18 +31,19 @@ public:
 		FLAG_RADIUS_DECREASE	= 1 << 3,	// 半径を減らす
 		FLAG_INERTIA			= 1 << 4,	// 慣性をつける
 		FLAG_LERP				= 1 << 5,	// 補間する
+		FLAG_NO_LIFE			= 1 << 6,	// 寿命無し
 		FLAG_MAX
 	};
 
 	// エフェクトの情報
 	struct Info
 	{
-		D3DXVECTOR3		move;		// 移動量
-		float			fGravity;	// 重力量
-		float			fInertia;	// 慣性
-		int				nLife;		// 寿命
-		int				nNumLerp;	// 補間量
-		unsigned int	unFlag;		// フラグ
+		D3DXVECTOR3		move		= Const::VEC3_NULL;	// 移動量
+		float			fGravity	= 0.0f;				// 重力量
+		float			fInertia	= 0.0f;				// 慣性
+		int				nLife		= 0;				// 寿命
+		int				nNumLerp	= 0;				// 補間量
+		unsigned int	unFlag		= 0;				// フラグ
 	};
 
 	CEffect();
