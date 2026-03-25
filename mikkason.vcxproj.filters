@@ -324,6 +324,8 @@
     <ClCompile Include="src\cpp\json_loader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\Sound.cpp">
+	</ClCompile>
     <ClCompile Include="src\cpp\particle_registry.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -533,6 +535,8 @@
     <ClInclude Include="src\include\json_loader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\Sound.h">
+	</ClInclude>
     <ClInclude Include="src\include\particle_registry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
