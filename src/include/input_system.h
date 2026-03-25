@@ -22,6 +22,11 @@ namespace InputSystem
 	bool PlayerMoveRight(void);
 	bool PlayerJump(void);
 
+//************************************
+// 	デバッグ
+//************************************
 	bool DebugEnableFollowCamera(void);
+	bool EditRegisterPlanktonPos(void);
+	bool EditSavePlanktonPos(void);
 }
 #endif

@@ -39,8 +39,16 @@ public:
 	void RegisterPlayerPlanktonList(CPlankton* pPlankton);
 private:
 	HRESULT Init(void);
+	HRESULT SavePlankton(void);
 private:
-	CPlayer* m_pPlayer;				// プレイヤーのクラス
-	std::list<CPlankton*> m_pList;	// プランクトンのリスト
+	CPlayer* m_pPlayer;							// プレイヤーのクラス
+	std::list<CPlankton*> m_pList;				// プランクトンのリスト
+
+	struct Edit
+	{
+		std::vector<D3DXVECTOR3> vPlanktonPos;	// プランクトンの位置
+	};
+
+	Edit m_edit;	// 編集モード
 };
 #endif

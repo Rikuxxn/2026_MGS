@@ -12,6 +12,7 @@
 #include "plankton.h"
 #include "player.h"
 #include "json_loader.h"
+#include "input_system.h"
 
 //===================================================
 // コンストラクタ
@@ -73,6 +74,32 @@ HRESULT CPlanktonController::CreatePlankton(const D3DXVECTOR3& pos, const D3DXVE
 //===================================================
 void CPlanktonController::Update(void)
 {
+#ifdef _DEBUG
+
+	if (m_pPlayer != nullptr)
+	{
+		// プレイヤーの位置の取得
+		D3DXVECTOR3 playerPos = m_pPlayer->GetColliderPos();
+
+		if (InputSystem::EditRegisterPlanktonPos())
+		{
+			CEffect::Info info;
+
+			info.unFlag = CEffect::FLAG_NO_LIFE;
+			info.move = Const::VEC3_NULL;
+			info.nLife = 999;
+			
+			CEffect::Create(info, playerPos, { 25.0f,25.0f }, Const::WHITE, "effect000.jpg");
+			// 位置の保存
+			m_edit.vPlanktonPos.push_back(playerPos);
+		}
+		if (InputSystem::EditSavePlanktonPos())
+		{
+			SavePlankton();
+		}
+	}
+#endif // _DEBUG
+
 	//if (m_pPlayer == nullptr)
 	//{
 	//	return;
@@ -131,6 +158,42 @@ HRESULT CPlanktonController::Init(void)
 		// 生成処理
 		CreatePlankton(pos, { 5.0f,5.0f });
 	}
+
+	return S_OK;
+}
+
+//===================================================
+// プランクトンの位置のセーブ
+//===================================================
+HRESULT CPlanktonController::SavePlankton(void)
+{
+	nlohmann::json saveConfig;
+
+	// 配列の確保
+	saveConfig["planktons"] = nlohmann::json::array();
+
+	// 要素分回す
+	for (const auto& position : m_edit.vPlanktonPos)
+	{
+		nlohmann::json item;
+
+		item["pos"] = { position.x,position.y,position.z };
+
+		saveConfig["planktons"].push_back(item);
+	}
+
+	std::ofstream file("data/SYSTEM/plankton_save.json");
+
+	if (!file.is_open())
+	{
+		MessageBox(NULL, "エラー", "data/SYSTEM/plankton_save.json", MB_OK);
+		return E_FAIL;
+	}
+
+	file << saveConfig.dump(4);
+
+	file.clear();
+	file.close();
 
 	return S_OK;
 }

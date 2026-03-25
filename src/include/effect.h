@@ -31,6 +31,7 @@ public:
 		FLAG_RADIUS_DECREASE	= 1 << 3,	// ”¼Œa‚ðŒ¸‚ç‚·
 		FLAG_INERTIA			= 1 << 4,	// Šµ«‚ð‚Â‚¯‚é
 		FLAG_LERP				= 1 << 5,	// •âŠÔ‚·‚é
+		FLAG_NO_LIFE			= 1 << 6,	// Žõ–½–³‚µ
 		FLAG_MAX
 	};
 
