@@ -26,7 +26,6 @@
 #include "mesh_circle.h"
 #include "player.h"
 #include "input.h"
-#include "manager.h"
 #include "score.h"
 #include "timer.h"
 #include "minute_second_timer.h"
