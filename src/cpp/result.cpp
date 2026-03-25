@@ -10,6 +10,15 @@
 //***************************************************
 #include "result.h"
 
+#include "input.h"
+#include "manager.h"
+#include "game.h"
+#include "object2d.h"
+#include "camera.h"
+#include "mesh_field.h"
+#include "skycube.h"
+#include "objectx.h"
+
 //===================================================
 // コンストラクタ
 //===================================================
@@ -30,6 +39,34 @@ CResult::~CResult()
 //===================================================
 HRESULT CResult::Init(void)
 {
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// カメラの取得
+	CCamera* pCamera = pManager->GetCamera();
+
+	pCamera->SetCamera(
+		{ -420.0f,230.0f,130.0f },
+		{ 0.0f,250.0f,120.0f },
+		{ 1.5f, 1.60f, 0.0f });
+
+	// 海底
+	CObjectX::Create(
+		"data/MODEL/seabed.x",
+		{ 0.0f,-500.0f,0.0f },
+		Const::VEC3_NULL,
+		{ 10.0f,10.0f,10.0f });
+
+	// 空の生成
+	CSkyCube::Create();
+
+	CMeshField::Create(
+		{ 0.0f,0.0f,0.0f },
+		{ 3500.0f, 3500.0f },
+		Const::WHITE,
+		{ 120,120 },
+		"sea.jpg");
+
 	return S_OK;
 }
 

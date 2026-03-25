@@ -76,8 +76,6 @@ HRESULT CTitle::Init(void)
 		{ 120,120 },
 		"sea.jpg");
 
-
-
 	return S_OK;
 }
 
