@@ -68,6 +68,7 @@ public:
 	void SetPhysicsMove		(D3DXVECTOR3 move);							// 物理用移動量の設定処理
 	void ApplyDeceleration	(void);										// 減速処理
 	bool OnGround			(PhysicsWorld* world, float rayLength);		// 接地判定
+	std::list<CPlankton*> GetPlankton(void) { return m_pHasPlanktonList; }
 
 	RigidBody*			GetRigidBody		(void) const { return m_pRigidBody.get(); }	// 剛体の取得
 	Collider*			GetCollisionShape	(void) const;								// コリジョンの取得
