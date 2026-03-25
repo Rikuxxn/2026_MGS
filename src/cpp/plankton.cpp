@@ -16,7 +16,6 @@
 #include "RigidBody.h"
 #include "player.h"
 
-
 //***************************************************
 // 定数宣言
 //***************************************************
@@ -30,7 +29,9 @@ namespace PlanktonConst
 //===================================================
 CPlankton::CPlankton() : 
 	m_pRigidBody(nullptr),
-	m_pShape(nullptr)
+	m_pShape(nullptr),
+	m_followPos(Const::VEC3_NULL),
+	m_bFollow(true)
 {
 	// プランクトンのタグを設定
 	SetTag("planckton");
@@ -174,6 +175,8 @@ void CPlankton::Update(void)
 {
 	// 更新処理
 	CObjectBillboard::Update();
+
+	CObjectBillboard::SetPosition(m_followPos);
 }
 
 //===================================================
@@ -228,6 +231,6 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 	// プレイヤーとの当たり判定
 	if (other->CompareTag("Player"))
 	{
-		//CPlayer *pPlayer = 
+		m_bFollow = true;
 	}
 }

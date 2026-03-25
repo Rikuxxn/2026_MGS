@@ -17,6 +17,7 @@
 #include "follow_camera.h"
 #include "plankton.h"
 #include "whole.h"
+#include "plankton_controller.h"
 
 #include "camera.h"
 #include "manager.h"
@@ -40,7 +41,8 @@
 //===================================================
 CGame::CGame() :
 	CScene(CScene::MODE_GAME),
-	m_vpCollisionSystem()
+	m_vpCollisionSystem(),
+	m_pPlanktonController()
 {
 }
 
@@ -54,6 +56,12 @@ CGame::~CGame()
 	{
 		// 破棄
 		collisionSystem = nullptr;
+	}
+
+	// プランクトンの操作クラスの破棄
+	if (m_pPlanktonController != nullptr)
+	{
+		m_pPlanktonController.reset();
 	}
 
 	m_vpCollisionSystem.clear();
@@ -87,6 +95,9 @@ HRESULT CGame::Init(void)
 		"motion_dolphin.txt"
 	);
 
+	// プランクトンの操作クラスの生成
+	m_pPlanktonController = CPlanktonController::Create(pPlayer);
+
 	// カメラ追従処理の追加
 	pCamera->AddSystem(std::make_unique<CFollowCamera>(pCamera, pPlayer));
 
@@ -100,10 +111,15 @@ HRESULT CGame::Init(void)
 	// 空の生成
 	CSkyCube::Create();
 
-	// プランクトンの生成
-	CPlankton::Create(
-		{ 80.0f,10.0f,0.0f }, 
+	// プランクトンの生成処理
+	m_pPlanktonController->CreatePlankton(
+		{ 80.0f,10.0f,0.0f },
 		{ 50.0f,50.0f });
+
+	//// プランクトンの生成
+	//CPlankton::Create(
+	//	{ 80.0f,10.0f,0.0f }, 
+	//	{ 50.0f,50.0f });
 
 	// クジラの生成
 	CWhole::Create(
@@ -217,6 +233,12 @@ void CGame::Update(void)
 	{
 		// 更新処理
 		collisionSystem->Update();
+	}
+
+	// 更新処理
+	if (m_pPlanktonController != nullptr)
+	{
+		m_pPlanktonController->Update();
 	}
 #ifdef _DEBUG
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))

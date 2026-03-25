@@ -41,8 +41,12 @@ public:
 	void	Draw	(void) override;
 
 	void	OnCollisionEnter(IGameObject* other) override;
+	inline void	GetFollowPosition(const D3DXVECTOR3& followPos) { m_followPos = followPos; }
+	inline bool GetFollowState(void) const { return m_bFollow; }
 private:
 	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
+	D3DXVECTOR3					m_followPos;	// 追従位置
+	bool						m_bFollow;		// 追従するかどうか
 };
 #endif
