@@ -370,6 +370,14 @@ void CWhale::SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos)
 }
 
 //===================================================
+// スケールの設定
+//===================================================
+void CWhale::SetScal(const D3DXVECTOR3& scale)
+{
+	m_pCharacter->SetScale(scale);
+}
+
+//===================================================
 // 位置の取得
 //===================================================
 const D3DXVECTOR3& CWhale::GetPosition(void) const

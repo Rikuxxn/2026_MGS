@@ -65,6 +65,8 @@ public:
 
 	void OnCollisionEnter(IGameObject* other) override;
 	void SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos);
+	void SetScal(const D3DXVECTOR3& scale);
+
 	inline void SetDestRotation(const D3DXVECTOR3& dest) { m_rotDest = dest; }
 
 	const D3DXVECTOR3& GetPosition(void) const;

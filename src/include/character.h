@@ -56,12 +56,14 @@ public:
 
 	// パラメータの設定処理
 	void SetParameter(const float fInertia, const float fGravity);
+	void SetScale(const D3DXVECTOR3& scale);
 private:
 	std::vector<std::unique_ptr<CModel>> m_vpModel;		// モデルのクラスへのポインタ
 	std::unique_ptr<CMotion>			 m_pMotion;		// モーションクラスへのポインタ
 	D3DXVECTOR3							 m_pos;			// 位置
 	D3DXVECTOR3							 m_rot;			// 向き
 	D3DXVECTOR3							 m_move;		// 移動量
+	D3DXVECTOR3							 m_scale;		// スケール
 	D3DXMATRIX							 m_mtxWorld;	// ワールドマトリックス
 	float								 m_fInertia;	// 慣性
 	float								 m_fGravity;	// 重力量

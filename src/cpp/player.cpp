@@ -184,6 +184,16 @@ void CPlayer::Update(void)
 //===================================================
 void CPlayer::Draw(void)
 {
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// レンダラーの取得
+	CRenderer* pRenderer = pManager->GetRenderer();
+
+	// デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+
 	if (m_pCharacter != nullptr)
 	{
 		m_pCharacter->Draw();
@@ -193,9 +203,6 @@ void CPlayer::Draw(void)
 	// スフィアコライダーの描画
 	if (auto cap = GetCollisionShape()->As<SphereCollider>())
 	{
-		// レンダラーの取得
-		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
-
 		// 3Dデバッグ情報の取得
 		auto pDebug3D = pRenderer->GetDebugProc3D();
 
@@ -648,6 +655,8 @@ void CPlayer::UpdateWhale(void)
 
 	if (m_pHasPlanktonList.empty())
 	{
+		m_pWhale->SetScal(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+
 		// 接続を消す
 		m_pWhale = nullptr;
 	}

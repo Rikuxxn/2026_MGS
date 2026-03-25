@@ -13,6 +13,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "motion.h"
+#include "..\include\character.h"
 
 //===================================================
 // コンストラクタ
@@ -26,7 +27,8 @@ CCharacter::CCharacter() :
 	m_mtxWorld(Const::MTX_IDENTITY),
 	m_fInertia(0.0f),
 	m_fGravity(0.0f),
-	m_nNumModel(0)
+	m_nNumModel(0),
+	m_scale(Const::INIT_SCAL)
 {
 }
 
@@ -137,8 +139,14 @@ void CCharacter::Draw(void)
 	//計算用のマトリックス
 	D3DXMATRIX mtxRot, mtxTrans, mtxScal;
 
+	pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
+
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
+
+	// スケールを反映
+	D3DXMatrixScaling(&mtxScal, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxScal);
 
 	//向きを反映
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
@@ -157,6 +165,8 @@ void CCharacter::Draw(void)
 		// 描画処理
 		model->Draw();
 	}
+
+	pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
 }
 
 //===================================================
@@ -166,4 +176,12 @@ void CCharacter::SetParameter(const float fInertia, const float fGravity)
 {
 	m_fInertia = fInertia;
 	m_fGravity = fGravity;
+}
+
+//===================================================
+// スケールの設定
+//===================================================
+void CCharacter::SetScale(const D3DXVECTOR3& scale)
+{
+	m_scale = scale;
 }

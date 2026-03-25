@@ -79,7 +79,7 @@ void CPlanktonController::Update(void)
 	if (m_pPlayer != nullptr)
 	{
 		// プレイヤーの位置の取得
-		D3DXVECTOR3 playerPos = m_pPlayer->GetColliderPos();
+		D3DXVECTOR3 playerPos = m_pPlayer->GetPosition();
 
 		if (InputSystem::EditRegisterPlanktonPos())
 		{

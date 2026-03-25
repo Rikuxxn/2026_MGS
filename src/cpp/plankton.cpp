@@ -333,7 +333,6 @@ bool CPlankton::ProceedToBeEaten(const D3DXVECTOR3& destPos)
 
 	if (fRate >= 1.0f)
 	{
-		m_eatenData.nFrameCounter = 0;
 		return true;
 	}
 
