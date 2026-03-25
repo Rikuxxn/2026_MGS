@@ -176,6 +176,7 @@ void CPlayer::Update(void)
 	// プランクトンの更新処理
 	UpdatePlankton();
 
+	// クジラの更新処理
 	UpdateWhale();
 }
 
