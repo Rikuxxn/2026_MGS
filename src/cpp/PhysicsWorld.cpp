@@ -761,12 +761,6 @@ void PhysicsWorld::StepSimulation(float dt)
 
                     m_currentCollisions.insert(MakePair(A->GetCollider().get(), B->GetCollider().get()));
 
-                    // 物理的な衝突判定をしない
-                    if (!A->IsNoCollision() || !B->IsNoCollision())
-                    {
-                        return;
-                    }
-
                     // 相対速度
                     D3DXVECTOR3 relVel = B->GetVelocity() - A->GetVelocity();
                     float velAlongNormal = D3DXVec3Dot(&relVel, &normal);
@@ -791,12 +785,12 @@ void PhysicsWorld::StepSimulation(float dt)
                         A->SetTransform(A->GetPosition() - push * 0.5f, A->GetOrientation(), A->GetScale());
                         B->SetTransform(B->GetPosition() + push * 0.5f, B->GetOrientation(), B->GetScale());
                     }
-                    else if (A->IsDynamic() && !B->IsDynamic())
+                    else if ((A->IsDynamic() && !B->IsDynamic()) && (A->IsNoCollision() || !B->IsNoCollision()))
                     {
                         // B が静的なら A だけ動かす
                         A->SetTransform(A->GetPosition() - push, A->GetOrientation(), A->GetScale());
                     }
-                    else if (!A->IsDynamic() && B->IsDynamic())
+                    else if ((!A->IsDynamic() && B->IsDynamic()) && (A->IsNoCollision() || !B->IsNoCollision()))
                     {
                         // A が静的なら B だけ動かす
                         B->SetTransform(B->GetPosition() + push, B->GetOrientation(), B->GetScale());
