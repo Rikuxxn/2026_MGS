@@ -123,7 +123,7 @@ void CWhaleController::OnHitPlayer(CWhale* pWhale)
 }
 
 //===================================================
-// プレイヤーとのヒット
+// クジラを満足させたか
 //===================================================
 void CWhaleController::OnWhaleSatisfied(CWhale* whale)
 {
@@ -145,6 +145,6 @@ void CWhaleController::OnWhaleSatisfied(CWhale* whale)
 		return;
 	}
 
-	// 新しく1体補充
+	// 新しく補充
 	SpawnWhale();
 }
