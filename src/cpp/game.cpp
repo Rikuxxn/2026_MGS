@@ -214,14 +214,14 @@ HRESULT CGame::Init(void)
 	// “–‚½‚è”»’è‚Ì’Ç‰Á
 	m_vpCollisionSystem.push_back(std::move(pMeshFieldCollisionSystem));
 
-	//// ‰¹‚ÌŽæ“¾
-	//CSound* pSound = CManager::GetInstance()->GetSound();
+	// ‰¹‚ÌŽæ“¾
+	CSound* pSound = CManager::GetInstance()->GetSound();
 
-	//// ƒQ[ƒ€BGM‚ÌÄ¶
-	//if (pSound)
-	//{
-	//	pSound->Play(CSound::SOUND_LABEL_GAMEBGM);
-	//}
+	// ƒQ[ƒ€BGM‚ÌÄ¶
+	if (pSound)
+	{
+		pSound->Play(CSound::SOUND_LABEL_GAMEBGM);
+	}
 
 	return S_OK;
 }
@@ -231,6 +231,10 @@ HRESULT CGame::Init(void)
 //===================================================
 void CGame::Uninit(void)
 {
+	// ‰¹‚ÌŽæ“¾
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	pSound->StopByLabel(CSound::SOUND_LABEL_GAMEBGM);
 }
 
 //===================================================
