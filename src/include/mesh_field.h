@@ -56,6 +56,8 @@ public:
 private:
 	std::unique_ptr<CMeshFieldCollision> m_pCollision;	// 当たり判定
 
+	static constexpr float DELTA_TIME = 0.004f;
+
 	LPDIRECT3DVERTEXBUFFER9		m_pVtxBuffer;	// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9		m_pIdxBuffer;	// インデックスバッファへのポインタ
 	D3DXMATRIX					m_mtxWorld;		// ワールドマトリックス

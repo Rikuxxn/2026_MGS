@@ -231,6 +231,7 @@ void CMeshField::Uninit(void)
 //===================================================
 void CMeshField::Update(void)
 {
+	m_fTime += DELTA_TIME;
 }
 
 //===================================================
