@@ -129,7 +129,7 @@ HRESULT CPlanktonController::Init(void)
 		pos.z = item["pos"][2];
 
 		// ê∂ê¨èàóù
-		CreatePlankton(pos, { 25.0f,25.0f });
+		CreatePlankton(pos, { 5.0f,5.0f });
 	}
 
 	return S_OK;

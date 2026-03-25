@@ -51,5 +51,6 @@ private:
 	std::shared_ptr<Collider>   m_pShape;		// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_followPos;	// 追従位置
 	bool						m_bFollow;		// 追従するかどうか
+	float						m_fTime;		// ぐるぐる回る
 };
 #endif

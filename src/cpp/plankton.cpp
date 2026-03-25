@@ -26,7 +26,8 @@ namespace PlanktonConst
 {
 	constexpr const char* TEXTURE_PATH = "effect000.jpg";	// テクスチャのパス
 
-	constexpr float FOLLOW_ALPHA = 0.05f;	// 位置の補間の係数
+	constexpr float FOLLOW_LENGTH = 50.0f;	// 位置の補間の係数
+	constexpr float FOLLOW_SPEED = 0.04f;
 }
 
 //===================================================
@@ -36,7 +37,8 @@ CPlankton::CPlankton() :
 	m_pRigidBody(nullptr),
 	m_pShape(nullptr),
 	m_followPos(Const::VEC3_NULL),
-	m_bFollow(false)
+	m_bFollow(false),
+	m_fTime(0.0f)
 {
 	// プランクトンのタグを設定
 	SetTag("planckton");
@@ -187,8 +189,15 @@ void CPlankton::Update(void)
 		// 現在の位置の取得
 		D3DXVECTOR3 currentPos = CObjectBillboard::GetPosition();
 
+		m_fTime += PlanktonConst::FOLLOW_SPEED;
+		if (m_fTime >= D3DX_PI * 2.0f)
+		{
+			m_fTime = 0.0f;
+		}
+
 		// 現在の位置と補間する
-		currentPos += (m_followPos - currentPos) * PlanktonConst::FOLLOW_ALPHA;
+		currentPos.x = m_followPos.x + sinf(m_fTime) * PlanktonConst::FOLLOW_LENGTH;
+		currentPos.z = m_followPos.z + cosf(m_fTime) * PlanktonConst::FOLLOW_LENGTH;
 
 		// コライダー位置の設定
 		m_pRigidBody->SetTransform(currentPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
