@@ -210,6 +210,7 @@
     <ClCompile Include="src\cpp\shader_manager.cpp" />
     <ClCompile Include="src\cpp\shadowmap_objectX.cpp" />
     <ClCompile Include="src\cpp\SkyCube.cpp" />
+    <ClCompile Include="src\cpp\Sound.cpp" />
     <ClCompile Include="src\cpp\texture_animation.cpp" />
     <ClCompile Include="src\cpp\texture_manager.cpp" />
     <ClCompile Include="src\cpp\texture_mrt_manager.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="src\include\shader_manager.h" />
     <ClInclude Include="src\include\shadowmap_objectX.h" />
     <ClInclude Include="src\include\SkyCube.h" />
+    <ClInclude Include="src\include\Sound.h" />
     <ClInclude Include="src\include\State.h" />
     <ClInclude Include="src\include\texture_animation.h" />
     <ClInclude Include="src\include\texture_manager.h" />
