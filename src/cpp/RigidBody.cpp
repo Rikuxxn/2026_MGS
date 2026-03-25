@@ -21,6 +21,7 @@ RigidBody::RigidBody(std::shared_ptr<Collider> col, float mass)
     m_Restitution(0.1f)
 {
     m_onGround = false;
+    m_isNoCollision = false;
     m_AccumulatedForce = Const::VEC3_NULL;
     m_AccumulatedTorque = Const::VEC3_NULL;
     D3DXQuaternionIdentity(&m_Orientation);
