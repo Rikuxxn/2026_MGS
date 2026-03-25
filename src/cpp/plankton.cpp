@@ -15,7 +15,7 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "player.h"
-
+#include "DebugProc3D.h"
 
 //***************************************************
 // 定数宣言
@@ -30,7 +30,9 @@ namespace PlanktonConst
 //===================================================
 CPlankton::CPlankton() : 
 	m_pRigidBody(nullptr),
-	m_pShape(nullptr)
+	m_pShape(nullptr),
+	m_followPos(Const::VEC3_NULL),
+	m_bFollow(true)
 {
 	// プランクトンのタグを設定
 	SetTag("planckton");
@@ -174,6 +176,11 @@ void CPlankton::Update(void)
 {
 	// 更新処理
 	CObjectBillboard::Update();
+
+	//// 位置の設定
+	//m_pRigidBody->SetTransform(m_followPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
+
+	//CObjectBillboard::SetPosition(m_followPos);
 }
 
 //===================================================
@@ -181,6 +188,20 @@ void CPlankton::Update(void)
 //===================================================
 void CPlankton::Draw(void)
 {
+#ifdef _DEBUG
+	// スフィアコライダーの描画
+	if (auto cap = GetCollisionShape()->As<SphereCollider>())
+	{
+		// レンダラーの取得
+		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
+
+		// 3Dデバッグ情報の取得
+		auto pDebug3D = pRenderer->GetDebugProc3D();
+
+		pDebug3D->DrawSphereCollider(cap, Color::GREENYELLOW);
+	}
+#endif
+
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
 
@@ -228,6 +249,14 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 	// プレイヤーとの当たり判定
 	if (other->CompareTag("Player"))
 	{
-		//CPlayer *pPlayer = 
+		m_bFollow = true;
 	}
+}
+
+//===================================================
+// コライダーの取得処理
+//===================================================
+Collider* CPlankton::GetCollisionShape(void) const
+{
+	return m_pShape.get();
 }
