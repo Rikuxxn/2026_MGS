@@ -37,14 +37,15 @@ std::unique_ptr<CPlanktonController> CPlanktonController::Create(CPlayer* pPlaye
 	// ©•ª©g‚Ì¶¬
 	auto pInstance = std::make_unique<CPlanktonController>();
 
+	// —v‘f‚Ìİ’è
+	pInstance->m_pPlayer = pPlayer;
+
 	// ‰Šú‰»ˆ—
 	if (FAILED(pInstance->Init()))
 	{
 		pInstance = nullptr;
 		return nullptr;
 	}
-	// —v‘f‚Ìİ’è
-	pInstance->m_pPlayer = pPlayer;
 
 	return pInstance;
 }
@@ -116,7 +117,7 @@ HRESULT CPlanktonController::Init(void)
 		pos.z = item["pos"][2];
 
 		// ¶¬ˆ—
-		CreatePlankton(pos, { 50.0f,50.0f });
+		CreatePlankton(pos, { 25.0f,25.0f });
 	}
 
 	return S_OK;
