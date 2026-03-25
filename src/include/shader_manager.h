@@ -35,6 +35,7 @@ public:
 		TYPE_SHADOW_MAP_RECIEVE,	// 影を受けるオブジェクトシェーダー
 		TYPE_SHADOW_MAP_RECIEVE_MT,	// 影を受けるマルチテクスチャオブジェクトシェーダー
 		TYPE_SKY_CUBE,				// スカイキューブシェーダー
+		TYPE_SEA,					// 海の水面シェーダー
 		TYPE_MAX
 	}TYPE;
 

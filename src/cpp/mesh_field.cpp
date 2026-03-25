@@ -14,11 +14,13 @@
 #include "renderer.h"
 #include "mesh_field_collision.h"
 #include "utility_math.h"
+#include "shader_manager.h"
+#include "shader.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
-CMeshField::CMeshField() : 
+CMeshField::CMeshField() :
 	CObject(PRIORITY_MESH),
 	m_pCollision(nullptr),
 	m_pVtxBuffer(nullptr),
@@ -32,7 +34,9 @@ CMeshField::CMeshField() :
 	m_nNumVertex(0),
 	m_nNumPolygon(0),
 	m_nNumIndex(0),
-	m_nTextureID(CTextureManager::INVALID_ID)
+	m_nNoiseTextureID(CTextureManager::INVALID_ID),
+	m_nSeaTextureID(CTextureManager::INVALID_ID),
+	m_fTime(1.0f)
 {
 }
 
@@ -67,7 +71,7 @@ CMeshField* CMeshField::Create(const D3DXVECTOR3& pos, const D3DXVECTOR2& size, 
 	CMeshField* pInstance = new CMeshField;
 
 	// テクスチャのIDの設定
-	pInstance->SetTextureID(pTexturePath);
+	pInstance->SetTextureID("data/TEXTURE/SEA/waterNoise.png","data/TEXTURE/SEA/water.png");
 
 	pInstance->m_pos = pos;
 	pInstance->m_size = size;
@@ -249,6 +253,12 @@ void CMeshField::Draw(void)
 	//計算用のマトリックス
 	D3DXMATRIX mtxRot, mtxTrans;
 
+	// シェーダーマネージャーの取得
+	CShaderManager* pShaderManager = pManager->GetShaderManager();
+
+	// 空のシェーダーの取得
+	CShader* pShader = pShaderManager->GetAddrees(CShaderManager::TYPE_SEA);
+
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
 
@@ -272,11 +282,39 @@ void CMeshField::Draw(void)
 	// テクスチャフォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_3D);
 
+	if (pShader != nullptr)
+	{
+		pShader->Begin();
+
+		pShader->BeginPass();
+	}
+
+	// 行列
+	D3DXMATRIX mtxView;
+	D3DXMATRIX mtxProj;
+
+	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+	pDevice->GetTransform(D3DTS_PROJECTION, &mtxProj);
+
+	// マトリックスの設定
+	pShader->SetFloat("g_fTime", m_fTime);
+	pShader->SetMatrix("g_mtxWld", m_mtxWorld);
+	pShader->SetMatrix("g_mtxView", mtxView);
+	pShader->SetMatrix("g_mtxProj", mtxProj);
+
 	// テクスチャの設定
-	pDevice->SetTexture(0, pTextureManager->GetAdress(m_nTextureID));
+	pShader->SetTexture("g_NoiseMap", pTextureManager->GetAdress(m_nNoiseTextureID));
+	pShader->SetTexture("g_WaterMap", pTextureManager->GetAdress(m_nSeaTextureID));
 
 	//ポリゴンの描画
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, m_nNumVertex, 0, m_nNumPolygon);
+
+	if (pShader != nullptr)
+	{
+		pShader->EndPass();
+
+		pShader->End();
+	}
 }
 
 //===================================================
@@ -312,7 +350,7 @@ bool CMeshField::Collision(const D3DXVECTOR3& targetPos, CollisionResult::MeshFi
 //===================================================
 // テクスチャのIDの設定処理
 //===================================================
-void CMeshField::SetTextureID(const char* pTexturePath)
+void CMeshField::SetTextureID(const char* pNoiseTexturePath, const char* pSeaTexturePath)
 {
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
@@ -327,5 +365,6 @@ void CMeshField::SetTextureID(const char* pTexturePath)
 	}
 
 	// テクスチャのIDの設定
-	m_nTextureID = pTextureManager->Register(pTexturePath);
+	m_nNoiseTextureID = pTextureManager->Register(pNoiseTexturePath);
+	m_nSeaTextureID = pTextureManager->Register(pSeaTexturePath);
 }
