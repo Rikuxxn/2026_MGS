@@ -58,7 +58,7 @@ void CTitle::Update(void)
 
 	if (pKeyboard->GetTrigger(DIK_F9))
 	{
-		pManager->BeginFade(std::unique_ptr<CGame>());
+		pManager->BeginFade(std::make_unique<CGame>());
 	}
 #endif // _DEBUG
 }
