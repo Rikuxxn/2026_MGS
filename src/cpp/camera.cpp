@@ -314,3 +314,19 @@ void CCamera::DebugCamera(void)
 #endif
 
 }
+
+//=============================================================================
+// カメラの前方ベクトル取得
+//=============================================================================
+D3DXVECTOR3 CCamera::GetForward(void) const
+{
+	// カメラの回転角度（Y軸）から前方ベクトルを計算
+	float yaw = m_rot.y;
+
+	D3DXVECTOR3 forward(-sinf(yaw), 0.0f, -cosf(yaw));
+
+	// 正規化する
+	D3DXVec3Normalize(&forward, &forward);
+
+	return forward;
+}

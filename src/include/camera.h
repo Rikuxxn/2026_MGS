@@ -40,6 +40,7 @@ public:
 	inline D3DXVECTOR3	GetRotation	(void) const { return m_rot; }
 	inline D3DXVECTOR3	GetPosV		(void) const { return m_posV; }
 	inline D3DXVECTOR3	GetPosR		(void) const { return m_posR; }
+	D3DXVECTOR3	GetForward	(void) const;
 	inline float		GetDistance	(void) const { return m_fDistance; }
 private:
 	void DebugCamera(void);
