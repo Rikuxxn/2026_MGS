@@ -41,7 +41,7 @@
 // マクロ定義
 //***************************************************
 #define CLASS_NAME		"WindowClass"			// ウインドウクラスの名前
-#define WINDOW_NAME		"Squash"				// ウインドウの名前(キャプションに表示)
+#define WINDOW_NAME		"Dolphin Of The Sea"	// ウインドウの名前(キャプションに表示)
 #define SCREEN_WIDTH	(1280)					// ウインドウの幅
 #define SCREEN_HEIGHT	(720)					// ウインドウの高さ
 
