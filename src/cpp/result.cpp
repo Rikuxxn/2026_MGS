@@ -20,6 +20,7 @@
 #include "objectx.h"
 #include "score.h"
 #include "title.h"
+#include "Sound.h"
 
 //===================================================
 // コンストラクタ
@@ -94,6 +95,15 @@ HRESULT CResult::Init(void)
 		m_nScore,
 		"number008.png");
 
+	// 音の取得
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	// リザルトBGMの再生
+	if (pSound)
+	{
+		pSound->Play(CSound::SOUND_LABEL_RESULTBGM);
+	}
+
 	return S_OK;
 }
 
@@ -102,6 +112,10 @@ HRESULT CResult::Init(void)
 //===================================================
 void CResult::Uninit(void)
 {
+	// 音の取得
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	pSound->StopByLabel(CSound::SOUND_LABEL_GAMEBGM);
 }
 
 //===================================================
