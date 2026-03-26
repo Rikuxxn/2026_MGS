@@ -64,6 +64,8 @@ public:
 	/// <param name="ループするかどうか(falseにすると最大まで行ったら消えます)"></param>
 	void AttachAnimation	(const int nType, const VECTOR2INT& segment, const int nFrame, const bool bLoop);
 
+	inline D3DXCOLOR GetColor(void) const { return m_col; }
+	inline void SetColor(const D3DXCOLOR& col) { m_col = col; }
 private:
 	std::unique_ptr<CTextureAnimation> m_pTextureAnimation;	// テクスチャアニメーションクラスへのポインタ
 
