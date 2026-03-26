@@ -26,6 +26,7 @@ class CWhaleController;		// クジラを生成クラス
 class CScore;				// クジラの数を出すUIクラス
 class CPauseController;		// ポーズの操作クラス
 class CTimer;				// タイマークラス
+class CFishController;		// 魚の更新処理
 
 //***************************************************
 // ゲームシーンのクラスの定義
@@ -54,6 +55,7 @@ public:
 	static inline CBlockManager*		GetBlockManager			(void) { return m_pBlockManager.get(); }
 	static inline CWhaleController*		GetWhaleController		(void) { return m_pWhaleController.get(); }
 	static inline CPauseController*		GetPauseController		(void) { return m_pPauseController.get(); }
+	static inline CFishController*		GetFishController		(void) { return m_pFishController.get(); }
 	static inline CScore*				GetScore				(void) { return m_pScore; }
 private:
 	std::vector<std::unique_ptr<CCollisionSystem>>	m_vpCollisionSystem;	// 当たり判定の処理
@@ -62,6 +64,7 @@ private:
 	static std::unique_ptr<CWhaleController>		m_pWhaleController;		// クジラを生成するクラス
 	static std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
 	static std::unique_ptr<CPauseController>		m_pPauseController;		// ポーズのコントローラーへのポインタ
+	static std::unique_ptr<CFishController>			m_pFishController;		// 魚のコントローラーへのポインタ
 	static CScore*									m_pScore;				// スコアへのポインタ
 	static CTimer*									m_pTimer;				// タイマーへのポインタ
 	int m_nStateCnt;
