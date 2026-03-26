@@ -99,6 +99,17 @@ void CPlanktonController::CreateCluster(const D3DXVECTOR3& center, int count, fl
 //===================================================
 void CPlanktonController::Update(void)
 {
+	// プランクトンの補充
+	if (m_pList.size() <= 40)
+	{
+		// プランクトンの塊生成
+		for (auto& center : m_clusterCenters)
+		{
+			CreateCluster(center, 20, 100.0f); // 20匹、半径100
+		}
+	}
+
+
 #ifdef _DEBUG
 
 	if (m_pPlayer != nullptr)
@@ -200,6 +211,23 @@ HRESULT CPlanktonController::Init(void)
 	}
 
 	return S_OK;
+}
+
+//===================================================
+// 要素の結合解除
+//===================================================
+void CPlanktonController::Erase(CPlankton* plankton)
+{
+	// イテレータの取得
+	auto itr = std::find(m_pList.begin(), m_pList.end(), plankton);
+
+	if (itr == m_pList.end())
+	{
+		return;
+	}
+
+	// 結合の解除
+	itr = m_pList.erase(itr);
 }
 
 //===================================================

@@ -211,6 +211,11 @@ void CPlankton::Update(void)
 		// 食べられたら破棄
 		if (m_eatenData.nFrameCounter >= PlanktonConst::EATEN_LERP_TIME)
 		{
+			// クジラの操作クラス
+			CPlanktonController* pPlanktonController = CGame::GetPlanktonController();
+
+			pPlanktonController->Erase(this);
+
 			// 破棄
 			Uninit();
 		}
