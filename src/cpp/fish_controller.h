@@ -37,8 +37,11 @@ public:
 	void Update(void);
 
 	void Erase(CFish* pFish);
+
+	void Spawn(void);
 private:
 	CPlayer* m_pPlayer;
 	std::list<CFish*> m_pFishList;
+	int m_nSpawnCounter;
 };
 #endif

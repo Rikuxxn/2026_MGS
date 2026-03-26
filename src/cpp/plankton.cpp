@@ -190,6 +190,14 @@ void CPlankton::Update(void)
 		CObjectBillboard::SetPosition(currentPos);
 	}
 
+	if (m_state == State::FishFollow)
+	{
+		// コライダー位置の設定
+		m_pRigidBody->SetTransform(m_followPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
+
+		// プランクトンの位置を更新(プレイヤー追従)
+		CObjectBillboard::SetPosition(m_followPos);
+	}
 	if (m_state == State::BeEaten)
 	{
 		// 位置の取得
@@ -286,6 +294,11 @@ void CPlankton::Draw(void)
 //===================================================
 void CPlankton::OnCollisionEnter(IGameObject* other)
 {
+	if (m_state == State::FishFollow)
+	{
+		return;
+	}
+
 	// プレイヤーとの当たり判定
 	if (other->CompareTag("Player"))
 	{

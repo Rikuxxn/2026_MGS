@@ -35,6 +35,7 @@ public:
 	{
 		Idel = 0,	// âΩÇ‡ÇµÇ»Ç¢
 		Follow,		// í«è]
+		FishFollow,	// ãõÇ…í«è]
 		BeEaten,	// êHÇÌÇÍÇÈ
 		Max
 	};
