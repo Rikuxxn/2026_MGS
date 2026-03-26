@@ -13,6 +13,8 @@
 #include "RigidBody.h"
 #include "particle.h"
 #include "color_constants.h"
+#include <input.h>
+#include <manager.h>
 
 //=============================================================================
 // 待機状態の開始処理
@@ -112,33 +114,10 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 補間後の速度をプレイヤーにセット
 	pPlayer->SetPhysicsMove(currentMove);
 
-	//CParticle::Info particleInfo;
+	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
 
-	//// オフセット
-	//D3DXVECTOR3 localOffset(0.0f, 0.0f, 100.0f);
-	//D3DXVECTOR3 worldOffset;
-
-	//// ブロックのワールドマトリックスを取得
-	//D3DXMATRIX worldMtx = pPlayer->GetWorldMatrix();
-
-	//D3DXVec3TransformCoord(&worldOffset, &localOffset, &worldMtx);
-
-	//// パーティクル設定
-	//particleInfo.pos = worldOffset;
-	//particleInfo.col = Color::LIGHTBLUE;
-	//particleInfo.fAngleXMax = 90;
-	//particleInfo.fAngleXMin = -90;
-	//particleInfo.fAngleYMax = 60;
-	//particleInfo.fAngleYMin = -60;
-	//particleInfo.moveMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	//particleInfo.moveMin = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
-	//particleInfo.nNum = 5;
-	//particleInfo.nTime = 5;
-	//particleInfo.size = { 50.0f,50.0f };
-	//particleInfo.texturePath = "smoke.jpg";
-	//particleInfo.effectInfo.nLife = 20;
-
-	//CParticle::Create(particleInfo);
+	// 振動させる
+	pJoypad->SetVibration(500, 500);
 
 	// ジャンプ入力があればジャンプステートに切替
 	if (input.isJump && pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
@@ -153,6 +132,16 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 		// 待機状態
 		m_pMachine->ChangeState<CPlayerStandState>();
 	}
+}
+//=============================================================================
+// 移動状態の終了処理
+//=============================================================================
+void CPlayerMoveState::OnExit(CPlayer* /*pPlayer*/)
+{
+	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
+
+	// 振動停止
+	pJoypad->StopVibration();
 }
 
 //=============================================================================
