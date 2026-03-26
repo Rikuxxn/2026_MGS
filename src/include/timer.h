@@ -41,6 +41,8 @@ public:
 
 	void SetIsTimerStop(bool flag) { m_isTimerStop = flag; }
 	int		inline	GetTime(void) { return m_nTime; }
+	bool IsTimerStop(void) { return m_isTimerStop; }
+
 private:
 	std::array<std::unique_ptr<CNumber>, MAX_DIGIT> m_apNumber;	// 数字クラスへのポインタ
 	D3DXVECTOR3	m_pos;											// 位置

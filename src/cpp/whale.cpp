@@ -462,7 +462,7 @@ void CWhale::EatPlankton(void)
 	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
 
 	// U“®‚³‚¹‚é
-	pJoypad->SetVibration(1000, 1000, 1);
+	pJoypad->SetVibration(2000, 2000, 5);
 
 	//// ‰¹‚Ìæ“¾
 	//CSound* pSound = CManager::GetInstance()->GetSound();
