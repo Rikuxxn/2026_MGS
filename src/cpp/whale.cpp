@@ -421,6 +421,7 @@ void CWhale::SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos)
 	{
 		m_nReactionMotionInterval = 0;
 	}
+
 	m_nReactionMotionInterval--;
 }
 

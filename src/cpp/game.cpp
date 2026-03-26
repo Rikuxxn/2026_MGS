@@ -82,6 +82,17 @@ CGame::~CGame()
 
 	// スコア保存
 	std::ofstream ofs("data/score.txt");
+
+	if (!ofs.is_open())
+	{
+		MessageBox(NULL, "ファイルが開けません", "score,txt(Gameのデストラクタ)", MB_OK);
+		return;
+	}
+	if (m_pScore == nullptr)
+	{
+		return;
+	}
+
 	int nScore = m_pScore->GetScore();
 	ofs << nScore << std::endl;
 	ofs.close();
@@ -164,10 +175,11 @@ HRESULT CGame::Init(void)
 		Const::WHITE,
 		"whale.png",
 		0.0f);
+
 	m_pScore = CScore::Create(
 		{ 240.0f,650.0f,0.0f },
 		{ 60.0f,70.0f },
-		82,
+		0,
 		"number008.png");
 
 

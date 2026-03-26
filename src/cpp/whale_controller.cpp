@@ -12,6 +12,8 @@
 #include "whale.h"
 #include "player.h"
 #include "MathConst.h"
+#include "score.h"
+#include "game.h"
 
 //===================================================
 // コンストラクタ
@@ -132,21 +134,31 @@ void CWhaleController::OnWhaleSatisfied(CWhale* whale)
 	 // 満足したクジラの数
 	m_nSatisfiedWhaleNum++;
 
-	//// 削除
-	//auto it = std::find(m_pList.begin(), m_pList.end(), whale);
+	// スコアの取得
+	CScore* pScore = CGame::GetScore();
 
-	//if (it != m_pList.end())
-	//{
-	//	//(*it)->Uninit();
-	//	delete* it;
-	//	m_pList.erase(it);
-	//}
-
-	//if (m_pList.size() >= MAX_WHALE_NUM)
-	//{
-	//	return;
-	//}
+	if (pScore != nullptr)
+	{
+		pScore->SetScore(m_nSatisfiedWhaleNum);
+	}
 
 	// 新しく補充
 	SpawnWhale();
+}
+
+//===================================================
+// 要素の結合解除
+//===================================================
+void CWhaleController::Erase(CWhale* whale)
+{
+	// イテレータの取得
+	auto itr = std::find(m_pList.begin(), m_pList.end(), whale);
+
+	if (itr == m_pList.end())
+	{
+		return;
+	}
+
+	// 結合の解除
+	itr = m_pList.erase(itr);
 }

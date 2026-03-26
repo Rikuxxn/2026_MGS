@@ -15,6 +15,8 @@
 #include "particle_registry.h"
 #include "manager.h"
 #include "color_constants.h"
+#include "game.h"
+#include "whale_controller.h"
 
 //===================================================
 // ニュートラル状態コンストラクタ
@@ -162,7 +164,11 @@ void CWhaleSatisfaction::OnUpdate(CWhale* pWhale)
 
 		if (m_nReleaseTime <= 0)
 		{
-			// ゲームから消す
+			// クジラの操作クラス
+			CWhaleController* pWhaleController = CGame::GetWhaleController();
+
+			pWhaleController->Erase(pWhale);
+
 			pWhale->Uninit();
 		}
 
