@@ -25,6 +25,7 @@ class CPlanktonController;	// プランクトンを生成するクラス
 class CWhaleController;		// クジラを生成クラス
 class CScore;				// クジラの数を出すUIクラス
 class CPauseController;		// ポーズの操作クラス
+class CTimer;				// タイマークラス
 
 //***************************************************
 // ゲームシーンのクラスの定義
@@ -32,6 +33,14 @@ class CPauseController;		// ポーズの操作クラス
 class CGame : public CScene
 {
 public:
+	typedef enum
+	{
+		STATE_GAME=0,
+		STATE_FINISH,
+		STATE_END,
+		STATE_MAX
+	}STATE;
+
 	CGame();
 	~CGame();
 
@@ -54,5 +63,8 @@ private:
 	static std::unique_ptr<CBlockManager>			m_pBlockManager;		// ブロックマネージャーへのポインタ
 	static std::unique_ptr<CPauseController>		m_pPauseController;		// ポーズのコントローラーへのポインタ
 	static CScore*									m_pScore;				// スコアへのポインタ
+	static CTimer*									m_pTimer;				// タイマーへのポインタ
+	int m_nStateCnt;
+	STATE m_state;
 };
 #endif
