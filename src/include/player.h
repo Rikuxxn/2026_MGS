@@ -83,6 +83,8 @@ public:
 
 	inline void SetMeshFieldCollisionResult(const CollisionResult::MeshField& result) { m_collisionMeshFieldResult = result; }
 
+	std::list<CPlankton*>& GetHasPlankton(void) { return m_pHasPlanktonList; }
+
 	/// <summary>
 	/// ƒvƒ‰ƒ“ƒNƒgƒ“‚Ì’Ç‰Á
 	/// </summary>

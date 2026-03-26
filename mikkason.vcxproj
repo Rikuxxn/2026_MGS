@@ -166,6 +166,8 @@
     <ClCompile Include="src\cpp\easing.cpp" />
     <ClCompile Include="src\cpp\effect.cpp" />
     <ClCompile Include="src\cpp\fade.cpp" />
+    <ClCompile Include="src\cpp\fish.cpp" />
+    <ClCompile Include="src\cpp\fish_controller.cpp" />
     <ClCompile Include="src\cpp\follow_camera.cpp" />
     <ClCompile Include="src\cpp\game.cpp" />
     <ClCompile Include="src\cpp\input_system.cpp" />
@@ -230,6 +232,7 @@
     <ClCompile Include="src\cpp\whale_state.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\cpp\fish_controller.h" />
     <ClInclude Include="src\include\Block.h" />
     <ClInclude Include="src\include\BlockList.h" />
     <ClInclude Include="src\include\BlockManager.h" />
@@ -243,6 +246,7 @@
     <ClInclude Include="src\include\DebugProc3D.h" />
     <ClInclude Include="src\include\easing.h" />
     <ClInclude Include="src\include\effect.h" />
+    <ClInclude Include="src\include\fish.h" />
     <ClInclude Include="src\include\follow_camera.h" />
     <ClInclude Include="src\include\GameObject.h" />
     <ClInclude Include="src\include\input_system.h" />
