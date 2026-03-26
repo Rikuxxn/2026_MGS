@@ -39,6 +39,8 @@
 #include "Sound.h"
 #include "whale_controller.h"
 #include "pause_controller.h"
+#include "fish.h"
+#include "fish_controller.h"
 
 //***************************************************
 // Ã“Iƒƒ“ƒo•Ï”é
@@ -47,6 +49,7 @@ std::unique_ptr<CBlockManager>	CGame::m_pBlockManager			= nullptr;		// ƒuƒƒbƒNƒ
 std::unique_ptr<CWhaleController> CGame::m_pWhaleController		= nullptr;		// ƒNƒWƒ‰‚ÌƒRƒ“ƒgƒ[ƒ‰‚Ì¶¬
 std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// ƒvƒ‰ƒ“ƒNƒgƒ“‚ÌƒRƒ“ƒgƒ[ƒ‰‚Ì¶¬
 std::unique_ptr<CPauseController> CGame::m_pPauseController = nullptr;			// ƒ|[ƒY‚ÌƒRƒ“ƒgƒ[ƒ‰‚Ì¶¬
+std::unique_ptr<CFishController> CGame::m_pFishController = nullptr;			// ‹›‚ÌƒRƒ“ƒgƒ[ƒ‰‚Ì¶¬
 CScore* CGame::m_pScore = nullptr;												// ƒXƒRƒA‚Ìƒ|ƒCƒ“ƒ^
 CTimer* CGame::m_pTimer = nullptr;												// ƒ^ƒCƒ}[‚Ö‚Ìƒ|ƒCƒ“ƒ^
 
@@ -88,6 +91,8 @@ CGame::~CGame()
 	{
 		m_pPauseController.reset();
 	}
+
+	m_pFishController.reset();
 	m_vpCollisionSystem.clear();
 
 	// ƒXƒRƒA•Û‘¶
@@ -147,8 +152,13 @@ HRESULT CGame::Init(void)
 	m_pPlanktonController = CPlanktonController::Create(pPlayer);
 	m_pWhaleController = CWhaleController::Create(pPlayer);
 
+	// ‹›‚Ì‘€ìƒNƒ‰ƒX‚Ì¶¬
+	m_pFishController = CFishController::Create(pPlayer);
+
 	// ƒJƒƒ‰’Ç]ˆ—‚Ì’Ç‰Á
 	pCamera->AddSystem(std::make_unique<CFollowCamera>(pCamera, pPlayer));
+
+	CFish::Create({ 0.0f,0.0f,0.0f },"data/MODEL/fish.x");
 
 	CMeshField* pMeshField = CMeshField::Create(
 		{ 0.0f,0.0f,0.0f },
@@ -323,6 +333,10 @@ void CGame::Update(void)
 	if (m_pPauseController != nullptr)
 	{
 		m_pPauseController->Update();
+	}
+	if (m_pFishController != nullptr)
+	{
+		m_pFishController->Update();
 	}
 
 	// ƒŠƒUƒ‹ƒg‘JˆÚˆ—

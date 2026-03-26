@@ -12,6 +12,7 @@
 #include "manager.h"
 #include "game.h"
 #include "title.h"
+#include "pause_controller.h"
 
 //===================================================
 // コンストラクタ
@@ -32,6 +33,12 @@ CPauseMenuContinue::~CPauseMenuContinue()
 //===================================================
 void CPauseMenuContinue::Execute(void)
 {
+	CPauseController *pPauseController = CGame::GetPauseController();
+
+	if(pPauseController != nullptr)
+	{
+		pPauseController->SetPause(false);
+	}
 }
 
 //===================================================

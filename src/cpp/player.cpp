@@ -204,7 +204,7 @@ void CPlayer::Update(void)
 	particleInfo.moveMax = { 5.0f,2.5f,5.0f };
 	particleInfo.moveMin = { 2.5f,1.0f,2.5f };
 	particleInfo.nNum = 1;
-	particleInfo.size = { 5.0f,5.0f };
+	particleInfo.size = { 10.0f,10.0f };
 	particleInfo.texturePath = "effect000.jpg";
 	particleInfo.nTime = 1;
 	particleInfo.effectInfo.nLife = 20;
