@@ -77,10 +77,17 @@ HRESULT CResult::Init(void)
 		{ 120,120 },
 		"sea.jpg");
 
+	// ÉNÉWÉâÇÃêîUI
+	CObject2D::Create(
+		{ 400.0f,SCREEN_HEIGHT * 0.5f,0.0f },
+		{ 140.0f,140.0f },
+		Const::WHITE,
+		"whale.png",
+		0.0f);
 	CScore::Create(
-		{ 240.0f,650.0f,0.0f },
-		{ 300.0f,350.0f },
-		82,
+		{ 800.0f,SCREEN_HEIGHT * 0.5f,0.0f },
+		{ 160.0f,140.0f },
+		m_nScore,
 		"number008.png");
 
 
