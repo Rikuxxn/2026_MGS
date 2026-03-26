@@ -193,6 +193,8 @@
     <ClCompile Include="src\cpp\object_billboard.cpp" />
     <ClCompile Include="src\cpp\particle.cpp" />
     <ClCompile Include="src\cpp\particle_registry.cpp" />
+    <ClCompile Include="src\cpp\pause_controller.cpp" />
+    <ClCompile Include="src\cpp\pause_menu_command.cpp" />
     <ClCompile Include="src\cpp\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -246,6 +248,7 @@
     <ClInclude Include="src\include\input_system.h" />
     <ClInclude Include="src\include\json_loader.h" />
     <ClInclude Include="src\include\MathConst.h" />
+    <ClInclude Include="src\include\menu_command_base.h" />
     <ClInclude Include="src\include\mesh_circle.h" />
     <ClInclude Include="src\include\mesh_cylinder.h" />
     <ClInclude Include="src\include\mesh_field.h" />
@@ -273,6 +276,8 @@
     <ClInclude Include="src\include\object_billboard.h" />
     <ClInclude Include="src\include\particle.h" />
     <ClInclude Include="src\include\particle_registry.h" />
+    <ClInclude Include="src\include\pause_controller.h" />
+    <ClInclude Include="src\include\pause_menu_command.h" />
     <ClInclude Include="src\include\pch.h" />
     <ClInclude Include="src\include\PhysicsWorld.h" />
     <ClInclude Include="src\include\plankton.h" />
