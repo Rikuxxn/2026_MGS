@@ -89,8 +89,8 @@ void CWhaleController::Update(void)
 void CWhaleController::SpawnWhale(void)
 {
 	// 半径（内側と外側）
-	const float minRadius = 500.0f;
-	const float maxRadius = 800.0f;
+	const float minRadius = 400.0f;
+	const float maxRadius = 700.0f;
 
 	// 0.0～1.0
 	float r = (rand() % 1000) / 1000.0f;
@@ -102,7 +102,7 @@ void CWhaleController::SpawnWhale(void)
 	float angle = (rand() % CMathConstant::I_ANGLE_MAX) * (D3DX_PI / CMathConstant::F_ANGLE_HALF);
 
 	// 中心位置
-	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, 0.0f, 200.0f);
+	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, -10.0f, 200.0f);
 
 	// 最終位置
 	D3DXVECTOR3 pos;

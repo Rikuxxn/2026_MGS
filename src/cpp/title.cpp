@@ -136,7 +136,7 @@ void CTitle::Update(void)
 	// キーボードの取得
 	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
 
-	if (pKeyboard->GetTrigger(DIK_F9))
+	if (pKeyboard->GetTrigger(DIK_RETURN))
 	{
 		pManager->BeginFade(std::make_unique<CGame>());
 	}

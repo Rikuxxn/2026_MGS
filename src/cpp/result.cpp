@@ -19,6 +19,7 @@
 #include "skycube.h"
 #include "objectx.h"
 #include "score.h"
+#include "title.h"
 
 //===================================================
 // コンストラクタ
@@ -106,6 +107,16 @@ void CResult::Uninit(void)
 //===================================================
 void CResult::Update(void)
 {
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// キーボードの取得
+	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
+
+	if (pKeyboard->GetTrigger(DIK_RETURN))
+	{
+		pManager->BeginFade(std::make_unique<CTitle>());
+	}
 }
 
 //===================================================
