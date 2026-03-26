@@ -19,6 +19,7 @@
 #include "skycube.h"
 #include "objectx.h"
 #include "Sound.h"
+#include <whale.h>
 
 //===================================================
 // コンストラクタ
@@ -59,6 +60,30 @@ HRESULT CTitle::Init(void)
 		Const::WHITE,
 		"title.png",
 		0.0f);
+
+	//// クジラの生成
+	//CWhale::Create(
+	//	{ 800.0f,10.0f,200.0f },
+	//	{ 0.0f,-1.0f,0.0f },
+	//	"data/MOTION/motion_whole.txt");
+
+	//// クジラの生成
+	//CWhale::Create(
+	//	{ 800.0f,10.0f,400.0f },
+	//	{ 0.0f,-2.0f,0.0f },
+	//	"data/MOTION/motion_whole.txt");
+
+	//// クジラの生成
+	//CWhale::Create(
+	//	{ 700.0f,10.0f,700.0f },
+	//	{ 0.0f,-1.5f,0.0f },
+	//	"data/MOTION/motion_whole.txt");
+
+	//// クジラの生成
+	//CWhale::Create(
+	//	{ 700.0f,10.0f,-400.0f },
+	//	{ 0.0f,-2.0f,0.0f },
+	//	"data/MOTION/motion_whole.txt");
 
 	// 海底
 	CObjectX::Create(
