@@ -137,7 +137,9 @@ void CTitle::Update(void)
 	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
 	CInputJoypad* pJoypad = pManager->GetInputJoypad();
 
-	if (pKeyboard->GetTrigger(DIK_RETURN)|| pJoypad->GetTrigger(CInputJoypad::JOYKEY_START))
+	if (	pKeyboard->GetTrigger(DIK_RETURN)
+		||	pJoypad->GetTrigger(CInputJoypad::JOYKEY_START)
+		||	pJoypad->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
 		pManager->BeginFade(std::make_unique<CGame>());
 	}
