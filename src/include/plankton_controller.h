@@ -37,6 +37,7 @@ public:
 	// XVˆ—
 	void Update(void);
 
+	void Erase(CPlankton* plankton);
 	void RegisterPlayerPlanktonList(CPlankton* pPlankton);
 private:
 	HRESULT Init(void);
