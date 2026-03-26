@@ -34,6 +34,7 @@ namespace WhaleConst
 {
 	constexpr const char* BLOW_PARTICLE_KEY		= "whale_blow";			// 潮吹きエフェクトのキー
 	
+	const D3DXVECTOR3 DEST_SCALE				= { 3.0f,3.0f,3.0f };	// 目的のスケール
 	const D3DXVECTOR3 BLOW_OFFSET				= { 0.0f,40.0f,0.0f };	// オフセット
 	constexpr float REACTION_MOTION_DISTANCE	= 250.0f;				// リアクションモーションをする範囲
 	constexpr float ROT_LERP_ALPHA				= 0.04f;				// 目的の向きに補完する係数
@@ -82,6 +83,9 @@ CWhale::~CWhale()
 		m_pCharacter->Uninit();
 		m_pCharacter = nullptr;
 	}
+
+	// Physicsの破棄
+	ReleasePhysics();
 }
 
 //===================================================
@@ -134,9 +138,6 @@ HRESULT CWhale::Init(void)
 //===================================================
 void CWhale::Uninit(void)
 {
-	// Physicsの破棄
-	ReleasePhysics();
-
 	// 自分自身の破棄
 	CObject::Release();
 }
@@ -162,9 +163,11 @@ void CWhale::Update(void)
 	D3DXVECTOR3 rot = m_pCharacter->GetRotation();
 
 	// 目的の向きまで最短で行くために正規化
+	math::NormalizeDiffRot(m_rotDest.x - rot.x, &rot.x);
 	math::NormalizeDiffRot(m_rotDest.y - rot.y, &rot.y);
 
 	// 目的の向きに近づける
+	rot.x += (m_rotDest.x - rot.x) * WhaleConst::ROT_LERP_ALPHA;
 	rot.y += (m_rotDest.y - rot.y) * WhaleConst::ROT_LERP_ALPHA;
 
 	// 向きの更新
@@ -418,6 +421,7 @@ void CWhale::SetMotionByPlayerDistance(const D3DXVECTOR3& playerPos)
 	{
 		m_nReactionMotionInterval = 0;
 	}
+
 	m_nReactionMotionInterval--;
 }
 
@@ -440,20 +444,25 @@ void CWhale::EatPlankton(void)
 	m_bScaling = true;
 
 	float fRatePlancton = m_nNumPlankton / static_cast<float>(WhaleConst::MAX_PLANKTON);
-	D3DXVECTOR3 destScale(5.0f, 5.0f, 5.0f);
 
 	// 割合を設定
-	D3DXVECTOR3 rateDestScale = (destScale * fRatePlancton) + Const::INIT_SCAL;
+	D3DXVECTOR3 rateDestScale = (WhaleConst::DEST_SCALE * fRatePlancton) + Const::INIT_SCAL;
 
 	// 現在のスケールの設定
 	m_scalingInfo.startScale = Const::INIT_SCAL;
+
+	// 目的のスケールの設定
 	m_scalingInfo.destScale = rateDestScale;
 
 	m_scalingInfo.fScalingTime = 0.0f;
 
-	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
+	// 最大まで成長したら
+	if (CheckMaxPlankton())
 	{
+		// 状態を変更
 		m_stateMachine.ChangeState<CWhaleSatisfaction>();
+
+		// 満足状態に変更
 		CGame::GetWhaleController()->OnWhaleSatisfied(this);
 	}
 }

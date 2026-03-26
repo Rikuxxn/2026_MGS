@@ -18,6 +18,7 @@
 #include "mesh_field.h"
 #include "skycube.h"
 #include "objectx.h"
+#include "Sound.h"
 
 //===================================================
 // コンストラクタ
@@ -76,6 +77,15 @@ HRESULT CTitle::Init(void)
 		{ 120,120 },
 		"sea.jpg");
 
+	// 音の取得
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	// タイトルBGMの再生
+	if (pSound)
+	{
+		pSound->Play(CSound::SOUND_LABEL_TITLEBGM);
+	}
+
 	return S_OK;
 }
 
@@ -84,6 +94,10 @@ HRESULT CTitle::Init(void)
 //===================================================
 void CTitle::Uninit(void)
 {
+	// 音の取得
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	pSound->StopByLabel(CSound::SOUND_LABEL_TITLEBGM);
 }
 
 //===================================================
