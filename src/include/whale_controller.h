@@ -45,6 +45,9 @@ public:
 	// クジラが満足した処理
 	void OnWhaleSatisfied(CWhale* whale);
 
+	void Erase(CWhale* whale);
+
+	inline int GetSatisfied(void) const { return m_nSatisfiedWhaleNum; }
 private:
 	static constexpr int MAX_WHALE_NUM = 5;// クジラの最大生成数
 

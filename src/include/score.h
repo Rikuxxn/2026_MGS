@@ -42,6 +42,7 @@ public:
 	void	Draw	(void) override;
 
 	inline void	AddScore(const int nScore) { m_nScore += nScore; }
+	inline void SetScore(const int nScore) { m_nScore = nScore; }
 	inline int GetScore(void) { return m_nScore; }
 private:
 	std::array<std::unique_ptr<CNumber>, MAX_DIGIT> m_apNumber;	// ナンバークラスへのポインタ
