@@ -102,7 +102,7 @@ void CWhaleController::SpawnWhale(void)
 	float angle = (rand() % CMathConstant::I_ANGLE_MAX) * (D3DX_PI / CMathConstant::F_ANGLE_HALF);
 
 	// 中心位置
-	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, 0.0f, 200.0f);
+	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, -10.0f, 200.0f);
 
 	// 最終位置
 	D3DXVECTOR3 pos;

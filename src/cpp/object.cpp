@@ -14,6 +14,8 @@
 #include "texture_mrt_manager.h"
 #include "shader.h"
 #include "shader_manager.h"
+#include "game.h"
+#include "pause_controller.h"
 
 //***************************************************
 // 静的メンバ変数の宣言
@@ -114,6 +116,9 @@ void CObject::ReleaseAll(void)
 //===================================================
 void CObject::UpdateAll(void)
 {
+	// ポーズの取得
+	CPauseController* pPauseController = CGame::GetPauseController();
+
 	for (int nCntPriority = 0; nCntPriority < PRIORITY_MAX; nCntPriority++)
 	{
 		// 先頭オブジェクトを代入
@@ -125,18 +130,20 @@ void CObject::UpdateAll(void)
 			// 次のオブジェクトのポインタを代入
 			CObject* pObjectNext = pObject->m_pNext;
 
-			//// ポーズ状態の取得
-			//bool bPause = CPauseManager::GetPause();
+			if (pPauseController != nullptr)
+			{
+				// ポーズ状態の取得
+				bool bPause = pPauseController->GetPause();
 
-			//// ポーズ中だったらポーズ以外のオブジェクトの処理をしない
-			//if (pObject->GetType() != TYPE_PAUSE && bPause == true)
-			//{
-			//	// 次のオブジェクトを代入
-			//	pObject = pObjectNext;
+				// ポーズ中だったらポーズ以外のオブジェクトの処理をしない
+				if (pObject->GetType() != TYPE_PAUSE && bPause == true)
+				{
+					// 次のオブジェクトを代入
+					pObject = pObjectNext;
 
-			//	continue;
-			//}
-
+					continue;
+				}
+			}
 			// 更新処理
 			pObject->Update();
 
@@ -192,6 +199,9 @@ void CObject::DrawAll(void)
 	// カメラの設定処理
 	pCamera->SetCamera();
 
+	// ポーズの取得
+	CPauseController* pPauseController = CGame::GetPauseController();
+
 	// 優先順位分回す
 	for (int nCntPriority = 0; nCntPriority <= PRIORITY_UI_FRONT; nCntPriority++)
 	{
@@ -202,17 +212,21 @@ void CObject::DrawAll(void)
 		{
 			CObject* pObjectNext = pObject->m_pNext; // 次のオブジェクトのポインタを代入
 
-			//// ポーズ状態の取得
-			//bool bPause = CPauseManager::GetPause();
+			if (pPauseController != nullptr)
+			{
 
-			//// オブジェクトがポーズでポーズ中じゃないならポーズを描画しない
-			//if (pObject->GetType() == TYPE_PAUSE && bPause == false)
-			//{
-			//	pObject = pObjectNext; // 次のオブジェクトを代入
+				// ポーズ状態の取得
+				bool bPause = pPauseController->GetPause();
 
-			//	// 処理を飛ばす
-			//	continue;
-			//}
+				// オブジェクトがポーズでポーズ中じゃないならポーズを描画しない
+				if (pObject->GetType() == TYPE_PAUSE && bPause == false)
+				{
+					pObject = pObjectNext; // 次のオブジェクトを代入
+
+					// 処理を飛ばす
+					continue;
+				}
+			}
 
 			// 更新処理
 			pObject->Draw();
