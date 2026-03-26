@@ -101,6 +101,9 @@ public:
 	static constexpr float MAX_JUMP_POWER		= 250.0f;	// ジャンプ初速
 	static constexpr float DECELERATION_RATE	= 0.85f;	// 減速率
 	static constexpr float ACCEL_RATE			= 0.15f;	// イージング率
+	static constexpr float PLANKTON_NO_EATEN_DISTANCE	= 500.0f;	// プランクトンを食べさせられない距離
+	static constexpr int   PLANKTON_RELEASE_TIME = 30;		// プランクトンを手放すカウント
+
 private:
 	static constexpr float	MASS				= 1.0f;		// 質量
 	static constexpr float	MAX_GRAVITY			= -0.26f;	// 重力加速度
@@ -122,6 +125,7 @@ private:
 	D3DXVECTOR3                 m_colliderPos;				// カプセルコライダーの位置
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	float						m_fSpeed;					// 足の速さ
+	int							m_nPlanktonReleaseCnt;		// プランクトンリリースカウント
 	bool						m_isMoving;					// 移動しているか
 	bool						m_bOnGround;				// 接地フラグ
 	bool						m_isJumping;				// ジャンプ中フラグ

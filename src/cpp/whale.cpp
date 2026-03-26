@@ -61,7 +61,7 @@ CWhale::CWhale() :
 	m_blowInfo(),
 	m_nReactionMotionInterval(0),
 	m_nNumPlankton(0),
-	m_fScalingTime(0.0f)
+	m_scalingInfo()
 {
 	// タグの設定
 	SetTag("Whale");
@@ -175,17 +175,17 @@ void CWhale::Update(void)
 
 	if (m_bScaling)
 	{
-		m_fScalingTime += 1.0f;
+		m_scalingInfo.fScalingTime += 1.0f;
 
-		float fRate = m_fScalingTime / WhaleConst::SCALING_TIME;
+		float fRate = m_scalingInfo.fScalingTime / WhaleConst::SCALING_TIME;
 
 		// バウンドの割合の取得
 		fRate = CEasing::EaseOutBounce(fRate);
 
-		D3DXVECTOR3 destScale(3.0f, 3.0f, 3.0f);
+		float fRatePlancton = m_nNumPlankton / static_cast<float>(WhaleConst::MAX_PLANKTON);
 
 		// 現在のスケール
-		D3DXVECTOR3 scale = Const::INIT_SCAL + (destScale - Const::INIT_SCAL) * fRate;
+		D3DXVECTOR3 scale = m_scalingInfo.startScale + (m_scalingInfo.destScale - m_scalingInfo.startScale) * fRate;
 
 		// スケールを設定
 		m_pCharacter->SetScale(scale);
@@ -439,10 +439,21 @@ void CWhale::EatPlankton(void)
 
 	m_bScaling = true;
 
-	m_fScalingTime = 0.0f;
+	float fRatePlancton = m_nNumPlankton / static_cast<float>(WhaleConst::MAX_PLANKTON);
+	D3DXVECTOR3 destScale(5.0f, 5.0f, 5.0f);
+
+	// 割合を設定
+	D3DXVECTOR3 rateDestScale = (destScale * fRatePlancton) + Const::INIT_SCAL;
+
+	// 現在のスケールの設定
+	m_scalingInfo.startScale = Const::INIT_SCAL;
+	m_scalingInfo.destScale = rateDestScale;
+
+	m_scalingInfo.fScalingTime = 0.0f;
 
 	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
 	{
+		m_stateMachine.ChangeState<CWhaleSatisfaction>();
 		CGame::GetWhaleController()->OnWhaleSatisfied(this);
 	}
 }
