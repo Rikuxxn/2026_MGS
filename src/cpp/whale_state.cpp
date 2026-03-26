@@ -18,6 +18,7 @@
 #include "game.h"
 #include "whale_controller.h"
 #include "RigidBody.h"
+#include "timer.h"
 
 //===================================================
 // ニュートラル状態コンストラクタ
@@ -156,6 +157,15 @@ void CWhaleSatisfaction::OnUpdate(CWhale* pWhale)
 	// モーションが終わったら
 	if (m_nBeginDiveTime <= 0)
 	{
+		// タイマーの取得
+		CTimer* pTimer = CGame::GetTimer();
+
+		if (pTimer)
+		{
+			// タイマーストップを解除
+			pTimer->SetIsTimerStop(false);
+		}
+
 		// 現在の向きの取得
 		D3DXVECTOR3 rot = pCharacter->GetRotation();
 
