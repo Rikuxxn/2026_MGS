@@ -112,8 +112,9 @@ void CResult::Update(void)
 
 	// キーボードの取得
 	CInputKeyboard* pKeyboard = pManager->GetInputKeyboard();
+	CInputJoypad* pJoypad = pManager->GetInputJoypad();
 
-	if (pKeyboard->GetTrigger(DIK_RETURN))
+	if (pKeyboard->GetTrigger(DIK_RETURN)|| pJoypad->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
 		pManager->BeginFade(std::make_unique<CTitle>());
 	}
