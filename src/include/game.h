@@ -57,6 +57,7 @@ public:
 	static inline CPauseController*		GetPauseController		(void) { return m_pPauseController.get(); }
 	static inline CFishController*		GetFishController		(void) { return m_pFishController.get(); }
 	static inline CScore*				GetScore				(void) { return m_pScore; }
+	static inline CTimer*				GetTimer				(void) { return m_pTimer; }
 private:
 	std::vector<std::unique_ptr<CCollisionSystem>>	m_vpCollisionSystem;	// “–‚½‚è”»’è‚Ìˆ—
 
