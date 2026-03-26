@@ -18,6 +18,7 @@
 #include "mesh_field.h"
 #include "skycube.h"
 #include "objectx.h"
+#include "score.h"
 
 //===================================================
 // コンストラクタ
@@ -25,6 +26,15 @@
 CResult::CResult() :
 	CScene(CScene::MODE_RESULT)
 {
+	std::ifstream file("data/score.txt");
+
+	std::string line;
+	std::string score;
+
+	std::getline(file, line);
+	std::istringstream iss(line);
+	iss >> m_nScore;
+	file.close();
 }
 
 //===================================================
@@ -66,6 +76,13 @@ HRESULT CResult::Init(void)
 		Const::WHITE,
 		{ 120,120 },
 		"sea.jpg");
+
+	CScore::Create(
+		{ 240.0f,650.0f,0.0f },
+		{ 300.0f,350.0f },
+		82,
+		"number008.png");
+
 
 	return S_OK;
 }
