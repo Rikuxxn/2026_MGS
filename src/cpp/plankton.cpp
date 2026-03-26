@@ -18,6 +18,7 @@
 #include "DebugProc3D.h"
 #include "game.h"
 #include "plankton_controller.h"
+#include "Sound.h"
 
 //***************************************************
 // 定数宣言
@@ -253,6 +254,16 @@ void CPlankton::OnCollisionEnter(IGameObject* other)
 	// プレイヤーとの当たり判定
 	if (other->CompareTag("Player"))
 	{
+		// 音の取得
+		CSound* pSound = CManager::GetInstance()->GetSound();
+
+		// 取得音の再生
+		if (pSound)
+		{
+			//pSound->StopByLabel(CSound::SOUND_LABEL_GET);
+			pSound->Play(CSound::SOUND_LABEL_GET);
+		}
+
 		// プランクトンの操作クラスの定義
 		CPlanktonController *pPlanktonController = CGame::GetPlanktonController();
 

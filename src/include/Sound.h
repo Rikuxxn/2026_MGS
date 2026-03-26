@@ -22,6 +22,7 @@ public:
 	typedef enum
 	{
 		SOUND_LABEL_GAMEBGM = 0,	// ゲームBGM
+		SOUND_LABEL_GET,			// プランクトン取得SE
 
 		SOUND_LABEL_MAX,
 	} SOUND_LABEL;
@@ -94,7 +95,7 @@ private:
 	SOUNDINFO m_aSoundInfo[SOUND_LABEL_MAX] =
 	{
 		{"data/SYSTEM/BGM/wave_sound.wav", -1},			// ゲームBGM
-		//{"data/SYSTEM/SE/.wav", 0},			// SE
+		{"data/SYSTEM/SE/itemget.wav", 0},				// プランクトン取得SE
 	};
 
 	SoundData m_SoundData[SOUND_LABEL_MAX];
