@@ -22,5 +22,8 @@
 namespace JsonLoader
 {
 	HRESULT Load(const char* pJsonFilePath, nlohmann::json& output);
+	D3DXVECTOR3 GetVector3(const nlohmann::json& config);
+	D3DXVECTOR2 GetVector2(const nlohmann::json& config);
+	D3DXCOLOR GetColor(const nlohmann::json& config);
 }
 #endif

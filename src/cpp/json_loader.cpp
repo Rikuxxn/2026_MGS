@@ -52,3 +52,44 @@ HRESULT JsonLoader::Load(const char* pJsonFilePath, nlohmann::json& output)
 
 	return S_OK;
 }
+
+//===================================================
+// vector3ÇÃéÊìæ
+//===================================================
+D3DXVECTOR3 JsonLoader::GetVector3(const nlohmann::json& config)
+{
+	D3DXVECTOR3 output;
+
+	output.x = config[0];
+	output.y = config[1];
+	output.z = config[2];
+
+	return output;
+}
+
+//===================================================
+// vector2ÇÃéÊìæ
+//===================================================
+D3DXVECTOR2 JsonLoader::GetVector2(const nlohmann::json& config)
+{
+	D3DXVECTOR2 output;
+
+	output.x = config[0];
+	output.y = config[1];
+
+	return output;
+}
+
+//===================================================
+// êFÇÃéÊìæ
+//===================================================
+D3DXCOLOR JsonLoader::GetColor(const nlohmann::json& config)
+{
+	D3DXCOLOR col;
+	col.r = config[0];
+	col.g = config[1];
+	col.b = config[2];
+	col.a = config[3];
+
+	return col;
+}

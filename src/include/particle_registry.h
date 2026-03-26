@@ -26,6 +26,15 @@ public:
 	~CParticleRegistry();
 
 	static std::unique_ptr<CParticleRegistry> Create(void);
+
+	/// <summary>
+	/// パーティクルの生成処理
+	/// </summary>
+	/// <param name="パーティクルのキー"></param>
+	/// <param name="位置"></param>
+	/// <param name="フラグ"></param>
+	/// <returns>パーティクルのポインタ</returns>
+	CParticle* CreateParticle(const std::string& key, const D3DXVECTOR3& pos, const int nFlag, const D3DXCOLOR& col);
 private:
 	HRESULT Load(const char* pFilename);
 private:

@@ -225,6 +225,7 @@
     <ClCompile Include="src\cpp\utility_math.cpp" />
     <ClCompile Include="src\cpp\whale.cpp" />
     <ClCompile Include="src\cpp\whale_controller.cpp" />
+    <ClCompile Include="src\cpp\whale_state.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\Block.h" />
@@ -300,6 +301,7 @@
     <ClInclude Include="src\include\utility_math.h" />
     <ClInclude Include="src\include\whale.h" />
     <ClInclude Include="src\include\whale_controller.h" />
+    <ClInclude Include="src\include\whale_state.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\SHADER\skycube.hlsl">

@@ -566,6 +566,13 @@ CPlayer::InputData CPlayer::GatherInput(void)
 //=============================================================================
 void CPlayer::OnHitWhale(CWhale* pWhale)
 {
+	// プランクトンの数分回す
+	for (auto& plankton : m_pHasPlanktonList)
+	{
+		// 食べられる状態にする
+		plankton->SetState(CPlankton::State::BeEaten);
+	}
+
 	if (m_pWhale == nullptr)
 	{
 		m_pWhale = pWhale;
@@ -633,7 +640,11 @@ void CPlayer::UpdateWhale(void)
 	// プランクトン
 	for (auto plankton = m_pHasPlanktonList.begin() ; plankton != m_pHasPlanktonList.end();plankton++)
 	{
-		(*plankton)->SetState(CPlankton::State::BeEaten);
+		// 食べられる状態じゃないなら
+		if ((*plankton)->GetState() != CPlankton::State::BeEaten)
+		{
+			continue;
+		}
 
 		// 破棄できるなら
 		bRelease = (*plankton)->ProceedToBeEaten(whalePos);

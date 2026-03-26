@@ -24,17 +24,23 @@
 #include "easing.h"
 #include "particle.h"
 #include "color_constants.h"
+#include "particle_registry.h"
+#include "whale_state.h"
 
 //***************************************************
 // 定数宣言
 //***************************************************
 namespace WhaleConst
 {
-	constexpr float REACTION_MOTION_DISTANCE	= 250.0f;	// リアクションモーションをする範囲
-	constexpr float ROT_LERP_ALPHA				= 0.04f;	// 目的の向きに補完する係数
-	constexpr int REACTION_INTERVAL				= 600;		// 1回リアクションした後の待機時間
-	constexpr int MAX_PLANKTON					= 1;		// 最大成長
-	constexpr int BLOW_STAY_TIME				= 600;		// 潮吹きのインターバル
+	constexpr const char* BLOW_PARTICLE_KEY		= "whale_blow";			// 潮吹きエフェクトのキー
+	
+	const D3DXVECTOR3 BLOW_OFFSET				= { 0.0f,40.0f,0.0f };	// オフセット
+	constexpr float REACTION_MOTION_DISTANCE	= 250.0f;				// リアクションモーションをする範囲
+	constexpr float ROT_LERP_ALPHA				= 0.04f;				// 目的の向きに補完する係数
+	constexpr float SCALING_TIME				= 60.0f;				// スケーリングの向きに補完する係数
+	constexpr int REACTION_INTERVAL				= 600;					// 1回リアクションした後の待機時間
+	constexpr int MAX_PLANKTON					= 1;					// 最大成長
+	constexpr int BLOW_STAY_TIME				= 600;					// 潮吹きのインターバル
 }
 
 // コライダーパラメータ
@@ -114,6 +120,12 @@ HRESULT CWhale::Init(void)
 	// スフィアコライダーの設定
 	CreatePhysics(ColliderParam::SPHERE_SIZE, ColliderParam::MASS);
 
+	// 初期化処理
+	m_stateMachine.Start(this);
+
+	// 状態の変更
+	m_stateMachine.ChangeState<CWhaleStateNeutral>();
+
 	return S_OK;
 }
 
@@ -139,6 +151,9 @@ void CWhale::Update(void)
 		// 更新処理
 		m_pCharacter->Update();
 	}
+
+	// 更新処理
+	m_stateMachine.Update();
 
 	// 位置の取得
 	D3DXVECTOR3 pos = m_pCharacter->GetPosition();
@@ -169,32 +184,20 @@ void CWhale::Update(void)
 		// 潮吹き時間になったら
 		if (m_blowInfo.nBlowTime <= 0)
 		{
-			CParticle::Info particleInfo;
+			// マネージャーの取得
+			CManager* pManager = CManager::GetInstance();
 
-			// この地獄みてえな引数打てば操作できます
-			particleInfo.pos.x = pos.x;
-			particleInfo.pos.y = pos.y + 40.0f;
-			particleInfo.pos.z = pos.z;
-			particleInfo.col = Color::AQUA;
-			particleInfo.fAngleXMax = 120;
-			particleInfo.fAngleXMin = -120;
-			particleInfo.fAngleYMax = 250;
-			particleInfo.fAngleYMin = -250;
+			// パーティクルのパラメータの管理クラスの取得
+			CParticleRegistry* pParticleRegistry = pManager->GetParticleRegistry();
 
-			particleInfo.moveMax = D3DXVECTOR3(13.0f, 25.0f, 13.0f);
-			particleInfo.moveMin = D3DXVECTOR3(5.5f, 12.5f, 5.5f);
-			particleInfo.nNum = 10;
-			particleInfo.nTime = 60;
-			particleInfo.size = { 10.0f,10.0f };
-			particleInfo.texturePath = "effect000.jpg";
-			particleInfo.effectInfo.nLife = 60;
-			particleInfo.effectInfo.fGravity = 0.4f;
-			particleInfo.effectInfo.unFlag =
+			// パーティクルの生成
+			pParticleRegistry->CreateParticle(
+				WhaleConst::BLOW_PARTICLE_KEY,
+				pos + WhaleConst::BLOW_OFFSET,
 				CEffect::FLAG_ALPHA_DECREASE |
 				CEffect::FLAG_RADIUS_DECREASE |
-				CEffect::FLAG_GRAVITY;
-
-			CParticle::Create(particleInfo);
+				CEffect::FLAG_GRAVITY,
+				Color::AQUA);
 
 			m_blowInfo.nBlowTime = WhaleConst::BLOW_STAY_TIME;
 		}
@@ -203,7 +206,7 @@ void CWhale::Update(void)
 	{
 		m_fScalingTime += 1.0f;
 
-		float fRate = m_fScalingTime / 60.0f;
+		float fRate = m_fScalingTime / WhaleConst::SCALING_TIME;
 
 		// バウンドの割合の取得
 		fRate = CEasing::EaseOutBounce(fRate);

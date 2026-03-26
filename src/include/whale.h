@@ -16,6 +16,7 @@
 //***************************************************
 #include "object.h"
 #include "GameObject.h"
+#include "State.h"
 
 //***************************************************
 // 前方宣言
@@ -71,6 +72,7 @@ public:
 	inline void SetDestRotation(const D3DXVECTOR3& dest) { m_rotDest = dest; }
 	inline bool CheckMaxPlankton(void) const;
 
+	inline CCharacter* GetCharacter(void) { return m_pCharacter.get(); }
 	const D3DXVECTOR3& GetPosition(void) const;
 	const D3DXVECTOR3& GetEatPos(void);
 	
@@ -88,6 +90,7 @@ private:
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	BlowInfo					m_blowInfo;					// 潮吹きの情報
+	StateMachine<CWhale>		m_stateMachine;				// ステートを管理するクラスのインスタンス
 	float						m_fScalingTime;				// sinカーブ用のカウンター
 	int							m_nNumPlankton;				// プランクトンの数
 	int							m_nReactionMotionInterval;	// リアクションのモーションのインターバル

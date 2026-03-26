@@ -72,6 +72,8 @@ void CParticle::Update(void)
 	// 発生させる粒子の数分回す
 	for (int nCnt = 0; nCnt < m_info.nNum; nCnt++)
 	{
+		CEffect::Info effectInfo = m_info.effectInfo;
+
 		// 角度の選出
 		float fAngleX = (math::Random(m_info.fAngleXMin, m_info.fAngleXMax) * 0.01f);
 		float fAngleY = (math::Random(m_info.fAngleYMin, m_info.fAngleYMax) * 0.01f);
@@ -91,7 +93,7 @@ void CParticle::Update(void)
 		moveWk.z = sinf(fAngleX) * cosf(fAngleY) * move.z;
 
 		// 移動量の設定
-		m_info.effectInfo.move = moveWk;
+		effectInfo.move = moveWk;
 
 		// 半径
 		float fRadius = math::Random(m_info.size.x * 0.5f, m_info.size.x);
@@ -99,11 +101,11 @@ void CParticle::Update(void)
 		// 寿命の設定
 		int nLife = math::Random(m_info.effectInfo.nLife / 2, m_info.effectInfo.nLife);
 
-		m_info.effectInfo.nLife = nLife;
+		effectInfo.nLife = nLife;
 
 		// エフェクトの生成処理
 		CEffect::Create(
-			m_info.effectInfo,
+			effectInfo,
 			m_info.pos,
 			{ fRadius,fRadius },
 			m_info.col, 
