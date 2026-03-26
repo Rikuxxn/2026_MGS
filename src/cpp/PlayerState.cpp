@@ -114,11 +114,6 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 	// 補間後の速度をプレイヤーにセット
 	pPlayer->SetPhysicsMove(currentMove);
 
-	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
-
-	// 振動させる
-	pJoypad->SetVibration(500, 500);
-
 	// ジャンプ入力があればジャンプステートに切替
 	if (input.isJump && pPlayer->GetOnGround() && !pPlayer->GetIsJumping())
 	{
@@ -132,16 +127,6 @@ void CPlayerMoveState::OnUpdate(CPlayer* pPlayer)
 		// 待機状態
 		m_pMachine->ChangeState<CPlayerStandState>();
 	}
-}
-//=============================================================================
-// 移動状態の終了処理
-//=============================================================================
-void CPlayerMoveState::OnExit(CPlayer* /*pPlayer*/)
-{
-	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
-
-	// 振動停止
-	pJoypad->StopVibration();
 }
 
 //=============================================================================

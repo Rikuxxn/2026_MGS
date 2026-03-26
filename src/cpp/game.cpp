@@ -304,6 +304,11 @@ void CGame::Uninit(void)
 	CSound* pSound = CManager::GetInstance()->GetSound();
 
 	pSound->StopByLabel(CSound::SOUND_LABEL_GAMEBGM);
+
+	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
+
+	// U“®’âŽ~
+	pJoypad->StopVibration();
 }
 
 //===================================================

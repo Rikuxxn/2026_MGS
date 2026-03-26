@@ -21,7 +21,8 @@ CTimer::CTimer() :
 	m_pos(Const::VEC3_NULL),
 	m_size(Const::VEC2_NULL),
 	m_nTime(0),
-	m_nFrameCounter(0)
+	m_nFrameCounter(0),
+	m_isTimerStop(true)
 {
 }
 
@@ -109,23 +110,26 @@ void CTimer::Uninit(void)
 //===================================================
 void CTimer::Update(void)
 {
-	// 1ƒtƒŒ[ƒ€
-	if (m_nFrameCounter >= Const::FRAME)
+	if (m_isTimerStop == false)
 	{
-		m_nFrameCounter = 0;
-
-		// •b‚ª0‚¶‚á‚È‚©‚Á‚½‚ç
-		if (m_nTime > 0)
+		// 1ƒtƒŒ[ƒ€
+		if (m_nFrameCounter >= Const::FRAME)
 		{
-			// •b‚ğŒ¸‚ç‚·
-			m_nTime--;
+			m_nFrameCounter = 0;
+
+			// •b‚ª0‚¶‚á‚È‚©‚Á‚½‚ç
+			if (m_nTime > 0)
+			{
+				// •b‚ğŒ¸‚ç‚·
+				m_nTime--;
+			}
 		}
+
+		// ”ÍˆÍ‚Ì§ŒÀ
+		m_nTime = math::Clamp(m_nTime, 0, 999);
+
+		m_nFrameCounter++;
 	}
-
-	// ”ÍˆÍ‚Ì§ŒÀ
-	m_nTime = math::Clamp(m_nTime, 0, 999);
-
-	m_nFrameCounter++;
 
 	for (int nCnt = 0; nCnt < MAX_DIGIT; nCnt++)
 	{

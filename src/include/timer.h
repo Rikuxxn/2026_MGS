@@ -38,6 +38,8 @@ public:
 	void	Uninit	(void) override;
 	void	Update	(void) override;
 	void	Draw	(void) override;
+
+	void SetIsTimerStop(bool flag) { m_isTimerStop = flag; }
 	int		inline	GetTime(void) { return m_nTime; }
 private:
 	std::array<std::unique_ptr<CNumber>, MAX_DIGIT> m_apNumber;	// 数字クラスへのポインタ
@@ -46,5 +48,6 @@ private:
 	std::string m_texturePath;									// テクスチャのパス
 	int			m_nTime;										// 現在の時間
 	int			m_nFrameCounter;								// 一秒計測用変数
+	bool		m_isTimerStop;									// タイマーを止めるか
 };
 #endif
