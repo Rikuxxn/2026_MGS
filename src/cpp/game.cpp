@@ -12,7 +12,7 @@
 #include "object2d.h"
 #include "object3d.h"
 #include "object_billboard.h"
-#include "ranking.h"
+#include "result.h"
 #include "SkyCube.h"
 #include "follow_camera.h"
 #include "plankton.h"
@@ -42,9 +42,10 @@
 //***************************************************
 // 静的メンバ変数宣
 //***************************************************
-std::unique_ptr<CBlockManager>	CGame::m_pBlockManager			= nullptr;	// ブロックマネージャーの生成
-std::unique_ptr<CWhaleController> CGame::m_pWhaleController = nullptr;			// クジラのコントローラの生成
-std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;			// プランクトンのコントローラの生成
+std::unique_ptr<CBlockManager>	CGame::m_pBlockManager			= nullptr;		// ブロックマネージャーの生成
+std::unique_ptr<CWhaleController> CGame::m_pWhaleController		= nullptr;		// クジラのコントローラの生成
+std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// プランクトンのコントローラの生成
+CScore* CGame::m_pScore = nullptr;												// スコアのポインタ
 
 //===================================================
 // コンストラクタ
@@ -78,6 +79,11 @@ CGame::~CGame()
 		m_pWhaleController.reset();
 	}
 	m_vpCollisionSystem.clear();
+
+	// スコア保存
+	std::ofstream ofs("data/score.txt");
+	int nScore = m_pScore->GetScore();
+	ofs << nScore << std::endl;
 }
 
 //===================================================
@@ -143,12 +149,26 @@ HRESULT CGame::Init(void)
 		Const::VEC3_NULL,
 		{ 5.0f,5.0f,5.0f });
 
-
+	// タイマー
 	CTimer::Create(
 		{ 700.0f,50.0f,0.0f },
 		{ 120.0f,40.0f },
 		120,
 		"number008.png");
+
+	// クジラをすくった数UI
+	CObject2D::Create(
+		{ 80.0f,650.0f,0.0f },
+		{ 70.0f,70.0f },
+		Const::WHITE,
+		"whale.png",
+		0.0f);
+	m_pScore = CScore::Create(
+		{ 240.0f,650.0f,0.0f },
+		{ 60.0f,70.0f },
+		82,
+		"number008.png");
+
 
 #if 0
 	CObject2D::Create(
@@ -278,7 +298,7 @@ void CGame::Update(void)
 #ifdef _DEBUG
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))
 	{
-		CManager::GetInstance()->BeginFade(std::make_unique<CRanking>());
+		CManager::GetInstance()->BeginFade(std::make_unique<CResult>());
 	}
 #endif // _DEBUG
 }
