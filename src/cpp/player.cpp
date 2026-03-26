@@ -654,7 +654,6 @@ void CPlayer::UpdatePlankton(void)
 		{
 			continue;
 		}
-
 		// Ž©•ª‚ÌˆÊ’u‚ÌŽæ“¾
 		D3DXVECTOR3 pos = GetPosition();
 

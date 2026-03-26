@@ -12,13 +12,24 @@
 #include "player.h"
 #include "fish.h"
 #include "plankton.h"
+#include "utility_math.h"
+#include "MathConst.h"
 
+//***************************************************
+// 定数宣言
+//***************************************************
+namespace FishControllerConst
+{
+	constexpr int SPAWN_TIME = 600;
+	constexpr int MAX_SPAWN = 4;
+}
 //===================================================
 // コンストラクタ
 //===================================================
 CFishController::CFishController() : 
 	m_pPlayer(nullptr),
-	m_pFishList()
+	m_pFishList(),
+	m_nSpawnCounter(0)
 {
 }
 
@@ -64,7 +75,7 @@ void CFishController::Update(void)
 	}
 
 	// 
-	auto planktonList = m_pPlayer->GetPlankton();
+	auto& planktonList = m_pPlayer->GetPlankton();
 
 	for (auto& list : m_pFishList)
 	{		
@@ -78,21 +89,53 @@ void CFishController::Update(void)
 		if (list->GetALive() == false)
 		{
 			Erase(list);
-			return;
+			continue;
 		}
+
+		// プランクトンを持っていたら処理を飛ばす
+		if (list->HasPlankton())
+		{
+			continue;
+		}
+
 		// プランクトンの位置
 		D3DXVECTOR3 planktonPos = planktonList.back()->GetPosition();
 
-		D3DXVECTOR3 fishPos = list->GetPos();
+		D3DXVECTOR3 fishPos = math::GetPositionFromMatrix(list->GetMatrixWorld());
 
 		// 方向
-		D3DXVECTOR3 dir = planktonPos - fishPos;
+		D3DXVECTOR3 dir = math::GetVector(planktonPos, fishPos);
 
 		D3DXVECTOR3 moveDir = Const::VEC3_NULL;
 
+		// プランクトンと魚の距離を求める
+		float fDistance = math::GetDistance(planktonPos - fishPos);
+
 		moveDir = dir * 2.0f;
 
+		// 移動量の設定
 		list->SetMove(moveDir);
+
+		if (fDistance <= 50.0f)
+		{
+			// プランクトンを奪う
+			if (list->SetPlankton(planktonList.back()))
+			{
+				planktonList.pop_back();
+			}
+		}
+	}
+
+	m_nSpawnCounter--;
+
+	if (m_nSpawnCounter <= 0)
+	{
+		for (int nCnt = 0; nCnt < FishControllerConst::MAX_SPAWN; nCnt++)
+		{
+			Spawn();
+		}
+
+		m_nSpawnCounter = FishControllerConst::SPAWN_TIME;
 	}
 }
 
@@ -109,4 +152,35 @@ void CFishController::Erase(CFish* pFish)
 	}
 
 	itr = m_pFishList.erase(itr);
+}
+
+//===================================================
+// スポーン処理
+//===================================================
+void CFishController::Spawn(void)
+{
+	// 半径（内側と外側）
+	const float minRadius = 400.0f;
+	const float maxRadius = 700.0f;
+
+	// 0.0～1.0
+	float r = math::Random(0.0f, 1.0f);
+
+	// ドーナツ分布
+	float radius = sqrtf(r) * (maxRadius - minRadius) + minRadius;
+
+	// 角度
+	float angle = (rand() % CMathConstant::I_ANGLE_MAX) * (D3DX_PI / CMathConstant::F_ANGLE_HALF);
+
+	// 中心位置
+	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, -100.0f, 200.0f);
+
+	// 最終位置
+	D3DXVECTOR3 pos;
+	pos.x = centerPos.x + cosf(angle) * radius;
+	pos.y = centerPos.y;
+	pos.z = centerPos.z + sinf(angle) * radius;
+
+	// 生成処理
+	Create(centerPos, "data/MODEL/fish.x", 600);
 }

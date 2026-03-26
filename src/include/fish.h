@@ -17,6 +17,11 @@
 #include "ObjectX.h"
 
 //***************************************************
+// 前方宣言
+//***************************************************
+class CPlankton;	// プランクトン
+
+//***************************************************
 // 魚クラスの定義
 //***************************************************
 class CFish : public CObjectX
@@ -36,8 +41,13 @@ public:
 	inline void SetMove(const D3DXVECTOR3& move) { m_move = move; }
 
 	bool GetALive(void) const;
+
+	bool SetPlankton(CPlankton* pPlankton);
+	inline bool HasPlankton(void) { return m_pHasPlankton != nullptr; }
 private:
+	CPlankton* m_pHasPlankton;	// プランクトンへのポインタ
 	D3DXVECTOR3 m_move;	// 移動量
 	int m_nLife;		// 寿命
+	int m_nDeleteTime;	// 破棄までの時間
 };
 #endif
