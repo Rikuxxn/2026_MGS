@@ -13,6 +13,7 @@
 #include "game.h"
 #include "fish_controller.h"
 #include "utility_math.h"
+#include "plankton_controller.h"
 
 //===================================================
 // コンストラクタ
@@ -106,6 +107,9 @@ void CFish::Update(void)
 
 	CFishController* pFishController = CGame::GetFishController();
 
+	// クジラの操作クラス
+	CPlanktonController* pPlanktonController = CGame::GetPlanktonController();
+
 	if (m_pHasPlankton != nullptr)
 	{
 		m_pHasPlankton->SetState(CPlankton::State::FishFollow);
@@ -118,9 +122,12 @@ void CFish::Update(void)
 
 		m_move = moveDir * 2.0f;
 
+
 		if (pFishController != nullptr && m_nDeleteTime <= 0)
 		{
 			m_pHasPlankton->Uninit();
+			pPlanktonController->Erase(m_pHasPlankton);
+
 			Uninit();
 			pFishController->Erase(this);
 			return;
@@ -132,6 +139,7 @@ void CFish::Update(void)
 		if (m_pHasPlankton != nullptr)
 		{
 			m_pHasPlankton->Uninit();
+			pPlanktonController->Erase(m_pHasPlankton);
 		}
 		Uninit();
 		pFishController->Erase(this);
