@@ -89,8 +89,8 @@ void CWhaleController::Update(void)
 void CWhaleController::SpawnWhale(void)
 {
 	// îºåaÅiì‡ë§Ç∆äOë§Åj
-	const float minRadius = 500.0f;
-	const float maxRadius = 800.0f;
+	const float minRadius = 400.0f;
+	const float maxRadius = 700.0f;
 
 	// 0.0Å`1.0
 	float r = (rand() % 1000) / 1000.0f;
