@@ -56,6 +56,9 @@ HRESULT CFish::Init(void)
 	{
 		return E_FAIL;
 	}
+
+	CObjectX::SetSize(D3DXVECTOR3(4.0f, 4.0f, 4.0f));
+
 	return S_OK;
 }
 
