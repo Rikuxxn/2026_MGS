@@ -106,14 +106,19 @@ public:
 	bool GetPressAnyButton(void);
 	bool GetTriggerTrigger(const int nTrigger);
 	bool GetTriggerPress(const int nTrigger);
+	void SetVibration(WORD left, WORD right);
+	void SetVibration(WORD left, WORD right, int nTimer);
+	void StopVibration(void);
 private:
 
 	XINPUT_STATE m_joyKeyState;				// ジョイパッドのプレス情報
 	XINPUT_STATE m_OldKeyState;				// ジョイパッドのプレス情報(判定)
 	XINPUT_STATE m_joyKeyStateTrigger;		// ジョイパッドのトリガー情報
 	XINPUT_STATE m_joykeyStateRelease;		// ジョイパッドのリリース情報
-	int m_nRepeatCount;						// キーの長押しカウンター
-	bool m_bFirstPress;						// 最初に押した判定用変数
+	int			 m_nRepeatCount;			// キーの長押しカウンター
+	int			 m_VibrationTimer;			// 振動時間
+	bool		 m_bFirstPress;				// 最初に押した判定用変数
+	bool		 m_bVibration;				// 振動フラグ
 };
 
 //*************************************************
