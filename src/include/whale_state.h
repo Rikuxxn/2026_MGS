@@ -51,8 +51,12 @@ public:
 private:
 	static constexpr const char* PARTICLE_KEY	= "whale_blow";			// パーティクルのキー
 	static constexpr int BLOW_STAY_TIME			= 600;					// 潮吹き待機時間
+	static constexpr int DIVE_TIME				= 180;					// 潜るまでの時間
+	static constexpr int RELEASE_TIME			= 180;					// 消えるまでの時間
 	const D3DXVECTOR3 BLOW_OFFSET				= { 0.0f,40.0f,0.0f };	// 潮吹きのオフセット
 private:
-	int m_nBlowTime;	// 潮吹き時間
+	int m_nBlowTime;		// 潮吹き時間
+	int m_nBeginDiveTime;	// 海に潜るまでの時間
+	int m_nReleaseTime;		// 消えるまでの時間
 };
 #endif

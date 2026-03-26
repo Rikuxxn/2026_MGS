@@ -61,7 +61,9 @@ void CWhaleStateNeutral::OnUpdate(CWhale* pWhale)
 // 満足状態コンストラクタ
 //===================================================
 CWhaleSatisfaction::CWhaleSatisfaction() : 
-	m_nBlowTime(0)
+	m_nBlowTime(0),
+	m_nBeginDiveTime(DIVE_TIME),
+	m_nReleaseTime(RELEASE_TIME)
 {
 }
 
@@ -88,7 +90,7 @@ void CWhaleSatisfaction::OnStart(CWhale* pWhale)
 	if (pMotion == nullptr) return;
 
 	// モーションの設定処理
-	pMotion->Play(CWhale::MOTIONTYPE_NEUTRAL, true, 10);
+	pMotion->Play(CWhale::MOTIONTYPE_REACTION, true, 10);
 }
 
 //===================================================
@@ -96,6 +98,16 @@ void CWhaleSatisfaction::OnStart(CWhale* pWhale)
 //===================================================
 void CWhaleSatisfaction::OnUpdate(CWhale* pWhale)
 {
+	// キャラクタークラスの取得
+	CCharacter* pCharacter = pWhale->GetCharacter();
+
+	if (pCharacter == nullptr) return;
+
+	// モーションの取得
+	CMotion* pMotion = pCharacter->GetMotion();
+
+	if (pMotion == nullptr) return;
+
 	// 最大まで成長出来たら
 	if (pWhale->CheckMaxPlankton())
 	{
@@ -124,5 +136,36 @@ void CWhaleSatisfaction::OnUpdate(CWhale* pWhale)
 
 			m_nBlowTime = BLOW_STAY_TIME;
 		}
+	}
+
+	m_nBeginDiveTime--;
+
+	// モーションが終わったら
+	if (m_nBeginDiveTime <= 0)
+	{
+		// 現在の向きの取得
+		D3DXVECTOR3 rot = pCharacter->GetRotation();
+
+		// 現在の位置の取得
+		D3DXVECTOR3 pos = pCharacter->GetPosition();
+
+		// クジラの向きを下方向にする
+		rot.x = D3DX_PI * 0.5f;
+
+		// 目的の向きを設定
+		pWhale->SetDestRotation(rot);
+
+		// 潜る
+		pos.y -= 5.0f;
+
+		pCharacter->SetPosition(pos);
+
+		if (m_nReleaseTime <= 0)
+		{
+			// ゲームから消す
+			pWhale->Uninit();
+		}
+
+		m_nReleaseTime--;
 	}
 }
