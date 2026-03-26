@@ -39,7 +39,7 @@ namespace WhaleConst
 	constexpr float ROT_LERP_ALPHA				= 0.04f;				// 目的の向きに補完する係数
 	constexpr float SCALING_TIME				= 60.0f;				// スケーリングの向きに補完する係数
 	constexpr int REACTION_INTERVAL				= 600;					// 1回リアクションした後の待機時間
-	constexpr int MAX_PLANKTON					= 1;					// 最大成長
+	constexpr int MAX_PLANKTON					= 20;					// 最大成長
 	constexpr int BLOW_STAY_TIME				= 600;					// 潮吹きのインターバル
 }
 
@@ -173,35 +173,6 @@ void CWhale::Update(void)
 	// コライダーの更新
 	UpdateCollider(pos);
 
-	// 最大まで成長出来たら
-	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
-	{
-		// 潮吹きできる
-		m_blowInfo.bBlow = true;
-
-		m_blowInfo.nBlowTime--;
-
-		// 潮吹き時間になったら
-		if (m_blowInfo.nBlowTime <= 0)
-		{
-			// マネージャーの取得
-			CManager* pManager = CManager::GetInstance();
-
-			// パーティクルのパラメータの管理クラスの取得
-			CParticleRegistry* pParticleRegistry = pManager->GetParticleRegistry();
-
-			// パーティクルの生成
-			pParticleRegistry->CreateParticle(
-				WhaleConst::BLOW_PARTICLE_KEY,
-				pos + WhaleConst::BLOW_OFFSET,
-				CEffect::FLAG_ALPHA_DECREASE |
-				CEffect::FLAG_RADIUS_DECREASE |
-				CEffect::FLAG_GRAVITY,
-				Color::AQUA);
-
-			m_blowInfo.nBlowTime = WhaleConst::BLOW_STAY_TIME;
-		}
-	}
 	if (m_bScaling)
 	{
 		m_fScalingTime += 1.0f;

@@ -33,7 +33,26 @@ public:
 	void OnStart(CWhale* pWhale) override;
 	void OnUpdate(CWhale* pWhale) override;
 	void OnExit(CWhale* pWhale) override {}
-
 private:
+};
+
+//***************************************************
+// クジラ満足状態のクラスの定義
+//***************************************************
+class CWhaleSatisfaction : public StateBase<CWhale>
+{
+public:
+	CWhaleSatisfaction();
+	~CWhaleSatisfaction();
+
+	void OnStart(CWhale* pWhale) override;
+	void OnUpdate(CWhale* pWhale) override;
+	void OnExit(CWhale* pWhale) override {}
+private:
+	static constexpr const char* PARTICLE_KEY	= "whale_blow";			// パーティクルのキー
+	static constexpr int BLOW_STAY_TIME			= 600;					// 潮吹き待機時間
+	const D3DXVECTOR3 BLOW_OFFSET				= { 0.0f,40.0f,0.0f };	// 潮吹きのオフセット
+private:
+	int m_nBlowTime;	// 潮吹き時間
 };
 #endif
