@@ -107,12 +107,12 @@ void CPlanktonController::CreateCluster(const D3DXVECTOR3& center, int count, fl
 void CPlanktonController::Update(void)
 {
 	// プランクトンの補充
-	if (m_pList.size() <= 40)
+	if (m_pList.size() <= 50)
 	{
 		// プランクトンの塊生成
 		for (auto& center : m_clusterCenters)
 		{
-			CreateCluster(center, 15, 100.0f); // 15匹、半径100
+			CreateCluster(center, 25, 100.0f); // 15匹、半径100
 		}
 	}
 

@@ -41,7 +41,7 @@ namespace WhaleConst
 	constexpr float ROT_LERP_ALPHA				= 0.04f;				// 目的の向きに補完する係数
 	constexpr float SCALING_TIME				= 60.0f;				// スケーリングの向きに補完する係数
 	constexpr int REACTION_INTERVAL				= 600;					// 1回リアクションした後の待機時間
-	constexpr int MAX_PLANKTON					= 20;					// 最大成長
+	constexpr int MAX_PLANKTON					= 25;					// 最大成長
 	constexpr int BLOW_STAY_TIME				= 600;					// 潮吹きのインターバル
 }
 

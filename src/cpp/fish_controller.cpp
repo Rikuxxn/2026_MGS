@@ -114,7 +114,7 @@ void CFishController::Update(void)
 		// ƒvƒ‰ƒ“ƒNƒgƒ“‚Æ‹›‚Ì‹——£‚ð‹‚ß‚é
 		float fDistance = math::GetDistance(planktonPos - fishPos);
 
-		moveDir = dir * 2.0f;
+		moveDir = dir * 3.0f;
 
 		// ˆÚ“®—Ê‚ÌÝ’è
 		list->SetMove(moveDir);
@@ -140,6 +140,8 @@ void CFishController::Update(void)
 
 	if (m_nSpawnCounter <= 0)
 	{
+		Spawn();
+		Spawn();
 		Spawn();
 		Spawn();
 

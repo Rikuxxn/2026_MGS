@@ -48,7 +48,7 @@ public:
 
 private:
 	static constexpr float	MOVE_SPEED_RATE = 1.0f;		// 移動時のスピードレート
-	static constexpr float	DEC_SPEED_RATE	= 0.02f;	// スピードの減少率
+	static constexpr float	DEC_SPEED_RATE	= 0.005f;	// スピードの減少率
 	static constexpr float	MAX_DEC_RATE	= 0.4f;		// 減少する最大割合(%)
 
 };
