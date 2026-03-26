@@ -22,6 +22,8 @@
 #include "RigidBody.h"
 #include "renderer.h"
 #include "plankton.h"
+#include "particle_registry.h"
+#include "color_constants.h"
 
 #include "whale.h"
 
@@ -179,6 +181,47 @@ void CPlayer::Update(void)
 
 	// クジラの更新処理
 	UpdateWhale();
+
+	// ワールドマトリックスの取得
+	D3DXMATRIX mtxWorld = m_pCharacter->GetMtxWorld();
+
+	D3DXVECTOR3 worldPos = math::GetPositionFromMatrix(mtxWorld);
+
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// パーティクルのパラメータの管理クラスの取得
+	CParticleRegistry* pParticleRegistry = pManager->GetParticleRegistry();
+
+	CParticle::Info particleInfo;
+
+	particleInfo.col = Color::AQUA;
+	particleInfo.pos = worldPos;
+	particleInfo.fAngleXMax = 120;
+	particleInfo.fAngleXMin = -120;
+	particleInfo.fAngleYMax = 120;
+	particleInfo.fAngleYMin = -120;
+	particleInfo.moveMax = { 5.0f,2.5f,5.0f };
+	particleInfo.moveMin = { 2.5f,1.0f,2.5f };
+	particleInfo.nNum = 1;
+	particleInfo.size = { 5.0f,5.0f };
+	particleInfo.texturePath = "effect000.jpg";
+	particleInfo.nTime = 1;
+	particleInfo.effectInfo.nLife = 20;
+
+	particleInfo.effectInfo.unFlag =
+		CEffect::FLAG_ALPHA_DECREASE |
+		CEffect::FLAG_RADIUS_DECREASE |
+		CEffect::FLAG_GRAVITY;
+
+	CParticle::Create(particleInfo);
+
+	// パーティクルの生成
+	//pParticleRegistry->CreateParticle(
+	//	"move",
+	//	worldPos,
+	//	Color::AQUA);
+
 }
 
 //===================================================
