@@ -38,6 +38,7 @@
 #include "texture_animation.h"
 #include "Sound.h"
 #include "whale_controller.h"
+#include "pause_controller.h"
 
 //***************************************************
 // 静的メンバ変数宣
@@ -45,6 +46,7 @@
 std::unique_ptr<CBlockManager>	CGame::m_pBlockManager			= nullptr;		// ブロックマネージャーの生成
 std::unique_ptr<CWhaleController> CGame::m_pWhaleController		= nullptr;		// クジラのコントローラの生成
 std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// プランクトンのコントローラの生成
+std::unique_ptr<CPauseController> CGame::m_pPauseController = nullptr;		  // ポーズのコントローラの生成
 CScore* CGame::m_pScore = nullptr;												// スコアのポインタ
 
 //===================================================
@@ -78,6 +80,11 @@ CGame::~CGame()
 	{
 		m_pWhaleController.reset();
 	}
+
+	if (m_pPauseController != nullptr)
+	{
+		m_pPauseController.reset();
+	}
 	m_vpCollisionSystem.clear();
 
 	// スコア保存
@@ -103,6 +110,9 @@ CGame::~CGame()
 //===================================================
 HRESULT CGame::Init(void)
 {
+	// ポーズの操作クラスの生成
+	m_pPauseController = CPauseController::Create();
+
 	// ブロックマネージャーの生成
 	m_pBlockManager = std::make_unique<CBlockManager>();
 	m_pBlockManager->Init();
@@ -306,6 +316,10 @@ void CGame::Update(void)
 	if (m_pWhaleController != nullptr)
 	{
 		m_pWhaleController->Update();
+	}
+	if (m_pPauseController != nullptr)
+	{
+		m_pPauseController->Update();
 	}
 #ifdef _DEBUG
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))

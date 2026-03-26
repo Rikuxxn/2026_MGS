@@ -41,6 +41,7 @@ public:
 	enum TYPE
 	{
 		TYPE_NONE = 0,
+		TYPE_PAUSE,
 		TYPE_MAX
 	};
 

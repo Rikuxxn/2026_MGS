@@ -37,5 +37,4 @@ float CEasing::EaseOutBounce(float time)
 		time -= 2.625f / d1;
 		return n1 * time * time + 0.984375f;;
 	}
-	return 0.0f;
 }

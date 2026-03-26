@@ -21,6 +21,10 @@ namespace InputSystem
 	bool PlayerMoveBack(void);
 	bool PlayerMoveRight(void);
 	bool PlayerJump(void);
+	bool PauseMenuDecision(void);
+	bool PauseMenuSelectUp(void);
+	bool PauseMenuSelectDown(void);
+	bool EnablePause(void);
 
 //************************************
 // 	デバッグ
