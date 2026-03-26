@@ -50,6 +50,7 @@ public:
 	void	Draw	(void) override;
 
 	void	OnCollisionEnter(IGameObject* other) override;
+
 	void	ReleasePhysics(void);
 
 	Collider* GetCollisionShape(void) const;								// ƒRƒŠƒWƒ‡ƒ“‚ÌŽæ“¾

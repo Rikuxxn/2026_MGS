@@ -19,6 +19,7 @@
 #include "game.h"
 #include "plankton_controller.h"
 #include "Sound.h"
+#include "input.h"
 
 //***************************************************
 // ’è”éŒ¾

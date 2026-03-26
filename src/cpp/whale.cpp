@@ -26,6 +26,7 @@
 #include "color_constants.h"
 #include "particle_registry.h"
 #include "whale_state.h"
+#include "input.h"
 
 //***************************************************
 // ’è”éŒ¾
@@ -456,6 +457,12 @@ void CWhale::EatPlankton(void)
 	m_scalingInfo.destScale = rateDestScale;
 
 	m_scalingInfo.fScalingTime = 0.0f;
+
+	CInputJoypad* pJoypad = CManager::GetInstance()->GetInputJoypad();
+
+	// U“®‚³‚¹‚é
+	pJoypad->SetVibration(1000, 1000, 1);
+
 
 	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
 	{
