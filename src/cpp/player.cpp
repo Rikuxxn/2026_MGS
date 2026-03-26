@@ -41,7 +41,8 @@ CPlayer::CPlayer() :
 	m_rotDest(Const::VEC3_NULL),
 	m_fSpeed(2.0f),
 	m_pHasPlanktonList(),
-	m_pWhale(nullptr)
+	m_pWhale(nullptr),
+	m_nPlanktonReleaseCnt(0)
 {
 	// タグの設定
 	SetTag("Player");
@@ -566,16 +567,18 @@ CPlayer::InputData CPlayer::GatherInput(void)
 //=============================================================================
 void CPlayer::OnHitWhale(CWhale* pWhale)
 {
-	// プランクトンの数分回す
-	for (auto& plankton : m_pHasPlanktonList)
+	if (pWhale != nullptr)
 	{
-		// 食べられる状態にする
-		plankton->SetState(CPlankton::State::BeEaten);
+		// 満足していたら取得しない
+		if (pWhale->CheckMaxPlankton())
+		{
+			return;
+		}
 	}
-
 	if (m_pWhale == nullptr)
 	{
 		m_pWhale = pWhale;
+		m_nPlanktonReleaseCnt = PLANKTON_RELEASE_TIME;
 	}
 }
 
@@ -627,43 +630,62 @@ void CPlayer::UpdateWhale(void)
 	{
 		return;
 	}
+
 	// 当たったクジラがいないなら
 	if (m_pWhale == nullptr)
 	{
 		return;
 	}
 
+	// クジラの位置の取得
 	D3DXVECTOR3 whalePos = m_pWhale->GetPosition();
+	
+	// 位置の取得
+	D3DXVECTOR3 pos = GetPosition();
 
-	bool bRelease = false;
+	// クジラとプレイヤーの距離を求める
+	float fDistance = math::GetDistance(whalePos - pos);
 
+	if (m_nPlanktonReleaseCnt >= 0)
+	{
+		m_nPlanktonReleaseCnt--;
+
+		return;
+	}
+
+	// 再設定
+	m_nPlanktonReleaseCnt = PLANKTON_RELEASE_TIME;
+
+	// 満足していたら(接続を外す)
+	if (m_pWhale->CheckMaxPlankton())
+	{
+		m_pWhale = nullptr;
+		return;
+	}
 	// プランクトン
 	for (auto plankton = m_pHasPlanktonList.begin() ; plankton != m_pHasPlanktonList.end();plankton++)
 	{
-		// 食べられる状態じゃないなら
-		if ((*plankton)->GetState() != CPlankton::State::BeEaten)
+		// 食べられる状態にする
+		(*plankton)->SetState(CPlankton::State::BeEaten);
+
+		// 離れたら接続を解除
+		if (fDistance >= PLANKTON_NO_EATEN_DISTANCE)
 		{
-			continue;
+			// 食べられる状態にする
+			(*plankton)->SetState(CPlankton::State::Idel);
+
+			m_pWhale = nullptr;
+			return;
 		}
 
-		// 破棄できるなら
-		bRelease = (*plankton)->ProceedToBeEaten(whalePos);
+		(*plankton)->ProceedToBeEaten(whalePos);
 
-		// 破棄するなら
-		if (bRelease)
-		{
-			// 終了処理
-			(*plankton)->Uninit();
-			plankton = m_pHasPlanktonList.erase(plankton);
+		// 要素から外す
+		plankton = m_pHasPlanktonList.erase(plankton);
 
-			m_pWhale->EatPlankton();
+		m_pWhale->EatPlankton();
 
-			// 要素の最後だったら例外スローでるので処理を抜ける
-			if (plankton == m_pHasPlanktonList.end())
-			{
-				break;
-			}
-		}
+		break;
 	}
 
 	if (m_pHasPlanktonList.empty())

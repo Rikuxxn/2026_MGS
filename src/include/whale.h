@@ -84,14 +84,21 @@ private:
 		bool bBlow = false;		// 潮吹きするかどうか
 	};
 
+	// スケーリングの情報
+	struct ScalingInfo
+	{
+		D3DXVECTOR3 destScale;	
+		D3DXVECTOR3 startScale;	// 開始スケール
+		float fScalingTime;		// カウンター
+	};
 private:
 	std::unique_ptr<CCharacter> m_pCharacter;				// キャラクタークラスへのポインタ
 	std::shared_ptr<RigidBody>  m_pRigidBody;				// 剛体へのポインタ
 	std::shared_ptr<Collider>   m_pShape;					// 当たり判定の形へのポインタ
 	D3DXVECTOR3					m_rotDest;					// 目的の向き
 	BlowInfo					m_blowInfo;					// 潮吹きの情報
+	ScalingInfo					m_scalingInfo;				// スケーリングの情報
 	StateMachine<CWhale>		m_stateMachine;				// ステートを管理するクラスのインスタンス
-	float						m_fScalingTime;				// sinカーブ用のカウンター
 	int							m_nNumPlankton;				// プランクトンの数
 	int							m_nReactionMotionInterval;	// リアクションのモーションのインターバル
 	bool						m_bScaling;					// スケーリングするなら

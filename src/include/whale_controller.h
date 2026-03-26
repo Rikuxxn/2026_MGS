@@ -50,5 +50,6 @@ private:
 
 	CPlayer* m_pPlayer;
 	std::list<CWhale*> m_pList;	// クジラのリスト
+	int m_nSatisfiedWhaleNum;	// 満足したクジラの数
 };
 #endif

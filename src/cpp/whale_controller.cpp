@@ -17,7 +17,8 @@
 // コンストラクタ
 //===================================================
 CWhaleController::CWhaleController() : 
-	m_pPlayer(nullptr)
+	m_pPlayer(nullptr),
+	m_nSatisfiedWhaleNum(0)
 {
 }
 
@@ -128,8 +129,8 @@ void CWhaleController::OnHitPlayer(CWhale* pWhale)
 //===================================================
 void CWhaleController::OnWhaleSatisfied(CWhale* whale)
 {
-	// 満足したクジラの数
-	// m_satisfiedWhaleNum++;
+	 // 満足したクジラの数
+	m_nSatisfiedWhaleNum++;
 
 	//// 削除
 	//auto it = std::find(m_pList.begin(), m_pList.end(), whale);
@@ -141,10 +142,10 @@ void CWhaleController::OnWhaleSatisfied(CWhale* whale)
 	//	m_pList.erase(it);
 	//}
 
-	if (m_pList.size() >= MAX_WHALE_NUM)
-	{
-		return;
-	}
+	//if (m_pList.size() >= MAX_WHALE_NUM)
+	//{
+	//	return;
+	//}
 
 	// 新しく補充
 	SpawnWhale();

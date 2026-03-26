@@ -186,6 +186,33 @@ void CPlankton::Update(void)
 		// プランクトンの位置を更新(プレイヤー追従)
 		CObjectBillboard::SetPosition(currentPos);
 	}
+
+	if (m_state == State::BeEaten)
+	{
+		// 位置の取得
+		D3DXVECTOR3 pos = CObjectBillboard::GetPosition();
+
+		// フレームの割合を求める
+		float fRate = m_eatenData.nFrameCounter / PlanktonConst::EATEN_LERP_TIME;
+
+		// フレームを加算
+		m_eatenData.nFrameCounter++;
+
+		// 目的の位置に近づける
+		pos = m_eatenData.startPos + (m_eatenData.eatenPos - m_eatenData.startPos) * fRate;
+
+		CObjectBillboard::SetPosition(pos);
+
+		// コライダー位置の設定
+		m_pRigidBody->SetTransform(pos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
+
+		// 食べられたら破棄
+		if (m_eatenData.nFrameCounter >= PlanktonConst::EATEN_LERP_TIME)
+		{
+			// 破棄
+			Uninit();
+		}
+	}
 }
 
 //===================================================
@@ -334,27 +361,8 @@ bool CPlankton::ProceedToBeEaten(const D3DXVECTOR3& destPos)
 		return false;
 	}
 
-	// 位置の取得
-	D3DXVECTOR3 pos = CObjectBillboard::GetPosition();
-
-	// フレームの割合を求める
-	float fRate = m_eatenData.nFrameCounter / PlanktonConst::EATEN_LERP_TIME;
-
-	// フレームを加算
-	m_eatenData.nFrameCounter++;
-
-	// 目的の位置に近づける
-	pos += (destPos - pos) * fRate;
-
-	CObjectBillboard::SetPosition(pos);
-
-	// コライダー位置の設定
-	m_pRigidBody->SetTransform(pos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);
-
-	if (fRate >= 1.0f)
-	{
-		return true;
-	}
+	m_eatenData.eatenPos = destPos;
+	m_eatenData.startPos = CObjectBillboard::GetPosition();
 
 	return false;
 }
