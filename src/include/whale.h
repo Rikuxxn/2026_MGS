@@ -1,6 +1,6 @@
 //===================================================
 //
-// クジラの処理をするクラス [whole.h]
+// クジラの処理をするクラス [whale.h]
 // Author:YUTO YOSHIDA
 // 
 //===================================================
@@ -8,8 +8,8 @@
 //***************************************************
 // 多重インクルード防止
 //***************************************************
-#ifndef _WHOLE_H_
-#define _WHOLE_H_
+#ifndef _WHALE_H_
+#define _WHALE_H_
 
 //***************************************************
 // インクルードファイル
@@ -73,6 +73,7 @@ public:
 	inline bool CheckMaxPlankton(void) const;
 
 	inline CCharacter* GetCharacter(void) { return m_pCharacter.get(); }
+	RigidBody* GetRigidBody(void) { return m_pRigidBody.get(); }
 	const D3DXVECTOR3& GetPosition(void) const;
 	const D3DXVECTOR3& GetEatPos(void);
 	void SetPosition(const D3DXVECTOR3& pos);
