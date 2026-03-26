@@ -219,19 +219,19 @@ void CPlankton::Update(void)
 //===================================================
 void CPlankton::Draw(void)
 {
-#ifdef _DEBUG
-	// スフィアコライダーの描画
-	if (auto cap = GetCollisionShape()->As<SphereCollider>())
-	{
-		// レンダラーの取得
-		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
-
-		// 3Dデバッグ情報の取得
-		auto pDebug3D = pRenderer->GetDebugProc3D();
-
-		pDebug3D->DrawSphereCollider(cap, Color::GREENYELLOW);
-	}
-#endif
+//#ifdef _DEBUG
+//	// スフィアコライダーの描画
+//	if (auto cap = GetCollisionShape()->As<SphereCollider>())
+//	{
+//		// レンダラーの取得
+//		CRenderer* pRenderer = CManager::GetInstance()->GetRenderer();
+//
+//		// 3Dデバッグ情報の取得
+//		auto pDebug3D = pRenderer->GetDebugProc3D();
+//
+//		pDebug3D->DrawSphereCollider(cap, Color::GREENYELLOW);
+//	}
+//#endif
 
 	// マネージャーの取得
 	CManager* pManager = CManager::GetInstance();
