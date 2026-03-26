@@ -163,6 +163,11 @@ void RigidBody::Integrate(float dt, const D3DXVECTOR3& gravity)
 //=============================================================================
 void RigidBody::SetOrientation(const D3DXQUATERNION& q)
 {
+    if (!m_Collider)
+    {
+        return;
+    }
+
     m_Orientation = q;
     D3DXMATRIX mat;
     D3DXMatrixRotationQuaternion(&mat, &m_Orientation);

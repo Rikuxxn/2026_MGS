@@ -177,8 +177,10 @@ void CPlankton::Update(void)
 		}
 
 		// 現在の位置と補間する
-		currentPos.x = m_followPos.x + sinf(m_fTime) * PlanktonConst::FOLLOW_LENGTH;
-		currentPos.z = m_followPos.z + cosf(m_fTime) * PlanktonConst::FOLLOW_LENGTH;
+		m_followPos.x += sinf(m_fTime) * PlanktonConst::FOLLOW_LENGTH;
+		m_followPos.z += cosf(m_fTime) * PlanktonConst::FOLLOW_LENGTH;
+
+		currentPos += (m_followPos - currentPos) * 0.2f;
 
 		// コライダー位置の設定
 		m_pRigidBody->SetTransform(currentPos, Const::QUATERNION_IDENTITY, Const::INIT_SCAL);

@@ -102,7 +102,7 @@ public:
 	static constexpr float DECELERATION_RATE	= 0.85f;	// 減速率
 	static constexpr float ACCEL_RATE			= 0.15f;	// イージング率
 	static constexpr float PLANKTON_NO_EATEN_DISTANCE	= 500.0f;	// プランクトンを食べさせられない距離
-	static constexpr int   PLANKTON_RELEASE_TIME = 30;		// プランクトンを手放すカウント
+	static constexpr int   PLANKTON_RELEASE_TIME = 4;		// プランクトンを手放すカウント
 
 private:
 	static constexpr float	MASS				= 1.0f;		// 質量
