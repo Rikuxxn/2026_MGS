@@ -27,15 +27,6 @@
 CResult::CResult() :
 	CScene(CScene::MODE_RESULT)
 {
-	std::ifstream file("data/score.txt");
-
-	std::string line;
-	std::string score;
-
-	std::getline(file, line);
-	std::istringstream iss(line);
-	iss >> m_nScore;
-	file.close();
 }
 
 //===================================================
@@ -85,12 +76,23 @@ HRESULT CResult::Init(void)
 		Const::WHITE,
 		"whale.png",
 		0.0f);
+
+	std::ifstream file("data/score.txt");
+
+	std::string line;
+	std::string score;
+
+	std::getline(file, line);
+	std::istringstream iss(line);
+	iss >> m_nScore;
+	file.close();
+
+
 	CScore::Create(
 		{ 800.0f,SCREEN_HEIGHT * 0.5f,0.0f },
 		{ 160.0f,140.0f },
 		m_nScore,
 		"number008.png");
-
 
 	return S_OK;
 }
