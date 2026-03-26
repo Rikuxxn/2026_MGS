@@ -70,7 +70,8 @@ private:
 	struct EatenData
 	{
 		D3DXVECTOR3	eatenPos;			// 食べられる位置
-		int			nFrameCounter;	// カウンター
+		D3DXVECTOR3	startPos;			// 開始位置
+		int			nFrameCounter;		// カウンター
 	};
 private:
 	std::shared_ptr<RigidBody>  m_pRigidBody;	// 剛体へのポインタ

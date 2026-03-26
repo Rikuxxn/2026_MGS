@@ -187,16 +187,16 @@ HRESULT CPlanktonController::Init(void)
 	// プランクトンの塊の中心位置
 	m_clusterCenters = 
 	{
-		{0, 0, 0},
-		//{100, 0, 50},
-		//{-80, 0, 120},
-		//{50, 0, -100}
+		{0.0f, 0.0f, 0.0f},
+		{-900.0f, 0.0f, -500.0f},
+		{830.0f, 0, -490.0f},
+		{0.0f, 0, 800.0f}
 	};
 
 	// プランクトンの塊生成
 	for (auto& center : m_clusterCenters)
 	{
-		CreateCluster(center, 20, 100.0f); // 20匹、半径50
+		CreateCluster(center, 20, 100.0f); // 20匹、半径100
 	}
 
 	return S_OK;
