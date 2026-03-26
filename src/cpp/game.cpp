@@ -147,12 +147,11 @@ HRESULT CGame::Init(void)
 	// 空の生成
 	CSkyCube::Create();
 
-	//// クジラの生成
-	//m_pWhaleController->Create(
-	//	{ -160.0f,10.0f,0.0f },
-	//	{ 0.0f,0.0f,0.0f },
-	//	"data/MOTION/motion_whole.txt");
-
+	// クジラの生成
+	m_pWhaleController->Create(
+		{ 0.0f,-10.0f,-700.0f },
+		{ 0.0f,0.0f,0.0f },
+		"data/MOTION/motion_whole.txt");
 
 	// 海底
 	CObjectX::Create(
