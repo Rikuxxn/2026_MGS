@@ -17,6 +17,7 @@
 #include "particle_registry.h"
 #include "manager.h"
 #include "color_constants.h"
+#include "mesh_circle.h"
 
 //===================================================
 // コンストラクタ
@@ -121,7 +122,7 @@ void CWhaleController::SpawnWhale(void)
 	CParticleRegistry* pParticleRegistry = pManager->GetParticleRegistry();
 
 	// 位置の取得
-	D3DXVECTOR3 effectPos(pos.x, 0.0f, pos.z);
+	D3DXVECTOR3 effectPos(pos.x, 1.0f, pos.z);
 
 	// パーティクルの生成
 	pParticleRegistry->CreateParticle(
@@ -130,7 +131,23 @@ void CWhaleController::SpawnWhale(void)
 		CEffect::FLAG_ALPHA_DECREASE |
 		CEffect::FLAG_RADIUS_DECREASE |
 		CEffect::FLAG_GRAVITY,
-		Color::AQUA);
+		Color::WHITE);
+
+	CMeshCircle::Info circleInfo;
+
+	circleInfo.col = Color::WHITE;
+	circleInfo.fInRadius = 0.0f;
+	circleInfo.fOutRadius = 10.0f;
+	circleInfo.fSpeed = 2.0f;
+	circleInfo.nLife = 120;
+
+	CMeshCircle::Create(effectPos, Const::VEC3_NULL, "", 32, circleInfo);
+
+	circleInfo.col = Color::WHITE;
+	circleInfo.fInRadius = 20.0f;
+	circleInfo.fOutRadius = 30.0f;
+
+	CMeshCircle::Create(effectPos, Const::VEC3_NULL, "", 32, circleInfo);
 
 	// 生成
 	Create(pos, { 0,0,0 }, "data/MOTION/motion_whole.txt");
