@@ -130,7 +130,7 @@ HRESULT CGame::Init(void)
 #endif
 
 	pCamera->SetCamera(
-		{ 0.0f,0.0f,-300.0f },
+		{ 0.0f,500.0f,-300.0f },
 		Const::VEC3_NULL,
 		{ 1.68f, 0.0f, 0.0f });
 

@@ -75,7 +75,8 @@ public:
 	inline CCharacter* GetCharacter(void) { return m_pCharacter.get(); }
 	const D3DXVECTOR3& GetPosition(void) const;
 	const D3DXVECTOR3& GetEatPos(void);
-	
+	void SetPosition(const D3DXVECTOR3& pos);
+	void SetPhysicsMove(const D3DXVECTOR3& move);
 private:
 	// ’ª‚«‚Ìî•ñ
 	struct BlowInfo
