@@ -25,7 +25,9 @@ public:
 		SOUND_LABEL_GAMEBGM,		// ゲームBGM
 		SOUND_LABEL_RESULTBGM,		// リザルトBGM
 		SOUND_LABEL_GET,			// プランクトン取得SE
-
+		SOUND_LABEL_GROW,			// クジラ成長SE
+		SOUND_LABEL_FEED,			// プランクトン与えるSE
+		SOUND_LABEL_WHALEVOICE,		// 満腹クジラSE
 		SOUND_LABEL_MAX,
 	} SOUND_LABEL;
 
@@ -100,6 +102,9 @@ private:
 		{"data/SYSTEM/BGM/gameBGM.wav", -1},			// ゲームBGM
 		{"data/SYSTEM/BGM/resultBGM.wav", -1},			// リザルトBGM
 		{"data/SYSTEM/SE/itemget.wav", 0},				// プランクトン取得SE
+		{"data/SYSTEM/SE/grow.wav", 0},					// クジラ成長SE
+		{"data/SYSTEM/SE/feed.wav", 0},					// プランクトン与えるSE
+		{"data/SYSTEM/SE/whaleVoice.wav", 0},			// 満腹クジラSE
 	};
 
 	SoundData m_SoundData[SOUND_LABEL_MAX];

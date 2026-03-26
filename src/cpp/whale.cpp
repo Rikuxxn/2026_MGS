@@ -27,6 +27,7 @@
 #include "particle_registry.h"
 #include "whale_state.h"
 #include "input.h"
+#include "Sound.h"
 
 //***************************************************
 // ’è”éŒ¾
@@ -463,6 +464,15 @@ void CWhale::EatPlankton(void)
 	// U“®‚³‚¹‚é
 	pJoypad->SetVibration(1000, 1000, 1);
 
+	//// ‰¹‚ÌŽæ“¾
+	//CSound* pSound = CManager::GetInstance()->GetSound();
+
+	//// Žæ“¾‰¹‚ÌÄ¶
+	//if (pSound)
+	//{
+	//	//pSound->StopByLabel(CSound::SOUND_LABEL_GET);
+	//	pSound->Play(CSound::SOUND_LABEL_FEED);
+	//}
 
 	if (m_nNumPlankton >= WhaleConst::MAX_PLANKTON)
 	{

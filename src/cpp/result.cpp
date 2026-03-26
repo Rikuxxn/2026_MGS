@@ -115,7 +115,7 @@ void CResult::Uninit(void)
 	// ‰¹‚ÌŽæ“¾
 	CSound* pSound = CManager::GetInstance()->GetSound();
 
-	pSound->StopByLabel(CSound::SOUND_LABEL_GAMEBGM);
+	pSound->StopByLabel(CSound::SOUND_LABEL_RESULTBGM);
 }
 
 //===================================================

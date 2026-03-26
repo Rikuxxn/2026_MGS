@@ -19,6 +19,7 @@
 #include "whale_controller.h"
 #include "RigidBody.h"
 #include "timer.h"
+#include "Sound.h"
 
 //===================================================
 // ニュートラル状態コンストラクタ
@@ -97,6 +98,17 @@ void CWhaleSatisfaction::OnStart(CWhale* pWhale)
 	CCharacter* pCharacter = pWhale->GetCharacter();
 
 	if (pCharacter == nullptr) return;
+
+	// 音の取得
+	CSound* pSound = CManager::GetInstance()->GetSound();
+
+	// SEの再生
+	if (pSound)
+	{
+		// 成長SEとクジラの声
+		pSound->Play(CSound::SOUND_LABEL_GROW);
+		pSound->Play(CSound::SOUND_LABEL_WHALEVOICE);
+	}
 
 	// モーションの取得
 	CMotion* pMotion = pCharacter->GetMotion();
