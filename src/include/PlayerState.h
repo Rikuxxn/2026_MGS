@@ -44,7 +44,7 @@ public:
 
 	void OnStart(CPlayer* /*pPlayer*/) override;
 	void OnUpdate(CPlayer* pPlayer) override;
-	void OnExit(CPlayer* /*pPlayer*/) override {}
+	void OnExit(CPlayer* /*pPlayer*/) override;
 
 private:
 	static constexpr float	MOVE_SPEED_RATE = 1.0f;		// 移動時のスピードレート

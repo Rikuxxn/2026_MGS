@@ -262,6 +262,8 @@ CInputJoypad::CInputJoypad()
 	// 最初にキーを押したか判定
 	m_bFirstPress = false;
 	m_nRepeatCount = 0;
+	m_bVibration = false;			// 振動フラグ
+	m_VibrationTimer = 0;				// 振動時間
 }
 //===============================================
 // パッドのデストラクタ
@@ -317,6 +319,26 @@ void CInputJoypad::Update(void)
 		m_joykeyStateRelease.Gamepad.wButtons = OldButton & ~Button;
 
 		m_joyKeyState = joykeyState;							// ジョイパッドのプレス情報を保存(格納)
+	}
+
+	//-----------------------------
+	// 振動更新処理
+	//-----------------------------
+
+	if (!m_bVibration)
+	{
+		return;
+	}
+
+	m_VibrationTimer--;
+
+	if (m_VibrationTimer <= 0)
+	{
+		m_bVibration = false;
+		m_VibrationTimer = 0;
+
+		// 振動停止
+		StopVibration();
 	}
 }
 //===============================================
@@ -515,6 +537,49 @@ bool CInputJoypad::GetTriggerPress(const int nKey)
 	}
 	return false;
 }
+//=============================================================================
+// ジョイパッド振動(永続的)
+//=============================================================================
+void CInputJoypad::SetVibration(WORD left, WORD right)
+{
+	XINPUT_VIBRATION vibration = {};
+	vibration.wLeftMotorSpeed = left;   // 0～65535
+	vibration.wRightMotorSpeed = right;  // 0～65535
+
+	XInputSetState(0, &vibration);
+}
+//=============================================================================
+// ジョイパッド振動(一定時間)
+//=============================================================================
+void CInputJoypad::SetVibration(WORD left, WORD right, int nTimer)
+{
+	// すでに振動中なら無視
+	if (m_bVibration && m_VibrationTimer > 0)
+	{
+		return;
+	}
+
+	XINPUT_VIBRATION vibration = {};
+	vibration.wLeftMotorSpeed = left;		// 0～65535
+	vibration.wRightMotorSpeed = right;		// 0～65535
+
+	// 振動時間の設定
+	m_VibrationTimer = nTimer;
+
+	// 振動フラグをON
+	m_bVibration = true;
+
+	XInputSetState(0, &vibration);
+}
+
+//=============================================================================
+// 振動停止
+//=============================================================================
+void CInputJoypad::StopVibration(void)
+{
+	SetVibration(0, 0);
+}
+
 //===============================================
 // マウスのコンストラクタ
 //===============================================
