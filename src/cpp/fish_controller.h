@@ -32,9 +32,11 @@ public:
 
 	static std::unique_ptr<CFishController> Create(CPlayer* pPlayer);
 	// ãõÇÃê∂ê¨
-	CFish* Create(const D3DXVECTOR3& pos, const char* pModelFileName);
+	CFish* Create(const D3DXVECTOR3& pos, const char* pModelFileName, const int nLife);
 
 	void Update(void);
+
+	void Erase(CFish* pFish);
 private:
 	CPlayer* m_pPlayer;
 	std::list<CFish*> m_pFishList;

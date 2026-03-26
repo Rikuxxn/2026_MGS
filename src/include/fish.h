@@ -25,13 +25,19 @@ public:
 	CFish();
 	~CFish();
 
-	static CFish* Create(const D3DXVECTOR3& pos, const char* pModelFileName);
+	static CFish* Create(const D3DXVECTOR3& pos, const char* pModelFileName, const int nLife);
 
 	HRESULT Init	(void) override;
 	void	Uninit	(void) override;
 	void	Update	(void) override;
 	void	Draw	(void) override;
-private:
 
+	inline const D3DXVECTOR3& GetMove(void) const { return m_move; }
+	inline void SetMove(const D3DXVECTOR3& move) { m_move = move; }
+
+	bool GetALive(void) const;
+private:
+	D3DXVECTOR3 m_move;	// ˆÚ“®—Ê
+	int m_nLife;		// Žõ–½
 };
 #endif
