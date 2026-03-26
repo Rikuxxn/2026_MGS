@@ -46,15 +46,18 @@
 std::unique_ptr<CBlockManager>	CGame::m_pBlockManager			= nullptr;		// ブロックマネージャーの生成
 std::unique_ptr<CWhaleController> CGame::m_pWhaleController		= nullptr;		// クジラのコントローラの生成
 std::unique_ptr<CPlanktonController> CGame::m_pPlanktonController = nullptr;	// プランクトンのコントローラの生成
-std::unique_ptr<CPauseController> CGame::m_pPauseController = nullptr;		  // ポーズのコントローラの生成
+std::unique_ptr<CPauseController> CGame::m_pPauseController = nullptr;			// ポーズのコントローラの生成
 CScore* CGame::m_pScore = nullptr;												// スコアのポインタ
+CTimer* CGame::m_pTimer = nullptr;												// タイマーへのポインタ
 
 //===================================================
 // コンストラクタ
 //===================================================
 CGame::CGame() :
 	CScene(CScene::MODE_GAME),
-	m_vpCollisionSystem()
+	m_vpCollisionSystem(),
+	m_nStateCnt(0),
+	m_state(STATE_GAME)
 {
 }
 
@@ -171,7 +174,7 @@ HRESULT CGame::Init(void)
 		{ 5.0f,5.0f,5.0f });
 
 	// タイマー
-	CTimer::Create(
+	m_pTimer = CTimer::Create(
 		{ 700.0f,50.0f,0.0f },
 		{ 120.0f,40.0f },
 		120,
@@ -321,6 +324,35 @@ void CGame::Update(void)
 	{
 		m_pPauseController->Update();
 	}
+
+	// リザルト遷移処理
+	switch (m_state)
+	{
+	case STATE_GAME:
+		if (m_pTimer->GetTime() <= 0)
+		{
+			CObject2D::Create(
+				Const::CENTER_POS_2D,
+				{ 500.0f,140.0f },
+				Const::WHITE,
+				"finish.png",
+				0.0f
+			);
+			m_state = STATE_FINISH;
+		}
+		break;
+	case STATE_FINISH:
+		m_nStateCnt++;
+		if (m_nStateCnt >= 60)
+		{
+			CManager::GetInstance()->BeginFade(std::make_unique<CResult>());
+			m_state = STATE_END;
+		}
+		break;
+	case STATE_END:
+		break;
+	}
+
 #ifdef _DEBUG
 	if (CManager::GetInstance()->GetInputKeyboard()->GetTrigger(DIK_0))
 	{

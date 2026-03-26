@@ -38,6 +38,7 @@ public:
 	void	Uninit	(void) override;
 	void	Update	(void) override;
 	void	Draw	(void) override;
+	int		inline	GetTime(void) { return m_nTime; }
 private:
 	std::array<std::unique_ptr<CNumber>, MAX_DIGIT> m_apNumber;	// 数字クラスへのポインタ
 	D3DXVECTOR3	m_pos;											// 位置
