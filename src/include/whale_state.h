@@ -59,4 +59,20 @@ private:
 	int m_nBeginDiveTime;	// ŠC‚Éö‚é‚Ü‚Å‚ÌŠÔ
 	int m_nReleaseTime;		// Á‚¦‚é‚Ü‚Å‚ÌŠÔ
 };
+
+//***************************************************
+// ƒXƒ|[ƒ“ó‘Ô‚Ìˆ—
+//***************************************************
+class CWhaleStateSpawn : public StateBase<CWhale>
+{
+public:
+	CWhaleStateSpawn();
+	~CWhaleStateSpawn();
+
+	void OnStart(CWhale* pWhale) override;
+	void OnUpdate(CWhale* pWhale) override;
+	void OnExit(CWhale* pWhale) override {}
+private:
+};
+
 #endif

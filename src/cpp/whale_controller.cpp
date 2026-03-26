@@ -14,13 +14,17 @@
 #include "MathConst.h"
 #include "score.h"
 #include "game.h"
+#include "particle_registry.h"
+#include "manager.h"
+#include "color_constants.h"
 
 //===================================================
 // コンストラクタ
 //===================================================
 CWhaleController::CWhaleController() : 
 	m_pPlayer(nullptr),
-	m_nSatisfiedWhaleNum(0)
+	m_nSatisfiedWhaleNum(0),
+	m_spawnEffectInfo()
 {
 }
 
@@ -102,13 +106,31 @@ void CWhaleController::SpawnWhale(void)
 	float angle = (rand() % CMathConstant::I_ANGLE_MAX) * (D3DX_PI / CMathConstant::F_ANGLE_HALF);
 
 	// 中心位置
-	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, -10.0f, 200.0f);
+	D3DXVECTOR3 centerPos = D3DXVECTOR3(0.0f, -300.0f, 200.0f);
 
 	// 最終位置
 	D3DXVECTOR3 pos;
 	pos.x = centerPos.x + cosf(angle) * radius;
 	pos.y = centerPos.y;
 	pos.z = centerPos.z + sinf(angle) * radius;
+
+	// マネージャーの取得
+	CManager* pManager = CManager::GetInstance();
+
+	// パーティクルの管理クラスの取得
+	CParticleRegistry* pParticleRegistry = pManager->GetParticleRegistry();
+
+	// 位置の取得
+	D3DXVECTOR3 effectPos(pos.x, 0.0f, pos.z);
+
+	// パーティクルの生成
+	pParticleRegistry->CreateParticle(
+		"whale_blow",
+		effectPos,
+		CEffect::FLAG_ALPHA_DECREASE |
+		CEffect::FLAG_RADIUS_DECREASE |
+		CEffect::FLAG_GRAVITY,
+		Color::AQUA);
 
 	// 生成
 	Create(pos, { 0,0,0 }, "data/MOTION/motion_whole.txt");

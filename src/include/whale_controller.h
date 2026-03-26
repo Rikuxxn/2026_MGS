@@ -51,8 +51,16 @@ public:
 private:
 	static constexpr int MAX_WHALE_NUM = 5;// クジラの最大生成数
 
+	// 生成エフェクトの情報
+	struct SpawnEffectInfo
+	{
+
+		int nTime;	// 終了時間
+	};
+
 	CPlayer* m_pPlayer;
 	std::list<CWhale*> m_pList;	// クジラのリスト
+	SpawnEffectInfo m_spawnEffectInfo;	// 生成のエフェクトの情報
 	int m_nSatisfiedWhaleNum;	// 満足したクジラの数
 };
 #endif

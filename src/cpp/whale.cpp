@@ -124,7 +124,7 @@ HRESULT CWhale::Init(void)
 	m_stateMachine.Start(this);
 
 	// 状態の変更
-	m_stateMachine.ChangeState<CWhaleStateNeutral>();
+	m_stateMachine.ChangeState<CWhaleStateSpawn>();
 
 	return S_OK;
 }
@@ -162,9 +162,11 @@ void CWhale::Update(void)
 	D3DXVECTOR3 rot = m_pCharacter->GetRotation();
 
 	// 目的の向きまで最短で行くために正規化
+	math::NormalizeDiffRot(m_rotDest.x - rot.x, &rot.x);
 	math::NormalizeDiffRot(m_rotDest.y - rot.y, &rot.y);
 
 	// 目的の向きに近づける
+	rot.x += (m_rotDest.x - rot.x) * WhaleConst::ROT_LERP_ALPHA;
 	rot.y += (m_rotDest.y - rot.y) * WhaleConst::ROT_LERP_ALPHA;
 
 	// 向きの更新
@@ -357,7 +359,7 @@ void CWhale::UpdateCollider(D3DXVECTOR3 offset)
 	//	pWorld->SetGravity(Const::VEC3_NULL);
 	//}
 
-	//// 位置を更新
+	// 位置を更新
 	//m_pCharacter->SetPosition(pos);
 }
 
@@ -503,4 +505,27 @@ const D3DXVECTOR3& CWhale::GetEatPos(void)
 	CEffect::Create(effectInfo, effectPos, { 10.0f,10.0f},Const::WHITE,"effect000.jpg");
 #endif // _DEBUG
 	return pos;
+}
+
+//===================================================
+// 位置の設定処理
+//===================================================
+void CWhale::SetPosition(const D3DXVECTOR3& pos)
+{
+	m_pCharacter->SetPosition(pos);
+}
+
+//===================================================
+// 物理移動の設定
+//===================================================
+void CWhale::SetPhysicsMove(const D3DXVECTOR3& move)
+{
+	m_pCharacter->SetMove(move);
+
+	if (m_pRigidBody)
+	{
+		D3DXVECTOR3 vel = m_pRigidBody->GetVelocity();
+		vel.y = move.y; // Z方向速度
+		m_pRigidBody->SetVelocity(vel);  // RigidBody にセット
+	}
 }
