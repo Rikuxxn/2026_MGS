@@ -17,6 +17,7 @@
 #include "color_constants.h"
 #include "game.h"
 #include "whale_controller.h"
+#include "RigidBody.h"
 
 //===================================================
 // ニュートラル状態コンストラクタ
@@ -170,6 +171,19 @@ void CWhaleSatisfaction::OnUpdate(CWhale* pWhale)
 		// 潜る
 		pos.y -= 5.0f;
 
+		// リジッドボディの取得
+		RigidBody* pRigidBody = pWhale->GetRigidBody();
+
+		if (pRigidBody)
+		{
+			// クォータニオンにして Rigidbody に渡す
+			D3DXQUATERNION q;
+			D3DXQuaternionRotationYawPitchRoll(&q, rot.y, 0, 0);
+			pRigidBody->SetOrientation(q);
+
+			pRigidBody->SetTransform(pos, q, pRigidBody->GetScale());
+		}
+
 		pCharacter->SetPosition(pos);
 
 		if (m_nReleaseTime <= 0)
@@ -253,6 +267,19 @@ void CWhaleStateSpawn::OnUpdate(CWhale* pWhale)
 	D3DXVECTOR3 pos = pCharacter->GetPosition();
 
 	pWhale->SetPhysicsMove(D3DXVECTOR3(0.0f, 2.0f, 0.0f));
+
+	// リジッドボディの取得
+	RigidBody* pRigidBody = pWhale->GetRigidBody();
+
+	if (pRigidBody)
+	{
+		// クォータニオンにして Rigidbody に渡す
+		D3DXQUATERNION q;
+		D3DXQuaternionRotationYawPitchRoll(&q, rot.y, 0, 0);
+		pRigidBody->SetOrientation(q);
+
+		pRigidBody->SetTransform(pos, q, pRigidBody->GetScale());
+	}
 
 	pWhale->SetPosition(pos);
 
