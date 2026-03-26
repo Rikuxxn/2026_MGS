@@ -32,6 +32,9 @@
         },
         {
             "file_path": "data/TEXTURE/smoke.jpg"
+        },
+        {
+            "file_path": "data/TEXTURE/whale.png"
         }
     ]
 }

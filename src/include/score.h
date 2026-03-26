@@ -27,9 +27,9 @@ class CNumber;	// 数字クラス
 class CScore : public CObject
 {
 public:
-	static constexpr int MAX_DIGIT	= 9;			// 最大の桁数
-	static constexpr int MAX_SCORE = 999999999;		// 最大の値
-	static constexpr int MIN_SCORE = 0;				// 最小の値
+	static constexpr int MAX_DIGIT	= 2;		// 最大の桁数
+	static constexpr int MAX_SCORE = 99;		// 最大の値
+	static constexpr int MIN_SCORE = 0;			// 最小の値
 
 	CScore();
 	~CScore();
@@ -42,6 +42,7 @@ public:
 	void	Draw	(void) override;
 
 	inline void	AddScore(const int nScore) { m_nScore += nScore; }
+	inline int GetScore(void) { return m_nScore; }
 private:
 	std::array<std::unique_ptr<CNumber>, MAX_DIGIT> m_apNumber;	// ナンバークラスへのポインタ
 	D3DXVECTOR3 m_pos;											// 位置
