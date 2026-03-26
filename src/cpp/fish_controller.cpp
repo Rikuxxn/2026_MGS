@@ -14,14 +14,16 @@
 #include "plankton.h"
 #include "utility_math.h"
 #include "MathConst.h"
+#include "game.h"
+#include "timer.h"
 
 //***************************************************
 // 定数宣言
 //***************************************************
 namespace FishControllerConst
 {
-	constexpr int SPAWN_TIME = 600;
-	constexpr int MAX_SPAWN = 4;
+	constexpr int SPAWN_TIME = 300;
+	constexpr int MAX_SPAWN = 6;
 }
 //===================================================
 // コンストラクタ
@@ -29,7 +31,7 @@ namespace FishControllerConst
 CFishController::CFishController() : 
 	m_pPlayer(nullptr),
 	m_pFishList(),
-	m_nSpawnCounter(0)
+	m_nSpawnCounter(FishControllerConst::SPAWN_TIME)
 {
 }
 
@@ -82,6 +84,7 @@ void CFishController::Update(void)
 		// プランクトンのリストが空だったら
 		if (planktonList.empty())
 		{
+			list->SetMove(Const::VEC3_NULL);
 			continue;
 		}
 
@@ -116,7 +119,7 @@ void CFishController::Update(void)
 		// 移動量の設定
 		list->SetMove(moveDir);
 
-		if (fDistance <= 50.0f)
+		if (fDistance <= 70.0f)
 		{
 			// プランクトンを奪う
 			if (list->SetPlankton(planktonList.back()))
@@ -126,14 +129,15 @@ void CFishController::Update(void)
 		}
 	}
 
+	CTimer *pTimer = CGame::GetTimer();
+
+	//pTimer->SetIsTimerStop
 	m_nSpawnCounter--;
 
 	if (m_nSpawnCounter <= 0)
 	{
-		for (int nCnt = 0; nCnt < FishControllerConst::MAX_SPAWN; nCnt++)
-		{
-			Spawn();
-		}
+		Spawn();
+		Spawn();
 
 		m_nSpawnCounter = FishControllerConst::SPAWN_TIME;
 	}
@@ -182,5 +186,5 @@ void CFishController::Spawn(void)
 	pos.z = centerPos.z + sinf(angle) * radius;
 
 	// 生成処理
-	Create(centerPos, "data/MODEL/fish.x", 600);
+	Create(centerPos, "data/MODEL/fish.x", 1800);
 }

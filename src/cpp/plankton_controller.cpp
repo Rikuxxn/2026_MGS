@@ -105,7 +105,7 @@ void CPlanktonController::Update(void)
 		// ƒvƒ‰ƒ“ƒNƒgƒ“‚Ì‰ò¶¬
 		for (auto& center : m_clusterCenters)
 		{
-			CreateCluster(center, 20, 100.0f); // 20•CA”¼Œa100
+			CreateCluster(center, 30, 100.0f); // 20•CA”¼Œa100
 		}
 	}
 
