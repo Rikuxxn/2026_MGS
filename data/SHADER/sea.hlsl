@@ -8,10 +8,10 @@
 // íËêî
 static const float power = 0.3f;
 static const float alpha = 0.8f;
-static const float powPower = 2.0f;
-static const float scale = 8.0f;
+static const float powPower = 2.5f;
+static const float scale = 7.0f;
 static const float2 speed1 = float2(0.03f, 0.02f);
-static const float2 speed2 = float2(-0.005f, 0.01f);
+static const float2 speed2 = float2(-0.01f, 0.015f);
 static const float3 plusColor = float3(0.7f, 0.8f, 1.0f);
 static const float3 lightVec = float3(0.2f, -0.3f, 0.2f);
 static const float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);

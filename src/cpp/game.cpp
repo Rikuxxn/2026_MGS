@@ -158,11 +158,14 @@ HRESULT CGame::Init(void)
 	// ƒJƒƒ‰’Ç]ˆ—‚Ì’Ç‰Á
 	pCamera->AddSystem(std::make_unique<CFollowCamera>(pCamera, pPlayer));
 
-	CFish::Create({ 0.0f,0.0f,0.0f },"data/MODEL/fish.x");
+	m_pFishController->Create(
+		{ 0.0f,0.0f,0.0f }, 
+		"data/MODEL/fish.x", 
+		10000);
 
 	CMeshField* pMeshField = CMeshField::Create(
 		{ 0.0f,0.0f,0.0f },
-		{ 3500.0f, 3500.0f },
+		{ 4500.0f, 4500.0f },
 		Const::WHITE,
 		{ 120,120 },
 		"sea.jpg");

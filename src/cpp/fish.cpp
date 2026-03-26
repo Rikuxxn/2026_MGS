@@ -13,7 +13,8 @@
 //===================================================
 // コンストラクタ
 //===================================================
-CFish::CFish()
+CFish::CFish() : 
+	m_move(Const::VEC3_NULL)
 {
 }
 
@@ -27,12 +28,13 @@ CFish::~CFish()
 //===================================================
 // 生成処理
 //===================================================
-CFish* CFish::Create(const D3DXVECTOR3& pos, const char* pModelFileName)
+CFish* CFish::Create(const D3DXVECTOR3& pos, const char* pModelFileName, const int nLife)
 {
 	CFish* pInstacne = new CFish;
 
 	pInstacne->SetPos(pos);
 	pInstacne->SetPath(pModelFileName);
+	pInstacne->m_nLife = nLife;
 
 	// 初期化処理
 	if (FAILED(pInstacne->Init()))
@@ -54,6 +56,9 @@ HRESULT CFish::Init(void)
 	{
 		return E_FAIL;
 	}
+
+	CObjectX::SetSize(D3DXVECTOR3(4.0f, 4.0f, 4.0f));
+
 	return S_OK;
 }
 
@@ -70,6 +75,20 @@ void CFish::Uninit(void)
 //===================================================
 void CFish::Update(void)
 {
+	// 位置の取得
+	D3DXVECTOR3 pos = CObjectX::GetPos();
+
+	m_move.x += (0.0f - m_move.x) * 0.1f;
+	m_move.z += (0.0f - m_move.z) * 0.1f;
+
+	// 位置の更新処理
+	pos += m_move;
+
+	m_nLife--;
+
+	// 位置の設定
+	CObjectX::SetPos(pos);
+
 	CObjectX::Update();
 }
 
@@ -79,4 +98,12 @@ void CFish::Update(void)
 void CFish::Draw(void)
 {
 	CObjectX::Draw();
+}
+
+//===================================================
+// 生きてるかどうか
+//===================================================
+bool CFish::GetALive(void) const
+{
+	return (m_nLife >= 0);
 }
