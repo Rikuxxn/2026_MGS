@@ -35,6 +35,15 @@
         },
         {
             "file_path": "data/TEXTURE/whale.png"
+        },
+        {
+            "file_path": "data/TEXTURE/pauseContinue.png"
+        },
+        {
+            "file_path": "data/TEXTURE/pauseRetry.png"
+        },
+        {
+            "file_path": "data/TEXTURE/pauseTitle.png"
         }
     ]
 }

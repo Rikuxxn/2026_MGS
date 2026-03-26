@@ -47,10 +47,13 @@ public:
 	void SetPause(const bool bPause) { m_bPause = bPause; }
 	inline bool GetPause(void) const { return m_bPause; }
 private:
+	void UpdatePolygon(void);
+private:
 	std::array<std::unique_ptr<CMenuCommandBase>, MENU_MAX> m_apMenuCommand;	// メニューのコマンドクラスへのポインタ
 
 	std::array<CObject2D*, MENU_MAX> m_apPolygon;	// ポーズのポリゴン
 	MENU							 m_currentMenu;	// 現在選択中のメニュー
+	float							 m_fSinCurve;	// サインカーブのカウンター
 	bool							 m_bPause;		// ポーズが有効かどうか
 };
 #endif
