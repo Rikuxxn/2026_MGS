@@ -131,7 +131,11 @@ void CFishController::Update(void)
 
 	CTimer *pTimer = CGame::GetTimer();
 
-	//pTimer->SetIsTimerStop
+	if (pTimer->IsTimerStop())
+	{
+		return;
+	}
+
 	m_nSpawnCounter--;
 
 	if (m_nSpawnCounter <= 0)

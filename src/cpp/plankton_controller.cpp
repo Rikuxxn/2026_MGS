@@ -14,6 +14,7 @@
 #include "json_loader.h"
 #include "input_system.h"
 #include "MathConst.h"
+#include "utility_math.h"
 
 //===================================================
 // コンストラクタ
@@ -93,6 +94,12 @@ void CPlanktonController::CreateCluster(const D3DXVECTOR3& center, int count, fl
 		// プランクトンの生成
 		CreatePlankton(pos, { 10.0f, 10.0f });
 	}
+
+	for (auto& setPos : m_edit.vPlanktonPos)
+	{
+		// プランクトンの生成
+		CreatePlankton(setPos, { 10.0f, 10.0f });
+	}
 }
 //===================================================
 // 更新処理
@@ -105,7 +112,7 @@ void CPlanktonController::Update(void)
 		// プランクトンの塊生成
 		for (auto& center : m_clusterCenters)
 		{
-			CreateCluster(center, 30, 100.0f); // 20匹、半径100
+			CreateCluster(center, 15, 100.0f); // 15匹、半径100
 		}
 	}
 
@@ -175,6 +182,12 @@ void CPlanktonController::RegisterPlayerPlanktonList(CPlankton* pPlankton)
 //===================================================
 HRESULT CPlanktonController::Init(void)
 {
+	// プランクトンのロード処理
+	if (FAILED(LoadPlankton()))
+	{
+		return E_FAIL;
+	}
+
 	nlohmann::json config;
 
 	// 読み込み処理
@@ -207,7 +220,7 @@ HRESULT CPlanktonController::Init(void)
 	// プランクトンの塊生成
 	for (auto& center : m_clusterCenters)
 	{
-		CreateCluster(center, 20, 100.0f); // 20匹、半径100
+		CreateCluster(center, 10, 100.0f); // 10匹、半径100
 	}
 
 	return S_OK;
@@ -262,6 +275,39 @@ HRESULT CPlanktonController::SavePlankton(void)
 
 	file.clear();
 	file.close();
+
+	return S_OK;
+}
+
+//===================================================
+// プランクトンのロード
+//===================================================
+HRESULT CPlanktonController::LoadPlankton(void)
+{
+	nlohmann::json config;
+
+	std::fstream file("data/SYSTEM/plankton.json");
+
+	if (!file.is_open())
+	{
+		MessageBox(NULL, "エラー", "data/SYSTEM/plankton_save.json", MB_OK);
+		return E_FAIL;
+	}
+
+	file >> config;
+
+	file.clear();
+	file.close();
+
+	// 要素分回す
+	for (const auto& position : config["planktons"])
+	{
+		nlohmann::json item;
+
+		D3DXVECTOR3 pos = JsonLoader::GetVector3(position["pos"]);
+
+		m_edit.vPlanktonPos.push_back(pos);
+	}
 
 	return S_OK;
 }

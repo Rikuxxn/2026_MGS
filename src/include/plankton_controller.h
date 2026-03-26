@@ -42,6 +42,7 @@ public:
 private:
 	HRESULT Init(void);
 	HRESULT SavePlankton(void);
+	HRESULT LoadPlankton(void);
 private:
 	CPlayer* m_pPlayer;							// プレイヤーのクラス
 	std::list<CPlankton*> m_pList;				// プランクトンのリスト

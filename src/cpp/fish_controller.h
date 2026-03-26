@@ -31,6 +31,7 @@ public:
 	~CFishController();
 
 	static std::unique_ptr<CFishController> Create(CPlayer* pPlayer);
+
 	// ‹›‚Ì¶¬
 	CFish* Create(const D3DXVECTOR3& pos, const char* pModelFileName, const int nLife);
 
