@@ -84,6 +84,7 @@ CGame::~CGame()
 	std::ofstream ofs("data/score.txt");
 	int nScore = m_pScore->GetScore();
 	ofs << nScore << std::endl;
+	ofs.close();
 }
 
 //===================================================
