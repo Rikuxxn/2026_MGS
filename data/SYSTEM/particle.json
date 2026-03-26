@@ -18,6 +18,22 @@
 			"gravity": 0.4
 		},
 		{
+			"key": "spawn",
+			"texturePath": "effect000.jpg",
+			"col": [ 0, 0, 0, 0 ],
+			"angleXMax": 120,
+			"angleXMin": -120,
+			"angleYMax": 250,
+			"angleYMin": -250,
+			"moveMax": [ 3.0, 7.0, 3.0 ],
+			"moveMin": [ 1.5, 3.5, 1.5 ],
+			"move": [ 0.0, 0.0, 0.0 ],
+			"num": 5,
+			"time":	1,
+			"size": [ 20.0, 20.0 ],
+			"life": 80
+		},
+		{
 			"key": "move",
 			"texturePath": "effect000.jpg",
 			"col": [ 0, 0, 0, 0 ],
